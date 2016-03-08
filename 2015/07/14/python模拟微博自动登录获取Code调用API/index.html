@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Pythonģ��΢���Զ���¼��ȡCode����APIԴ�� | EathanQ</title>
+  <title>Python模拟微博自动登录获取Code调用API源码 | EathanQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Դ��GitHub��ַ�� ���������߲μ�����Log : ������2016.3.8�����������ο����� ��    http://blog.csdn.net/dk_swjtu/article/details/50371738
-#-- coding: UTF-8 --try:    import os    import sys    import urllib">
+  <meta name="description" content="源码GitHub地址： 待更新或者参加下面Log : 代码在2016.3.8日正常运行参考文献 ：    http://blog.csdn.net/dk_swjtu/article/details/50371738
+#-- coding: UTF-8 --try:    import os    import sys    import urllib    import urllib2    im">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pythonģ��΢���Զ���¼��ȡCode����APIԴ��">
+<meta property="og:title" content="Python模拟微博自动登录获取Code调用API源码">
 <meta property="og:url" content="http://yoursite.com/2015/07/14/python模拟微博自动登录获取Code调用API/index.html">
 <meta property="og:site_name" content="EathanQ">
-<meta property="og:description" content="Դ��GitHub��ַ�� ���������߲μ�����Log : ������2016.3.8�����������ο����� ��    http://blog.csdn.net/dk_swjtu/article/details/50371738
-#-- coding: UTF-8 --try:    import os    import sys    import urllib">
-<meta property="og:updated_time" content="2016-03-08T03:45:16.105Z">
+<meta property="og:description" content="源码GitHub地址： 待更新或者参加下面Log : 代码在2016.3.8日正常运行参考文献 ：    http://blog.csdn.net/dk_swjtu/article/details/50371738
+#-- coding: UTF-8 --try:    import os    import sys    import urllib    import urllib2    im">
+<meta property="og:updated_time" content="2016-03-08T13:18:32.690Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pythonģ��΢���Զ���¼��ȡCode����APIԴ��">
-<meta name="twitter:description" content="Դ��GitHub��ַ�� ���������߲μ�����Log : ������2016.3.8�����������ο����� ��    http://blog.csdn.net/dk_swjtu/article/details/50371738
-#-- coding: UTF-8 --try:    import os    import sys    import urllib">
+<meta name="twitter:title" content="Python模拟微博自动登录获取Code调用API源码">
+<meta name="twitter:description" content="源码GitHub地址： 待更新或者参加下面Log : 代码在2016.3.8日正常运行参考文献 ：    http://blog.csdn.net/dk_swjtu/article/details/50371738
+#-- coding: UTF-8 --try:    import os    import sys    import urllib    import urllib2    im">
   
     <link rel="alternative" href="/atom.xml" title="EathanQ" type="application/atom+xml">
   
@@ -217,7 +217,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Pythonģ��΢���Զ���¼��ȡCode����APIԴ��
+      Python模拟微博自动登录获取Code调用API源码
     </h1>
   
 
@@ -233,7 +233,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Դ��GitHub��ַ�� ������<br>���߲μ�����<br>Log : ������2016.3.8����������<br>�ο����� ��<br>    <a href="http://blog.csdn.net/dk_swjtu/article/details/50371738" target="_blank" rel="external">http://blog.csdn.net/dk_swjtu/article/details/50371738</a></p>
+        <p>源码GitHub地址： 待更新<br>或者参加下面<br>Log : 代码在2016.3.8日正常运行<br>参考文献 ：<br>    <a href="http://blog.csdn.net/dk_swjtu/article/details/50371738" target="_blank" rel="external">http://blog.csdn.net/dk_swjtu/article/details/50371738</a></p>
 <p>#-<em>- coding: UTF-8 -</em>-<br>try:<br>    import os<br>    import sys<br>    import urllib<br>    import urllib2<br>    import cookielib<br>    import base64<br>    import re<br>    import hashlib<br>    import json<br>    import rsa<br>    import binascii<br>    import io<br>    import requests<br>    from weibo import Client<br>except ImportError:<br>        print &gt;&gt; sys.stderr, “””\</p>
 <p>There was a problem importing one of the Python modules required.<br>The error leading to this problem was:</p>
 <p>%s</p>
@@ -333,7 +333,7 @@ encropy_pwd = rsa.encrypt(message, key)
 return binascii.b2a_hex(encropy_pwd)
 </code></pre><p>def get<em>user(username):<br>    username</em> = urllib.quote(username)<br>    username = base64.encodestring(username_)[:-1]<br>    return username</p>
 <p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    username = ‘644387875@qq.com’<br>    pwd = ‘112358132134’<br>    cookie_file = ‘weibo_login_cookies.dat’<br>    code = get_code(username,pwd,cookie_file)<br>    client = Client(api_key=APP_KEY, api_secret=APP_SECRET, redirect_uri=CALLBACK_URL)<br>    client.set_code(code)</p>
-<pre><code>#������ҳ΢��timeline - API
+<pre><code>#个人主页微博timeline - API
 public_url = &apos;statuses/friends_timeline&apos;
 data_public = client.get(public_url,count=200)
 a = json.dumps(data_public, ensure_ascii = False,indent = 2)
@@ -352,7 +352,7 @@ fout.write(a)
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          QT������������ʾ��������
+          QT程序中中文显示乱码问题
         
       </div>
     </a>
@@ -394,7 +394,7 @@ fout.write(a)
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="python模拟微博自动登录获取Code调用API" data-title="Pythonģ��΢���Զ���¼��ȡCode����APIԴ��" data-url="http://yoursite.com/2015/07/14/python模拟微博自动登录获取Code调用API/"></div>
+	<div class="ds-thread" data-thread-key="python模拟微博自动登录获取Code调用API" data-title="Python模拟微博自动登录获取Code调用API源码" data-url="http://yoursite.com/2015/07/14/python模拟微博自动登录获取Code调用API/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
