@@ -198,117 +198,6 @@
 
       <div class="body-wrap">
   
-    <article id="[layout]-getline" class="article article-type-[layout]" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/07/12/getline/" class="article-date">
-  	<time datetime="2015-07-12T08:26:47.000Z" itemprop="datePublished">2015-07-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/12/getline/">统计字符</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>题目描述：<br>        统计一个给定字符串中指定的字符出现的次数。</p>
-<p>输入：<br>        测试输入包含若干测试用例，每个测试用例包含2行，第1行为一个长度不超过5的字符串，第2行为一个长度不超过80的字符串。注意这里的字符串包含空格，即空格也可能是要求被统计的字符之一。当读到’#’时输入结束，相应的结果不要输出。</p>
-<p>输出：<br>        对每个测试用例，统计第1行中字符串的每个字符在第2行字符串中出现的次数，按如下格式输出：<br>        c0 n0<br>        c1 n1<br>        c2 n2<br>        …<br>        其中ci是第1行中第i个字符，ni是ci出现的次数。</p>
-<p>样例输入：</p>
-<pre><code>I
-THIS IS A TEST
-i ng
-this is a long test string
-#
-</code></pre><p>样例输出：</p>
-<pre><code>I 2
-i 3
-  5
-n 2
-g 2
-</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1,l2;</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">    <span class="keyword">int</span> len1,len2;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))     </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(l1 == <span class="string">"#"</span>)  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		getline(<span class="built_in">cin</span>,l2);					<span class="comment">//如果cin&gt;&gt;l2,那么l2的size(),length()不是以字符个数统计的，而是按空格</span></span><br><span class="line">		len1 = l1.size();</span><br><span class="line">		len2 = l2.size();</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len2;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l2[j] == l1[i]) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;l1[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>题目1098：字母统计<br>    题目描述：</p>
-<pre><code>    输入一行字符串，计算其中A-Z大写字母出现的次数
-
-输入：
-
-    案例可能有多组，每个案例输入为一行字符串。
-
-输出：
-
-    对每个案例按A-Z的顺序输出其中大写字母出现的次数。
-
-样例输入：
-
-    DFJEIWFNQLEF0395823048+_+JDLSFJDLSJFKK
-
-样例输出：
-
-    A:0
-    B:0
-    C:0
-    D:3
-    E:2
-    F:5
-    G:0
-    H:0
-    I:1
-    J:4
-    K:2
-    L:3
-    M:0
-    N:1
-    O:0
-    P:0
-    Q:1
-    R:0
-    S:2
-    T:0
-    U:0
-    V:0
-    W:1
-    X:0
-    Y:0
-    Z:0
-</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">char</span> p;</span><br><span class="line">    <span class="keyword">int</span> len1;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))</span><br><span class="line">	&#123;		</span><br><span class="line">		len1 = l1.size();	</span><br><span class="line">	**	<span class="keyword">for</span>(p=<span class="string">'A'</span>;p&lt;=<span class="string">'Z'</span>;p++) **</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len1;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l1[j] == p) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;p&lt;&lt;<span class="string">":"</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="[layout]-quote" class="article article-type-[layout]" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -826,6 +715,65 @@ static const guint8 PIC02[] =
       
       
       
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="[layout]-Scrapy安装" class="article article-type-[layout]" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/03/03/Scrapy安装/" class="article-date">
+  	<time datetime="2015-03-03T02:10:21.000Z" itemprop="datePublished">2015-03-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/03/Scrapy安装/">win7(x64)安装scrapy框架</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>安装:<br>    1.python 2.7  安装版本： python-2.7.5.amd64.msi<br>      <a href="http://www.python.org/downloads/windows/" target="_blank" rel="external">http://www.python.org/downloads/windows/</a><br>      add C:\Python27 and C:\Python27\scripts in your PATH.<br>      检验是否安装成功方法为：win+R运行CMD输入python<br>    2.OpenSSL<br>      <a href="http://slproweb.com/products/Win32OpenSSL.html" target="_blank" rel="external">http://slproweb.com/products/Win32OpenSSL.html</a><br>      add C:\OpenSSL-Win64\bin in your PATH<br>    3.SetupTools<br>      win7 64位必须使用ez_setup.py进行安装。<br>      方法是下载ez_setup.py后，在cmd下执行 python ez_setup.py，即可自动安装setuptools。<br>      win7 32位可以下载setuptools-0.6c11.win32-py2.7.exe<br>    4.pywin32<br>      <a href="https://sourceforge.net/projects/pywin32/files/pywin32/" target="_blank" rel="external">https://sourceforge.net/projects/pywin32/files/pywin32/</a><br>      选择最新的下载<br>    5.pip:Python的包管理工具<br>      可以参考：<a href="http://blog.csdn.net/liuchunming033/article/details/39578019" target="_blank" rel="external">http://blog.csdn.net/liuchunming033/article/details/39578019</a><br>         下载pip的安装包get-pip.py，下载地址：<a href="https://pip.pypa.io/en/latest/installing.html#id7" target="_blank" rel="external">https://pip.pypa.io/en/latest/installing.html#id7</a><br>          python get-pip.py<br>    6.twisted<br>      <a href="https://pypi.python.org/pypi/Twisted" target="_blank" rel="external">https://pypi.python.org/pypi/Twisted</a><br>      Twisted-15.5.0-cp27-none-win_amd64.whl (md5)<br>      运行pip install Twisted-15.5.0-cp27-none-win_amd64.whl 安装<br>    7.zope interface<br>      <a href="https://pypi.python.org/pypi/zope.interface/4.1.0" target="_blank" rel="external">https://pypi.python.org/pypi/zope.interface/4.1.0</a><br>      选择与安装的python对应版本安装<br>    8.lxml<br>      lxml-3.4.4-cp27-none-win_amd64.whl<br>    9.Scrapy<br>      cmd中输入pip install scrapy</p>
+<p>错误处理：<br>    1.unable to find vcvarsall.bat<br>      安装VCForPython27.msi<br>    2.其他安装错误<br>      检查安装版本是否与安装python版本对应，例如如果安装python-win32-2.7，那么应该安装32位对应2.7python</p>
+<p>参考文献：<br>    <a href="http://www.cnblogs.com/zhxhdean/p/3580224.html" target="_blank" rel="external">http://www.cnblogs.com/zhxhdean/p/3580224.html</a><br>    <a href="http://www.cnblogs.com/thinksasa/archive/2013/08/26/3283695.html" target="_blank" rel="external">http://www.cnblogs.com/thinksasa/archive/2013/08/26/3283695.html</a><br>    <a href="http://blog.csdn.net/liuchunming033/article/details/39578019" target="_blank" rel="external">http://blog.csdn.net/liuchunming033/article/details/39578019</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Python/">Python</a>
+	</div>
+
 
       
       <div class="clearfix"></div>

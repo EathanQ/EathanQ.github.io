@@ -4,51 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Valgrind 安装与使用 | EathanQ</title>
+  <title>Ubuntu与WIn7双系统开机找不到Grub修复 | EathanQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="valgrind是Linux平台下著名的内存泄漏检测工具
-安装流程：
-
-到www.valgrind.org下载最新版valgrind-..*.tar.bz2
-
-解压安装包：tar –jxvf valgrind-3.2.3.tar.bz2
-
-解压后生成目录valgrind-3.2.3
-
-cd valgrind-3.2.3
-
-./autogen.sh 如果出现：./autogen.sh: 1: eva">
+  <meta name="description" content="有时候装了双系统之后，开机会出现：“error:file’/boot/grub/i386-pc/normal.mod’not found”这样的错误，修复方法如下。1.输入：ls    会显示类似如下信息：        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Valgrind 安装与使用">
-<meta property="og:url" content="http://yoursite.com/2015/07/14/valgrind/index.html">
+<meta property="og:title" content="Ubuntu与WIn7双系统开机找不到Grub修复">
+<meta property="og:url" content="http://yoursite.com/2015/07/18/grub/index.html">
 <meta property="og:site_name" content="EathanQ">
-<meta property="og:description" content="valgrind是Linux平台下著名的内存泄漏检测工具
-安装流程：
-
-到www.valgrind.org下载最新版valgrind-..*.tar.bz2
-
-解压安装包：tar –jxvf valgrind-3.2.3.tar.bz2
-
-解压后生成目录valgrind-3.2.3
-
-cd valgrind-3.2.3
-
-./autogen.sh 如果出现：./autogen.sh: 1: eva">
-<meta property="og:updated_time" content="2016-03-08T03:38:17.588Z">
+<meta property="og:description" content="有时候装了双系统之后，开机会出现：“error:file’/boot/grub/i386-pc/normal.mod’not found”这样的错误，修复方法如下。1.输入：ls    会显示类似如下信息：        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls">
+<meta property="og:updated_time" content="2016-03-08T13:30:34.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Valgrind 安装与使用">
-<meta name="twitter:description" content="valgrind是Linux平台下著名的内存泄漏检测工具
-安装流程：
-
-到www.valgrind.org下载最新版valgrind-..*.tar.bz2
-
-解压安装包：tar –jxvf valgrind-3.2.3.tar.bz2
-
-解压后生成目录valgrind-3.2.3
-
-cd valgrind-3.2.3
-
-./autogen.sh 如果出现：./autogen.sh: 1: eva">
+<meta name="twitter:title" content="Ubuntu与WIn7双系统开机找不到Grub修复">
+<meta name="twitter:description" content="有时候装了双系统之后，开机会出现：“error:file’/boot/grub/i386-pc/normal.mod’not found”这样的错误，修复方法如下。1.输入：ls    会显示类似如下信息：        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls">
   
     <link rel="alternative" href="/atom.xml" title="EathanQ" type="application/atom+xml">
   
@@ -230,11 +197,11 @@ cd valgrind-3.2.3
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="[layout]-valgrind" class="article article-type-[layout]" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="[layout]-grub" class="article article-type-[layout]" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/07/14/valgrind/" class="article-date">
-  	<time datetime="2015-07-14T02:10:21.000Z" itemprop="datePublished">2015-07-14</time>
+      <a href="/2015/07/18/grub/" class="article-date">
+  	<time datetime="2015-07-18T00:57:02.000Z" itemprop="datePublished">2015-07-18</time>
 </a>
     </div>
   
@@ -247,7 +214,7 @@ cd valgrind-3.2.3
         
   
     <h1 class="article-title" itemprop="name">
-      Valgrind 安装与使用
+      Ubuntu与WIn7双系统开机找不到Grub修复
     </h1>
   
 
@@ -256,6 +223,10 @@ cd valgrind-3.2.3
       <div class="article-info article-info-post">
         
         
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
 
         <div class="clearfix"></div>
       </div>
@@ -263,28 +234,14 @@ cd valgrind-3.2.3
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>valgrind是Linux平台下著名的内存泄漏检测工具</p>
-<p>安装流程：</p>
-<ol>
-<li><p>到www.valgrind.org下载最新版valgrind-<em>.</em>.*.tar.bz2</p>
-</li>
-<li><p>解压安装包：tar –jxvf valgrind-3.2.3.tar.bz2</p>
-</li>
-<li><p>解压后生成目录valgrind-3.2.3</p>
-</li>
-<li><p>cd valgrind-3.2.3</p>
-</li>
-<li><p>./autogen.sh<br> 如果出现：./autogen.sh: 1: eval: aclocal: not found错误，则apt-get install autoconf</p>
-</li>
-<li><p>./configure;配置Valgrind，生成MakeFile文件，具体参数信息详见INSTALL文件。一般只需要设置–prefix=/where/you/want/it/installed</p>
-</li>
-<li><p>Make；编译Valgrind</p>
-</li>
-<li><p>make install；安装Valgrind</p>
-</li>
-</ol>
-<p>使用：<br>    待更新</p>
+        <p>有时候装了双系统之后，开机会出现：<br>“error:file’/boot/grub/i386-pc/normal.mod’not found”<br>这样的错误，修复方法如下。<br>1.输入：ls<br>    会显示类似如下信息：<br>        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..<br>2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls (hd0,msdos14)/boot/grub<br>        直到出现的不是error:unknown filesystem为止。<br>        表示找到了grub.cfg文件<br>3.依次输入：</p>
+<pre><code>&gt;set root=(hd0,msdos12)/grub                //假设输入 ls (hd0,msdos12)/grub之后找到cfg文件
+&gt;set prefix=(hd0,msdos12)/grub
+&gt;insmod normal
+&gt;normal
 
+OK了！！
+</code></pre>
       
     </div>
     
@@ -293,18 +250,18 @@ cd valgrind-3.2.3
     
 <nav id="article-nav">
   
-    <a href="/2015/07/16/C/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/07/21/datastruc/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          C++笔记
+          数据结构
         
       </div>
     </a>
   
   
-    <a href="/2015/07/14/Scrapy安装/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">win7(x64)安装scrapy框架</div>
+    <a href="/2015/07/16/C/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++笔记</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -339,7 +296,7 @@ cd valgrind-3.2.3
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="valgrind" data-title="Valgrind 安装与使用" data-url="http://yoursite.com/2015/07/14/valgrind/"></div>
+	<div class="ds-thread" data-thread-key="grub" data-title="Ubuntu与WIn7双系统开机找不到Grub修复" data-url="http://yoursite.com/2015/07/18/grub/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
