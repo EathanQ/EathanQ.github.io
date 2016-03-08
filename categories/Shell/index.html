@@ -4,18 +4,17 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Python报错：&#39;str&#39; is not callable | EathanQ</title>
+  <title>Category: Shell | EathanQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python报错：'str' is not callable">
-<meta property="og:url" content="http://yoursite.com/2016/03/08/python/index.html">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EathanQ">
+<meta property="og:url" content="http://yoursite.com/categories/Shell/index.html">
 <meta property="og:site_name" content="EathanQ">
-<meta property="og:description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
-<meta property="og:updated_time" content="2016-03-08T13:35:08.395Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python报错：'str' is not callable">
-<meta name="twitter:description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
+<meta name="twitter:title" content="EathanQ">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="EathanQ" type="application/atom+xml">
   
@@ -197,130 +196,57 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="[layout]-python" class="article article-type-[layout]" itemscope itemprop="blogPost">
+      <div class="body-wrap">
   
-    <div class="article-meta">
-      <a href="/2016/03/08/python/" class="article-date">
-  	<time datetime="2016-03-08T02:10:21.000Z" itemprop="datePublished">2016-03-08</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2015" class="archive-year">2015</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-[layout]">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2015/05/28/dev/" class="archive-article-date">
+  	<time datetime="2015-05-28T14:01:29.000Z" itemprop="datePublished">May 28</time>
 </a>
-    </div>
+        </div>
+    	 
   
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Python报错：&#39;str&#39; is not callable
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2015/05/28/dev/">shell中/dev/null含义及实例</a>
     </h1>
   
 
-      </header>
-      
-      <div class="article-info article-info-post">
-        
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bug/">bug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dev-null/">/dev/null</a></li></ul>
 	</div>
 
-        
+          
 	<div class="article-category tagcloud">
-	<a class="article-category-link" href="/categories/Python/">Python</a>
+	<a class="article-category-link" href="/categories/Shell/">Shell</a>
 	</div>
 
 
+        </div>
         <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中<br>    @property<br>    def authorize_url(self):<br>        params = {<br>            ‘client_id’: self.client_id,<br>            ‘redirect_uri’: self.redirect_uri<br>        }<br>        return “{0}?{1}”.format(self.authorization_url, urlencode(params))<br>改为</p>
-<pre><code>#@property                       修改
-def authorize_url(self):
-    params = {
-        &apos;client_id&apos;: self.client_id,
-        &apos;redirect_uri&apos;: self.redirect_uri
-    }
-    return &quot;{0}?{1}&quot;.format(self.authorization_url, urlencode(params))
-</code></pre><p>原因：<br>    待更新</p>
-
-      
-    </div>
-    
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/03/08/python模拟微博自动登录获取Code调用API/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          Python模拟微博自动登录获取Code调用API源码
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/03/05/valgrind/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Valgrind 安装与使用</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
 
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">分享到: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-    <a class="jiathis_button_twitter"></a>
-    <a class="jiathis_button_plus"></a> 
-    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
-</div>
-
-
-
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="python" data-title="Python报错：&#39;str&#39; is not callable" data-url="http://yoursite.com/2016/03/08/python/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
+    
 
 </div>
       <footer id="footer">
@@ -346,10 +272,10 @@ def authorize_url(self):
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
-		isCategory: false,
+		isCategory: true,
 		open_in_new: false
 	}
 </script>
