@@ -57,16 +57,34 @@
 
 
 
-<meta name="description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
+<meta name="description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
+
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python报错：'str' is not callable">
 <meta property="og:url" content="http://yoursite.com/2016/03/08/python/index.html">
 <meta property="og:site_name" content="EathanQ">
-<meta property="og:description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
-<meta property="og:updated_time" content="2016-03-08T13:35:08.395Z">
+<meta property="og:description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
+
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
+<meta property="og:updated_time" content="2016-03-09T12:51:39.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python报错：'str' is not callable">
-<meta name="twitter:description" content="新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中    @property    def authorize_url(self):        params = {            ‘client_id’: self.client_id,            ‘redirect_uri’: self.redi">
+<meta name="twitter:description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
+
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
 
 
 
@@ -270,15 +288,30 @@
       
 
       
-        <p>新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中<br>    @property<br>    def authorize_url(self):<br>        params = {<br>            ‘client_id’: self.client_id,<br>            ‘redirect_uri’: self.redirect_uri<br>        }<br>        return “{0}?{1}”.format(self.authorization_url, urlencode(params))<br>改为</p>
-<pre><code>#@property                       修改
-def authorize_url(self):
-    params = {
-        &apos;client_id&apos;: self.client_id,
-        &apos;redirect_uri&apos;: self.redirect_uri
-    }
-    return &quot;{0}?{1}&quot;.format(self.authorization_url, urlencode(params))
-</code></pre><p>原因：<br>    待更新</p>
+        <p>###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中</p>
+<pre><code>
+    @property
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
+
+</code></pre>
+改为
+<pre><code>
+    #@property                       修改处
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
+
+</code></pre>
+
+<p>原因：<br>    待更新</p>
 
       
     </div>
