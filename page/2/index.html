@@ -276,21 +276,9 @@
       
         
           
-            <p>为了让QT控件正确显示中文：</p>
-<pre><code>
-    QTextCodec codec ;
-    codec = QTextCodec::codecForName("GB18030");
-    QTextCodec::setCodecForLocale(codec);
+            <p>为了让QT控件正确显示中文：<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec codec <span class="comment">;</span></span><br><span class="line">codec = QTextCo<span class="number">dec::c</span>odecForName("GB18030")<span class="comment">;</span></span><br><span class="line">QTextCo<span class="number">dec::</span>setCodecForLocale(codec)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>在QT中可以这样处理中文路径名的QString转换成std::string<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *code = QTextCodec::codecForName(<span class="string">"gb18030"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> name = code-&gt;fromUnicode(fileName).data(); </span><br><span class="line"><span class="comment">// fileName 为QString的中文路径名</span></span><br></pre></td></tr></table></figure></p>
 
-</code></pre>
-
-<p>在QT中可以这样处理中文路径名的QString转换成std::string</p>
-<pre><code>
-    QTextCodec *code = QTextCodec::codecForName("gb18030");
-    std::string name = code->fromUnicode(fileName).data(); 
-    // fileName 为QString的中文路径名
-
-</code></pre>
           
         
       
