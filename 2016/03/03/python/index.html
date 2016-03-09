@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Inner Peace" />
+  <meta name="keywords" content="bug,python," />
 
 
 
@@ -57,54 +57,42 @@
 
 
 
-<meta name="description" content="为了让QT控件正确显示中文：
+<meta name="description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
 
-    QTextCodec codec ;
-    codec = QTextCodec::codecForName(&quot;GB18030&quot;);
-    QTextCodec::setCodecForLocale(codec);
-
-
-
-在QT中可以这样处理中文路径名的QString转换成std::string
-
-    QTextCodec *code = QText">
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="QT程序中中文显示乱码问题">
-<meta property="og:url" content="http://yoursite.com/2016/03/08/QT中文相关问题/index.html">
-<meta property="og:site_name" content="EathanQ">
-<meta property="og:description" content="为了让QT控件正确显示中文：
+<meta property="og:title" content="Python报错：'str' is not callable">
+<meta property="og:url" content="http://yoursite.com/2016/03/03/python/index.html">
+<meta property="og:site_name" content="����С��ͯ">
+<meta property="og:description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
 
-    QTextCodec codec ;
-    codec = QTextCodec::codecForName(&quot;GB18030&quot;);
-    QTextCodec::setCodecForLocale(codec);
-
-
-
-在QT中可以这样处理中文路径名的QString转换成std::string
-
-    QTextCodec *code = QText">
-<meta property="og:updated_time" content="2016-03-09T12:50:13.813Z">
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
+<meta property="og:updated_time" content="2016-03-09T13:13:12.644Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="QT程序中中文显示乱码问题">
-<meta name="twitter:description" content="为了让QT控件正确显示中文：
+<meta name="twitter:title" content="Python报错：'str' is not callable">
+<meta name="twitter:description" content="###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale将weibo.py中
 
-    QTextCodec codec ;
-    codec = QTextCodec::codecForName(&quot;GB18030&quot;);
-    QTextCodec::setCodecForLocale(codec);
-
-
-
-在QT中可以这样处理中文路径名的QString转换成std::string
-
-    QTextCodec *code = QText">
+    @property
+    def authorize_url(self):
+        params = {
+            &apos;client_id&apos;: self.client_id,
+            &apos;redirect_uri&apos;:">
 
 
 
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Muse',
-    sidebar: {"position":"left","display":"post"},
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -114,7 +102,7 @@
   };
 </script>
 
-  <title> QT程序中中文显示乱码问题 | EathanQ </title>
+  <title> Python报错：'str' is not callable | ����С��ͯ </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,7 +131,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">EathanQ</span>
+      <span class="site-title">����С��ͯ</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -242,7 +230,7 @@
             
             
               
-                QT程序中中文显示乱码问题
+                Python报错：'str' is not callable
               
             
           </h1>
@@ -254,8 +242,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-08T10:10:21+08:00" content="2016-03-08">
-              2016-03-08
+            <time itemprop="dateCreated" datetime="2016-03-03T10:10:21+08:00" content="2016-03-03">
+              2016-03-03
             </time>
           </span>
 
@@ -268,8 +256,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/QT/" itemprop="url" rel="index">
-                    <span itemprop="name">QT</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -300,21 +288,31 @@
       
 
       
-        <p>为了让QT控件正确显示中文：</p>
+        <p>###新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中</p>
 <pre><code>
-    QTextCodec codec ;
-    codec = QTextCodec::codecForName("GB18030");
-    QTextCodec::setCodecForLocale(codec);
+    @property
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
+
+</code></pre>
+改为
+<pre><code>
+    #@property                       修改处
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
 
 </code></pre>
 
-<p>在QT中可以这样处理中文路径名的QString转换成std::string</p>
-<pre><code>
-    QTextCodec *code = QTextCodec::codecForName("gb18030");
-    std::string name = code->fromUnicode(fileName).data(); 
-    // fileName 为QString的中文路径名
+<p>原因：<br>    待更新</p>
 
-</code></pre>
       
     </div>
 
@@ -326,18 +324,30 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/bug/" rel="tag">#bug</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/08/python/" rel="next" title="Python报错：'str' is not callable">
-                <i class="fa fa-chevron-left"></i> Python报错：'str' is not callable
+              <a href="/2016/03/01/QT中文相关问题/" rel="next" title="QT程序中中文显示乱码问题">
+                <i class="fa fa-chevron-left"></i> QT程序中中文显示乱码问题
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/05/valgrind/" rel="prev" title="Valgrind 安装与使用">
+                Valgrind 安装与使用 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -444,7 +454,7 @@
               </span>
             
               <span class="links-of-author-item">
-                <a href="" target="_blank">
+                <a href="http://weibo.com/2017971021/profile?topnav=1&wvr=6" target="_blank">
                   
                     <i class="fa fa-weibo"></i> Weibo
                   
@@ -516,7 +526,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Pisces
   </a>
 </div>
 
@@ -569,6 +579,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
 
   
   
