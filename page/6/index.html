@@ -214,6 +214,165 @@
             
               
                 
+                <a class="post-title-link" href="/2015/05/27/first/" itemprop="url">
+                  使用gdk-pixbuf将图像转换成C语言源代码格式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-27T11:13:11+08:00" content="2015-05-27">
+              2015-05-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/GTK/" itemprop="url" rel="index">
+                    <span itemprop="name">GTK</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cilpzfplj001bocwky86iy2qc"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="contentUrl"/>
+              </a>
+            
+          
+            
+              <a class="post-gallery-img fancybox"
+                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cilpzfplj001bocwky86iy2qc"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        
+          
+            <p>用<code>Gtk+2.0</code>自带的命令行工具<code>gdk-pixbuf-csource</code>来完成图像转换成C语言代码格式的数据,并保存到C语言的头文件中，关键是要理解下面的命令行:</p>
+<p>   <strong>gdk-pixbuf-csource –raw –name pieces_inline pieces.png &gt; pieces.h</strong></p>
+<p>   将此命令将<code>pieces.png</code>图像转换成呢个C语言源代码格式并将数据结构命名为<code>pieces_inline</code>，<br>   结果输出到<code>pieces.h</code>文件中，打开<code>pieces.h</code>文件就可以看到这一数据结构了。<br>   还可以执行那个此命令带 <code>--help</code>选项来查看此命令的详细帮助。<br>   打开<code>pieces.h</code>文件后看的内容中如下部分：</p>
+<pre><code>
+/* GdkPixbuf RGB C-Source image dump */
+#ifdef __SUNPRO_C
+#pragma align 4 (PIC02)
+#endif
+#ifdef __GNUC__
+static const guint8 PIC02[] __attribute__ ((__aligned__ (4))) = 
+#else
+static const guint8 PIC02[] = 
+#endif
+{ ""
+  /* Pixbuf magic (0x47646b50) */
+  "GdkP"
+  /* length: header (24) + pixel_data (23220) */
+  "\0\0Z\314"
+  /* pixdata_type (0x1010001) */
+  "\1\1\0\1"
+  /* rowstride (516) */
+  "\0\0\2\4"
+  /* width (172) */
+  "\0\0\0\254"
+  /* height (45) */
+  "\0\0\0-"
+  /* pixel_data: */
+
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/06/Scrapy安装/" itemprop="url">
                   win7(x64)安装scrapy框架
                 </a>
@@ -348,7 +507,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

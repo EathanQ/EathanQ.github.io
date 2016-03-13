@@ -57,25 +57,19 @@
 
 
 
-<meta name="description" content="##快速体验Hexo
-Hexo的安装十分便捷，我们先尝试快速的使用Hexo搭建一个站点。首先安装Node.js，这里使用nvm作为node版本控制的文件。最好不要直接apt-get，版本不对可能会有问题。
-wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm install 0.10
-接下来使用npm工具">
+<meta name="description" content="转载出处现在有这样一段代码：1234567891011class X &amp;#123;&amp;#125;;class Y : public virtual X &amp;#123;&amp;#125;;class Z : public virtual X &amp;#123;&amp;#125;;class A : public Y, public Z &amp;#123;&amp;#125;;
+对 class X、Y、Z、A 进行 sizeof 运算结">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Hexo搭建个人博客">
-<meta property="og:url" content="http://yoursite.com/2015/06/18/hexo/index.html">
+<meta property="og:title" content="深度探索C++对象模型：类的大小">
+<meta property="og:url" content="http://yoursite.com/2016/03/13/类的大小/index.html">
 <meta property="og:site_name" content="代码小书童">
-<meta property="og:description" content="##快速体验Hexo
-Hexo的安装十分便捷，我们先尝试快速的使用Hexo搭建一个站点。首先安装Node.js，这里使用nvm作为node版本控制的文件。最好不要直接apt-get，版本不对可能会有问题。
-wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm install 0.10
-接下来使用npm工具">
-<meta property="og:updated_time" content="2016-03-09T12:52:01.139Z">
+<meta property="og:description" content="转载出处现在有这样一段代码：1234567891011class X &amp;#123;&amp;#125;;class Y : public virtual X &amp;#123;&amp;#125;;class Z : public virtual X &amp;#123;&amp;#125;;class A : public Y, public Z &amp;#123;&amp;#125;;
+对 class X、Y、Z、A 进行 sizeof 运算结">
+<meta property="og:updated_time" content="2016-03-13T03:09:32.149Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Hexo搭建个人博客">
-<meta name="twitter:description" content="##快速体验Hexo
-Hexo的安装十分便捷，我们先尝试快速的使用Hexo搭建一个站点。首先安装Node.js，这里使用nvm作为node版本控制的文件。最好不要直接apt-get，版本不对可能会有问题。
-wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm install 0.10
-接下来使用npm工具">
+<meta name="twitter:title" content="深度探索C++对象模型：类的大小">
+<meta name="twitter:description" content="转载出处现在有这样一段代码：1234567891011class X &amp;#123;&amp;#125;;class Y : public virtual X &amp;#123;&amp;#125;;class Z : public virtual X &amp;#123;&amp;#125;;class A : public Y, public Z &amp;#123;&amp;#125;;
+对 class X、Y、Z、A 进行 sizeof 运算结">
 
 
 
@@ -93,7 +87,7 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
   };
 </script>
 
-  <title> 使用Hexo搭建个人博客 | 代码小书童 </title>
+  <title> 深度探索C++对象模型：类的大小 | 代码小书童 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -221,7 +215,7 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
             
             
               
-                使用Hexo搭建个人博客
+                深度探索C++对象模型：类的大小
               
             
           </h1>
@@ -233,11 +227,30 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-18T21:56:00+08:00" content="2015-06-18">
-              2015-06-18
+            <time itemprop="dateCreated" datetime="2016-03-13T11:09:00+08:00" content="2016-03-13">
+              2016-03-13
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -260,43 +273,20 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
       
 
       
-        <p>##快速体验Hexo</p>
-<p>Hexo的安装十分便捷，我们先尝试快速的使用Hexo搭建一个站点。<br>首先安装Node.js，这里使用nvm作为node版本控制的文件。最好不要直接apt-get，版本不对可能会有问题。</p>
-<p>wget -qO- <a href="https://raw.github.com/creationix/nvm/master/install.sh" target="_blank" rel="external">https://raw.github.com/creationix/nvm/master/install.sh</a> | sh<br>nvm install 0.10</p>
-<p>接下来使用npm工具安装hexo</p>
-<p><code>npm install -g hexo</code></p>
-<p>初始化hexo文件夹</p>
-<p><code>$ hexo init &lt;folder&gt; &amp;&amp; cd &lt;folder&gt;</code></p>
-<p>生成静态页面并预览</p>
-<p><code>$ hexo g &amp;&amp; hexo s</code></p>
-<p>OK，在浏览器中输入localhost:4000，一个Hexo站点就已经展示在你面前了！是不是特别容易？相比Octopress，搭建环境不是方便了一点点。</p>
-<p>##了解Hexo<br>当然，以上只是使用Hexo搭建了一个站点，要想使用它，还需要多了解一些东西。<br>目录结构<br>Hexo的目录结构如下，其中_config.yml是整个站点的配置文件，source/_drafts是草稿文件目录，source/_posts是发表的博文目录，themes是下载的主题目录，其它的目录暂时不用管。</p>
-<blockquote>
-<p>.<br>├── _config.yml<br>├── package.json<br>├── scaffolds<br>├── scripts<br>├── source<br>|   ├── _drafts<br>|   └── _posts<br>└── themes</p>
-</blockquote>
-<p>首先是修改配置文件，主要就是配置一下自己的站点信息，配置文件中的注释比较详细，如果不懂的话可以=&gt;点这里&lt;=看一下,在预览状态下改的话网页上能即时看到效果。</p>
-<p>默认的主题生成分类好像有点问题（至少我这里有），更多的主题可以在=&gt;这里&lt;=下载，基本就是git clone到themes目录下然后修改_config.yml中的theme字段就可以了，十分方便。<br>常用指令</p>
-<p>Hexo的常用命令有以下几个</p>
-<blockquote>
-<p>$ hexo new [layout] <title>     #建立新文章，默认在_posts下，layout=”draft”时发布的是草稿<br>$ hexo publish <filename>       #将_drafts下的文件放到_posts下，也就是发布草稿<br>$ hexo generate                 #生成静态网页<br>$ hexo server                   #启动预览服务器，开启-d选项时可以预览草稿<br>$ hexo deploy                   #发布到远程服务器，开启–generate选项可以在deploy前自动generate</filename></title></p>
-</blockquote>
-<p>熟悉Octopress的话应该有时曾相识的感觉，Hexo和Octopress的操作基本是一样的，但是它的generate确实快上很多。。<br>此外，Hexo还提供了以上几个命令的简化版本，可以减少输入。</p>
-<blockquote>
-<p>$ hexo n  # == hexo new<br>$ hexo p  # == hexo publish<br>$ hexo g  # == hexo generate<br>$ hexo s  # == hexo server<br>$ hexo d  # == hexo deploy</p>
-</blockquote>
-<p>##从其它站点迁移</p>
-<p>当然不能迁移个博客，之前的文章就舍弃了，Hexo可以从RSS/Jekyll/Octopress/Wordpress迁移之前的文章=&gt;点这里&lt;=。<br>对于Octopress，十分简单，只要将之前的博文拷贝到_posts目录下，然后修改_config.yml中的new_post_name字段即可。</p>
-<p><code>new_post_name: :year-:month-:day-:title.md</code></p>
-<p>##写文章</p>
-<p>和Octopress完全一样，使用Markdown语法编辑文章。<br>使用hexo new命令生成文章或者直接在_posts目录下直接创建文件，打开后先编辑文章头部信息，如下所示是本文的头部信息，以—结尾。<br>`<br>title: 使用Hexo搭建个人博客<br>layout: post<br>date: 2014-03-03 19:07:43<br>comments: true<br>categories: Blog<br>tags: [Hexo]<br>keywords: Hexo, Blog</p>
-<h2 id="description_3A__u751F_u547D_u5728_u4E8E_u6298_u817E_uFF0C_u53C8_u628A_u535A_u5BA2_u6298_u817E_u5230Hexo_u4E86_u3002_u7ED9Hexo_u70B9_u8D5E_u3002"><a href="#description_3A__u751F_u547D_u5728_u4E8E_u6298_u817E_uFF0C_u53C8_u628A_u535A_u5BA2_u6298_u817E_u5230Hexo_u4E86_u3002_u7ED9Hexo_u70B9_u8D5E_u3002" class="headerlink" title="description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。"></a>description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。</h2><p>`<br>接下来使用<strong>Markdown</strong>编辑文章就可以了。</p>
-<p>##发布博客</p>
-<p>由于生成的都是静态页面，可以和Octopress一样发布在github上。这里的发布也是十分简单的，首先在github上创建名为yourname.github.io的repo，接着修改_config.yml中的deploy字段，最后执行hexo d(前提是你已经在github上添加了你本机的ssh key)，OK，现在通过yourname.github.io已经可以访问你的博客了，是不是So easy？<br><code>deploy:
-  type: github
-  repo: git@github.com:yourname/yourname.github.io.git</code><br><code>如果你有自己的域名的话，只要在source目录下创建CNAME文件，在其中写入你的域名，然后在DNS服务器上设置CNAME就可以了。</code>sh<br>$ cd source<br>$ echo c4fun.cn &gt; CNAME</p>
-<p>Over</p>
-<p>到这里，一个基于Hexo的博客基本就完成了。<br>总的来说，Hexo比Octopress更加方便、简洁、快速，在轻松使用的基础上又有着很高的可扩展性，值得一赞！</p>
-
+        <p><a href="http://glgjing.github.io/blog/2015/03/23/shen-du-tan-suo-c-plus-plus-dui-xiang-mo-xing-:lei-de-da-xiao/" target="_blank" rel="external">转载出处</a><br>现在有这样一段代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Y</span> : <span class="typename">public virtual X &#123;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Z</span> : <span class="typename">public virtual X &#123;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> : <span class="typename">public Y</span>, <span class="typename">public Z &#123;</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对 class X、Y、Z、A 进行 sizeof 运算结果是什么呢？</p>
+<p>C++ 初学者常有一个错误的认识，认为一个 class 的大小就是该 class 内所有 <code>non static members</code> 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 class 内所有 <code>non static members</code> 的大小总和。在 c++ 对象模型里，一个 class 的大小主要受下面三个方面影响：<br>1 语言本身特性造成的额外负担</p>
+<p>这里的额外负担主要是受 <code>virtual</code> 特性影响，包括 <code>virtual base class</code> 和 <code>virtual function</code>。在 <code>derived class</code> 中这种额外负担反映在某种形式的指针上，可以是虚函数指针，或者指向虚基类的 <code>subject class</code> 偏移地址等。</p>
+<p>2 编译器对特殊情况的优化处理</p>
+<p>例如对于 <code>empty virtual base class</code> 的特殊支持，在 <em>C++ 对象模型中一个空的 class 大小为 1 byte</em>，因为编译器为了使每个 object 在内存中能有独一无二的地址，为空 class 安插了一个 char。如果一个空的 class 大小为 0 byte，那么像该 class 的数组 X x[10];，编译器将无法区分每个元素的地址。但是如果 derived class 的大小不为 0，就不需要 <code>base class</code> 的 1 byte 进行内存地址区分，那么如果编译器对这种情况进行了优化的话，就会将该 1 byte 去掉，如果没有还是会继续保留这个额外的 1 byte 空间。</p>
+<p>说到编译器对特殊情况的优化，下面这段话比较恰当表述了编译器演化与C++对象模型的关系：</p>
+<p>编译器之间的潜在差异正说明了 C++ 对象模型的演化。<br>这个模型为一般情况提供了解决之道，当特殊情况渐渐被挖掘出来时，种种启发法于是被引入，提供优化的处理。<br>如果成功，启发法于是就提升为普遍的策略，并跨越各种编译器而合并。他被视为标准（虽然他并不被规范为标准），久而久之也就成了语言的一部分。</p>
+<p>3 边界调整（Alignment）的影响</p>
+<p>为了数据能够更有效率的在内存中存取，编译器会 class 的内存边界进行调整，在32位机器上通常 <code>alignment</code> 为 4 bytes，以<em>使总线的运输效率最高</em>。<br>经过上面的分析后，可以看出具体结果要视编译器而定。首先讨论在编译器没有对 <code>empty virtual base class</code> 进行优化的情况，那么：</p>
+<p>class X 的大小应该是 1 byte，该 1 byte 由编译器插入。<br>class Y 和 class Z 的大小相同为 8，包括 4 byte 的 虚基类指针再加上 1 byte 的基类 X的大小，考虑到内存对齐需要补齐 3 byte，所以最终结果为 8 byte。<br>class A 的大小为12 byte，包括 class Y 和 class Z 内的两个 4 byte 虚基类指针共 8 byte，此外由于 X 为虚基类，所以在 A 内只有一个实体，所以应该再加上 X 的 1 byte 和内存对齐额外补齐的 3 byte，共 12 byte。<br>所以最终结果为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(X)</span></span> = <span class="number">1</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(Y)</span></span> = <span class="function"><span class="title">sizeof</span><span class="params">(Z)</span></span> = <span class="number">8</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(A)</span></span> = <span class="number">12</span> byte</span><br></pre></td></tr></table></figure>
+<p>如果编译器对 <code>empty virtual base class</code> 进行了优化，那么 class X 的 1 byte 空间在派生类中将被拿掉，相应的由于内存对齐而引起的 3 byte 也被去掉了，所以最终结果应该是：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(X)</span></span> = <span class="number">1</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(Y)</span></span> = <span class="function"><span class="title">sizeof</span><span class="params">(Z)</span></span> = <span class="number">4</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(A)</span></span> = <span class="number">8</span> byte</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -313,17 +303,13 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/18/string/" rel="next" title="字符串A与B">
-                <i class="fa fa-chevron-left"></i> 字符串A与B
+              <a href="/2016/03/08/python模拟微博自动登录获取Code调用API/" rel="next" title="Python模拟微博自动登录获取Code调用API源码">
+                <i class="fa fa-chevron-left"></i> Python模拟微博自动登录获取Code调用API源码
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/07/10/quote/" rel="prev" title="C++中的引用">
-                C++中的引用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -466,7 +452,7 @@ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | shnvm instal
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#description_3A__u751F_u547D_u5728_u4E8E_u6298_u817E_uFF0C_u53C8_u628A_u535A_u5BA2_u6298_u817E_u5230Hexo_u4E86_u3002_u7ED9Hexo_u70B9_u8D5E_u3002"><span class="nav-number">1.</span> <span class="nav-text">description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
