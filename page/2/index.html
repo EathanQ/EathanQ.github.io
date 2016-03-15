@@ -214,6 +214,114 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/08/python模拟微博自动登录获取Code调用API/" itemprop="url">
+                  Python模拟微博自动登录获取Code调用API源码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-08T10:10:21+08:00" content="2016-03-08">
+              2016-03-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>源码GitHub地址： 待更新<br>Log : 代码在2016.3.8日正常运行<br>参考文献 ： <a href="http://blog.csdn.net/dk_swjtu/article/details/50371738" target="_blank" rel="external">获取code</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*- coding: UTF-8 -*-</span></span><br><span class="line">import os</span><br><span class="line">import sys</span><br><span class="line">import urllib</span><br><span class="line">import urllib2</span><br><span class="line">import cookielib</span><br><span class="line">import base64</span><br><span class="line">import re</span><br><span class="line">import hashlib</span><br><span class="line">import json</span><br><span class="line">import rsa</span><br><span class="line">import binascii</span><br><span class="line">import io</span><br><span class="line">import requests</span><br><span class="line">from weibo import Client</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line">APP_KEY = <span class="string">'1818485598'</span></span><br><span class="line">APP_SECRET = <span class="string">'e88a360aaf5aef55b3b1b59cab6f5509'</span></span><br><span class="line">CALLBACK_URL = <span class="string">'https://api.weibo.com/oauth2/default.html'</span>  </span><br><span class="line"></span><br><span class="line">def get_prelogin_status(username):</span><br><span class="line">    prelogin_url = <span class="string">'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&amp;callback=sinaSSOController.preloginCallBack&amp;su='</span> + get_user(username) + \</span><br><span class="line">     <span class="string">'&amp;rsakt=mod&amp;checkpin=1&amp;client=ssologin.js(v1.4.11)'</span>;</span><br><span class="line">    data = urllib2.urlopen(prelogin_url).read()</span><br><span class="line">    p = re.compile(<span class="string">'\((.*)\)'</span>)</span><br><span class="line">    </span><br><span class="line">    try:</span><br><span class="line">        json_data = p.search(data).group(<span class="number">1</span>)</span><br><span class="line">        data = json.loads(json_data)</span><br><span class="line">        servertime = str(data[<span class="string">'servertime'</span>])</span><br><span class="line">        nonce = data[<span class="string">'nonce'</span>]</span><br><span class="line">        rsakv = data[<span class="string">'rsakv'</span>]</span><br><span class="line">        <span class="built_in">return</span> servertime, nonce, rsakv</span><br><span class="line">    except:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">'Getting prelogin status met error!'</span></span><br><span class="line">        <span class="built_in">return</span> None</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_code(username, <span class="built_in">pwd</span>, cookie_file):</span><br><span class="line">    ticket = get_ticket(username, <span class="built_in">pwd</span>, cookie_file)</span><br><span class="line">    fields=&#123;  </span><br><span class="line">    <span class="string">'action'</span>: <span class="string">'login'</span>,  </span><br><span class="line">    <span class="string">'display'</span>: <span class="string">'default'</span>,  </span><br><span class="line">    <span class="string">'withOfficalFlag'</span>: <span class="string">'0'</span>,  </span><br><span class="line">    <span class="string">'quick_auth'</span>: <span class="string">'null'</span>,  </span><br><span class="line">    <span class="string">'withOfficalAccount'</span>: <span class="string">''</span>,  </span><br><span class="line">    <span class="string">'scope'</span>: <span class="string">''</span>,  </span><br><span class="line">    <span class="string">'ticket'</span>: ticket,  </span><br><span class="line">    <span class="string">'isLoginSina'</span>: <span class="string">''</span>,  </span><br><span class="line">    <span class="string">'response_type'</span>: <span class="string">'code'</span>,  </span><br><span class="line">    <span class="string">'regCallback'</span>: <span class="string">'https://api.weibo.com/2/oauth2/authorize?client_id='</span>+APP_KEY+<span class="string">'&amp;response_type=code&amp;display=default&amp;redirect_uri='</span>+CALLBACK_URL+<span class="string">'&amp;from=&amp;with_cookie='</span>,  </span><br><span class="line">    <span class="string">'redirect_uri'</span>:CALLBACK_URL,  </span><br><span class="line">    <span class="string">'client_id'</span>:APP_KEY,  </span><br><span class="line">    <span class="string">'appkey62'</span>: <span class="string">'52laFx'</span>,  </span><br><span class="line">    <span class="string">'state'</span>: <span class="string">''</span>,  </span><br><span class="line">    <span class="string">'verifyToken'</span>: <span class="string">'null'</span>,  </span><br><span class="line">    <span class="string">'from'</span>: <span class="string">''</span>,  </span><br><span class="line">    <span class="string">'switchLogin'</span>:<span class="string">'0'</span>,  </span><br><span class="line">    <span class="string">'userId'</span>:<span class="string">''</span>,  </span><br><span class="line">    <span class="string">'passwd'</span>:<span class="string">''</span>  </span><br><span class="line">    &#125;  </span><br><span class="line">    headers = &#123;  </span><br><span class="line">    <span class="string">"User-agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"</span>,  </span><br><span class="line">           <span class="string">"Referer"</span>: <span class="string">'https://api.weibo.com/oauth2/default.html'</span>,  </span><br><span class="line">           <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>&#125;  </span><br><span class="line">    post_url=<span class="string">'https://api.weibo.com/oauth2/authorize'</span>  </span><br><span class="line">    get_code_url=requests.post(post_url,data=fields,headers=headers)</span><br><span class="line">    code=get_code_url.url[<span class="number">47</span>:]</span><br><span class="line">    <span class="built_in">return</span> code</span><br><span class="line"></span><br><span class="line">def get_ticket(username,<span class="built_in">pwd</span>,cookie_file):</span><br><span class="line">    login_data = &#123;</span><br><span class="line">        <span class="string">'entry'</span>: <span class="string">'openapi'</span>,</span><br><span class="line">        <span class="string">'gateway'</span>: <span class="string">'1'</span>,</span><br><span class="line">        <span class="string">'from'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'savestate'</span>: <span class="string">'0'</span>,</span><br><span class="line">        <span class="string">'userticket'</span>: <span class="string">'1'</span>,</span><br><span class="line">        <span class="string">'pagerefer'</span>:<span class="string">''</span>,</span><br><span class="line">        <span class="string">'ct'</span>:<span class="string">'1800'</span>,</span><br><span class="line">        <span class="string">'s'</span>:<span class="string">'1'</span>,</span><br><span class="line">        <span class="string">'vsnf'</span>: <span class="string">'1'</span>,</span><br><span class="line">        <span class="string">'vsnval'</span>:<span class="string">''</span>,</span><br><span class="line">        <span class="string">'door'</span>:<span class="string">''</span>,</span><br><span class="line">        <span class="string">'appkey'</span>:<span class="string">''</span>,</span><br><span class="line">        <span class="string">'su'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'service'</span>: <span class="string">'miniblog'</span>,</span><br><span class="line">        <span class="string">'servertime'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'nonce'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'pwencode'</span>: <span class="string">'rsa2'</span>,</span><br><span class="line">        <span class="string">'rsakv'</span>: <span class="string">'1330428213'</span>,</span><br><span class="line">        <span class="string">'sp'</span>: <span class="string">''</span>,</span><br><span class="line">        <span class="string">'sr'</span>:<span class="string">'1920*1080'</span>,</span><br><span class="line">        <span class="string">'encoding'</span>: <span class="string">'UTF-8'</span>,</span><br><span class="line">        <span class="string">'cdult'</span>:<span class="string">'2'</span>,</span><br><span class="line">        <span class="string">'domain'</span>:<span class="string">'weibo.com'</span>,</span><br><span class="line">        <span class="string">'prelt'</span>: <span class="string">'2140'</span>, </span><br><span class="line">        <span class="string">'returntype'</span>: <span class="string">'TEXT'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    cookie_jar2     = cookielib.LWPCookieJar()</span><br><span class="line">    cookie_support2 = urllib2.HTTPCookieProcessor(cookie_jar2)</span><br><span class="line">    opener2         = urllib2.build_opener(cookie_support2, urllib2.HTTPHandler)</span><br><span class="line">    urllib2.install_opener(opener2)</span><br><span class="line">    <span class="comment">#login_url = 'http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.11)'</span></span><br><span class="line">    login_url = <span class="string">'https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.15)&amp;_=1450667802929'</span></span><br><span class="line">    try:</span><br><span class="line">        servertime, nonce, rsakv = get_prelogin_status(username)</span><br><span class="line">    except:</span><br><span class="line">        <span class="built_in">return</span></span><br><span class="line">    <span class="comment">#Fill POST data</span></span><br><span class="line">    <span class="built_in">print</span> <span class="string">'starting to set login_data'</span></span><br><span class="line">    login_data[<span class="string">'servertime'</span>] = servertime</span><br><span class="line">    login_data[<span class="string">'nonce'</span>] = nonce</span><br><span class="line">    login_data[<span class="string">'su'</span>] = get_user(username)</span><br><span class="line">    login_data[<span class="string">'sp'</span>] = get_<span class="built_in">pwd</span>_rsa(<span class="built_in">pwd</span>, servertime, nonce)</span><br><span class="line">    login_data[<span class="string">'rsakv'</span>] = rsakv</span><br><span class="line">    login_data = urllib.urlencode(login_data)</span><br><span class="line">    http_headers = &#123;<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (X11; Linux i686; rv:8.0) Gecko/20100101 Firefox/8.0'</span>&#125;</span><br><span class="line">    req_login  = urllib2.Request(</span><br><span class="line">        url = login_url,</span><br><span class="line">        data = login_data,</span><br><span class="line">        headers = http_headers</span><br><span class="line">    )</span><br><span class="line">    result = urllib2.urlopen(req_login)</span><br><span class="line">    text = result.read()</span><br><span class="line">    text_data = json.loads(text)</span><br><span class="line">    ticket = text_data[<span class="string">'ticket'</span>]</span><br><span class="line">    <span class="built_in">return</span> ticket</span><br><span class="line"></span><br><span class="line">def get_<span class="built_in">pwd</span>_wsse(<span class="built_in">pwd</span>, servertime, nonce):</span><br><span class="line">    <span class="string">""</span><span class="string">"</span><br><span class="line">        Get wsse encrypted password</span><br><span class="line">    "</span><span class="string">""</span></span><br><span class="line">    <span class="built_in">pwd</span>1 = hashlib.sha1(<span class="built_in">pwd</span>).hexdigest()</span><br><span class="line">    <span class="built_in">pwd</span>2 = hashlib.sha1(<span class="built_in">pwd</span>1).hexdigest()</span><br><span class="line">    <span class="built_in">pwd</span>3_ = <span class="built_in">pwd</span>2 + servertime + nonce</span><br><span class="line">    <span class="built_in">pwd</span>3 = hashlib.sha1(<span class="built_in">pwd</span>3_).hexdigest()</span><br><span class="line">    <span class="built_in">return</span> <span class="built_in">pwd</span>3</span><br><span class="line"></span><br><span class="line">def get_<span class="built_in">pwd</span>_rsa(<span class="built_in">pwd</span>, servertime, nonce):</span><br><span class="line">    <span class="comment">#n, n parameter of RSA public key, which is published by WEIBO.COM</span></span><br><span class="line">    <span class="comment">#hardcoded here but you can also find it from values return from prelogin status above</span></span><br><span class="line">    weibo_rsa_n = <span class="string">'EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443'</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#e, exponent parameter of RSA public key, WEIBO uses 0x10001, which is 65537 in Decimal</span></span><br><span class="line">    weibo_rsa_e = <span class="number">65537</span></span><br><span class="line">    message = str(servertime) + <span class="string">'\t'</span> + str(nonce) + <span class="string">'\n'</span> + str(<span class="built_in">pwd</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#construct WEIBO RSA Publickey using n and e above, note that n is a hex string</span></span><br><span class="line">    key = rsa.PublicKey(int(weibo_rsa_n, <span class="number">16</span>), weibo_rsa_e)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#get encrypted password</span></span><br><span class="line">    encropy_<span class="built_in">pwd</span> = rsa.encrypt(message, key)</span><br><span class="line">    <span class="comment">#trun back encrypted password binaries to hex string</span></span><br><span class="line">    <span class="built_in">return</span> binascii.b2a_hex(encropy_<span class="built_in">pwd</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_user(username):</span><br><span class="line">    username_ = urllib.quote(username)</span><br><span class="line">    username = base64.encodestring(username_)[:-<span class="number">1</span>]</span><br><span class="line">    <span class="built_in">return</span> username</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    username = <span class="string">'your user name of weibo'</span></span><br><span class="line">    <span class="built_in">pwd</span> = <span class="string">'your id'</span>s <span class="built_in">pwd</span> of weibo<span class="string">'</span><br><span class="line">    cookie_file = '</span>weibo_login_cookies.dat<span class="string">'</span><br><span class="line">    code = get_code(username,pwd,cookie_file)</span><br><span class="line">    client = Client(api_key=APP_KEY, api_secret=APP_SECRET, redirect_uri=CALLBACK_URL)</span><br><span class="line">    client.set_code(code)</span><br><span class="line">    #个人主页微博timeline - API</span><br><span class="line">    public_url = '</span>statuses/friends_timeline<span class="string">'</span><br><span class="line">    data_public = client.get(public_url,count=200)</span><br><span class="line">    a = json.dumps(data_public, ensure_ascii = False,indent = 2)</span><br><span class="line">    fout = io.open('</span>friends.json<span class="string">','</span>w<span class="string">',encoding='</span>utf-<span class="number">8</span><span class="string">')</span><br><span class="line">    fout.write(a)</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/05/valgrind/" itemprop="url">
                   Valgrind 安装与使用
                 </a>
@@ -452,120 +560,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/01/QT中文相关问题/" itemprop="url">
-                  QT程序中中文显示乱码问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-01T08:10:21+08:00" content="2016-03-01">
-              2016-03-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/QT/" itemprop="url" rel="index">
-                    <span itemprop="name">QT</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>为了让QT控件正确显示中文：<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec codec <span class="comment">;</span></span><br><span class="line">codec = QTextCo<span class="number">dec::c</span>odecForName("GB18030")<span class="comment">;</span></span><br><span class="line">QTextCo<span class="number">dec::</span>setCodecForLocale(codec)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
-<p>在QT中可以这样处理中文路径名的QString转换成std::string<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *code = QTextCodec::codecForName(<span class="string">"gb18030"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> name = code-&gt;fromUnicode(fileName).data(); </span><br><span class="line"><span class="comment">// fileName 为QString的中文路径名</span></span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -606,7 +605,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
