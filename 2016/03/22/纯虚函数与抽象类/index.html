@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="#C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问">
+<meta name="description" content="C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="纯虚函数与抽象类">
 <meta property="og:url" content="http://yoursite.com/2016/03/22/纯虚函数与抽象类/index.html">
 <meta property="og:site_name" content="代码小书童">
-<meta property="og:description" content="#C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问">
-<meta property="og:updated_time" content="2016-03-22T14:38:12.589Z">
+<meta property="og:description" content="C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问题">
+<meta property="og:updated_time" content="2016-03-22T15:07:53.230Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="纯虚函数与抽象类">
-<meta name="twitter:description" content="#C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问">
+<meta name="twitter:description" content="C++纯虚函数一、定义    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。在基类中实现纯虚函数的方法是在函数原型后加” =0”　virtual void funtion1()=0二、引入原因    在很多情况下，基类本身生成对象是不合情理的。    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。　　为了解决上述问题">
 
 
 
@@ -270,10 +270,9 @@
       
 
       
-        <p>#C++纯虚函数<br>一、定义<br>    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。<br>在基类中实现纯虚函数的方法是在函数原型后加” =0”<br>　<code>virtual void funtion1()=0</code><br>二、引入原因<br>    在很多情况下，基类本身生成对象是不合情理的。<br>    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。<br>　　为了解决上述问题，引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中必须予以重写以实现多态性。<br>同时含有纯虚拟函数的类称为<strong>抽象类</strong>，它不能生成对象。<br>    声明了纯虚函数的类是一个抽象类。所以，用户不能创建类的实例，只能创建它的派生类的实例。<br>    纯虚函数最显著的特征是：它们必须在继承类中重新声明函数(不要后面的＝0，否则该派生类也不能实例化)，而且它们在抽象类中往往没有定义。<br>    定义纯虚函数的目的在于，使派生类仅仅只是继承函数的接口。<br>    纯虚函数的意义，让所有的类对象（主要是派生类对象）都可以执行纯虚函数的动作，但类无法为纯虚函数提供一个合理的缺省实现。<br>所以类纯虚函数的声明就是在告诉子类的设计者，”你必须提供一个纯虚函数的实现，但我不知道你会怎样实现它”。</p>
-<p>#抽象类<br>抽象类是一种特殊的类，它是为了抽象和设计的目的为建立的，它处于继承层次结构的较上层。<br>(1)抽象类的定义：带有纯虚函数的类为抽象类。<br>(2)抽象类的作用：<br>    抽象类的主要作用是将有关的操作作为结果接口组织在一个继承层次结构中，由它来为派生类提供一个公共的根，派生类将具体实现在其基类中<br>作为接口的操作。所以派生类实际上刻画了一组子类的操作接口的通用语义，这些语义也传给子类，子类可以具体实现这些语义，也可以再将这些语义传给<br>自己的子类。<br>(3)使用抽象类时注意：<br>    抽象类只能作为基类来使用，其纯虚函数的实现由派生类给出。<br>    如果派生类中没有重新定义纯虚函数，而只是继承基类的纯虚函数，则这个派生类仍然还是一个抽象类。<br>    如果派生类中给出了基类纯虚函数的实现，则该派生类就不再是抽象类了，它是一个可以建立对象的具体的类。</p>
-<p>#Example<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> A&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">alpha</span><span class="params">()</span></span>=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> B: <span class="keyword">class</span> A&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> override <span class="keyword">void</span> <span class="title">alpha</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"B:Alpha"</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
+        <h1 id="C++_u7EAF_u865A_u51FD_u6570"><a href="#C++_u7EAF_u865A_u51FD_u6570" class="headerlink" title="C++纯虚函数"></a>C++纯虚函数</h1><p>一、定义<br>    纯虚函数是在基类中声明的虚函数，它在基类中没有定义，但要求任何派生类都要定义自己的实现方法。<br>在基类中实现纯虚函数的方法是在函数原型后加” =0”<br>　<code>virtual void funtion1()=0</code><br>二、引入原因<br>    在很多情况下，基类本身生成对象是不合情理的。<br>    例如，动物作为一个基类可以派生出老虎、孔雀等子类，但动物本身生成对象明显不合常理。<br>　　为了解决上述问题，引入了纯虚函数的概念，将函数定义为纯虚函数，则编译器要求在派生类中必须予以重写以实现多态性。<br>同时含有纯虚拟函数的类称为<strong>抽象类</strong>，它不能生成对象。<br>    声明了纯虚函数的类是一个抽象类。所以，用户不能创建类的实例，只能创建它的派生类的实例。<br>    纯虚函数最显著的特征是：它们必须在继承类中重新声明函数(不要后面的＝0，否则该派生类也不能实例化)，而且它们在抽象类中往往没有定义。<br>    定义纯虚函数的目的在于，使派生类仅仅只是继承函数的接口。<br>    纯虚函数的意义，让所有的类对象（主要是派生类对象）都可以执行纯虚函数的动作，但类无法为纯虚函数提供一个合理的缺省实现。<br>所以类纯虚函数的声明就是在告诉子类的设计者，”你必须提供一个纯虚函数的实现，但我不知道你会怎样实现它”。</p>
+<h1 id="u62BD_u8C61_u7C7B"><a href="#u62BD_u8C61_u7C7B" class="headerlink" title="抽象类"></a>抽象类</h1><p>抽象类是一种特殊的类，它是为了抽象和设计的目的为建立的，它处于继承层次结构的较上层。<br>(1)抽象类的定义：带有纯虚函数的类为抽象类。<br>(2)抽象类的作用：<br>    抽象类的主要作用是将有关的操作作为结果接口组织在一个继承层次结构中，由它来为派生类提供一个公共的根，派生类将具体实现在其基类中<br>作为接口的操作。所以派生类实际上刻画了一组子类的操作接口的通用语义，这些语义也传给子类，子类可以具体实现这些语义，也可以再将这些语义传给<br>自己的子类。<br>(3)使用抽象类时注意：<br>    抽象类只能作为基类来使用，其纯虚函数的实现由派生类给出。<br>    如果派生类中没有重新定义纯虚函数，而只是继承基类的纯虚函数，则这个派生类仍然还是一个抽象类。<br>    如果派生类中给出了基类纯虚函数的实现，则该派生类就不再是抽象类了，它是一个可以建立对象的具体的类。</p>
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> A&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">alpha</span><span class="params">()</span></span>=<span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> B: <span class="keyword">class</span> A&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> override <span class="keyword">void</span> <span class="title">alpha</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"B:Alpha"</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -439,7 +438,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C++_u7EAF_u865A_u51FD_u6570"><span class="nav-number">1.</span> <span class="nav-text">C++纯虚函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u62BD_u8C61_u7C7B"><span class="nav-number">2.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
