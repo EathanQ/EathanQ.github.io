@@ -214,6 +214,258 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/13/C++虚函数解析/" itemprop="url">
+                  C++虚函数浅析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-13T11:50:00+08:00" content="2016-03-13">
+              2016-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="u4E00__u5F15_u8A00"><a href="#u4E00__u5F15_u8A00" class="headerlink" title="一 引言"></a>一 引言</h2><p>C++面向对象语言的一大特性就是抽象，在程序设计上的体现就是鼓励面向接口编程，而不要面向具体实现编程。<br>这里所说的抽象和接口与<code>C++</code>的多态性密切相关。<code>C++</code>的多态分为静态多态（编译时多态）和动态多态（运行时多态）两大类。<br>静态多态通过重载、模板来实现；动态多态就是通过本文的主角虚函数来体现的。<br>虚函数是C++语言一个非常重要的特性，不同编译器对此特性的实现机制也略有差别，虽然具体实现细节由编译器说的算，在大多情况下我们不需要关心，<br>但虚函数在某些情况下对程序的占用内存大小和执行效率有比较明显的影响，这时候知道虚函数背后的实现原理，知其然、知其所以然是很有必要的。</p>
+<h2 id="u4E8C__u865A_u51FD_u6570_u5B9E_u73B0_u539F_u7406"><a href="#u4E8C__u865A_u51FD_u6570_u5B9E_u73B0_u539F_u7406" class="headerlink" title="二 虚函数实现原理"></a>二 虚函数实现原理</h2><p>虚函数的作用说白了就是：当调用一个虚函数时，被执行的代码必须和调用函数的对象的动态类型相一致。<br>编译器需要做的就是如何高效的实现提供这种特性。不同编译器实现细节也不相同。<br>大多数编译器通过<code>vtbl(virtual table)</code>和<code>vptr(virtual table pointer)</code>来实现的。<br>当一个类声明了虚函数或者继承了虚函数，这个类就会有自己的vtbl。vtbl实际上就是一个函数指针数组，有的编译器用的是链表，不过方法都是差不多。<br><code>vtbl</code>数组中的每一个元素<em>对应一个函数指针指向该类的一个虚函数</em>，同时该类的每一个对象都会包含一个<code>vptr</code>，<code>vpt</code>r指向该<code>vtbl</code>的地址。<br>例如一个类的定义如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func1</span>(<span class="params"></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func2</span>(<span class="params"></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func3</span>(<span class="params"></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Func4</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>A类的对象的结构如下：</p>
+<p><img src="/img/1-1.png" alt="A类vbtr-&gt;vbtl"></p>
+<p>从图中可以看出A类对象中包含一个<code>vptr</code>，而vptr的值就是A类的<code>vtbl</code>的地址，vtbl中三个元素的值分别是虚函数<code>Func1</code>、<code>Func2</code>、<code>Func3</code>的地址，<br>而非虚函数<code>Func4</code>并没有在<code>vtbl</code>中。</p>
+<h3 id="1__u5355_u7EE7_u627F_u60C5_u51B5"><a href="#1__u5355_u7EE7_u627F_u60C5_u51B5" class="headerlink" title="1 单继承情况"></a>1 单继承情况</h3><p>下面定义一个类B继承自类A，重写了(override)虚函数Func1，并且定义了自己的虚函数。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> B : <span class="keyword">public</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func1</span><span class="params">()</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func5</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>声明一个A类指针<code>A* a = new B;</code>。<br>a的内容如下：</p>
+<p><img src="/img/1-2.png" alt="B类vbtr-&gt;vbtl"></p>
+<p>同样a的值包含一个<code>vptr</code>，<code>vptr</code>指向B类的<code>vtbl</code>，而B类的<code>vtbl</code>中元素的值相比A类的<code>vtbl</code>有一些变化，B类重写A类虚函数的地址<code>B::Func1</code>取代了<code>A::Func1</code>在vtbl的位置，B类新定义的虚函数<code>B::Func5</code>也被添加到<code>vtbl</code>中，且父类的虚函数在子类的虚函数前面。此时通过指针a调用<code>Func1</code>过程相当于：</p>
+<blockquote>
+<p>通过指针a指向的地址，取出的具体值为类型B，找到里面的<code>vptr</code>，该vptr指向的是B类的<code>vtbl</code><br>通过<code>vptr</code>找到B类的<code>vtbl</code>地址<br>然后通过B类的<code>vtbl</code>找到<code>Func1</code>的函数地址，调用执行，最终执行的就是<code>B::Func1</code></p>
+</blockquote>
+<p>以上过程就基本解释了C++虚函数是如何做到被执行的代码和调用函数的对象的动态类型相一致的特性了。</p>
+<h3 id="2__u591A_u7EE7_u627F_u60C5_u51B5"><a href="#2__u591A_u7EE7_u627F_u60C5_u51B5" class="headerlink" title="2 多继承情况"></a>2 多继承情况</h3><p>上面讨论的是单继承的情况，下面来看一下多继承情况。定义三个类Base1、Base2、Base3，和一个子类SubClass如下：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Base1 &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">FuncB1</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Base2 &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">FuncB2</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Base3 &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">FuncB3</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> SubClass : <span class="keyword">public</span> Base1, <span class="keyword">public</span> Base2, <span class="keyword">public</span> Base3 &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Func</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">FuncSub</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>SubClass对象的结构如下： </p>
+<p><img src="/img/1-3.png" alt="SubClass类vbtr-&gt;vbtl"></p>
+<p>可以看到SubClass对象包含三个vptr分别指向三个vtbl，每个vtbl对应一个父类的vtbl。<br>当子类覆盖父类的虚函数时，对应的vtbl变化与单继承情况相同，就是子类的虚函数替换父类相应虚函数在vtbl的位置。<br>子类新定义的虚函数，会放在第一个父类的vtbl的后面，这里的第一个是指继承类的顺序<br>(其实这个并不是一定的，不同编译器有自由去选择不同的实现方式)。<br>之所以这样设计就是为了解决不同的父类类型指针在指向同一个子类实例，能够调用到各自实际的虚函数。<br>具体的调用过程同单继承的情况相同。</p>
+<p>结论：</p>
+<p>每个声明了虚函数或者继承了虚函数的类，都会有一个自己的vtbl<br>同时该类的每个对象都会包含一个vptr去指向该vtbl<br>虚函数按照其声明顺序放于vtbl表中, vtbl数组中的每一个元素对应一个函数指针指向该类的虚函数<br>如果子类覆盖了父类的虚函数，将被放到了虚表中原来父类虚函数的位置<br>在多继承的情况下，每个父类都有自己的虚表。子类的成员函数被放到了第一个父类的表中</p>
+<h2 id="u4E09__u865A_u51FD_u6570_u6240_u9700_u7684_u4EE3_u4EF7"><a href="#u4E09__u865A_u51FD_u6570_u6240_u9700_u7684_u4EE3_u4EF7" class="headerlink" title="三 虚函数所需的代价"></a>三 虚函数所需的代价</h2><p>上面介绍了虚函数的基本实现原理，虚函数的优点不用多说，实现了运行时多态的特性。<br>下面来分析下虚函数所需的代价，程序运行时代价无非主要体现在时间和空间上。</p>
+<h3 id="u8C03_u7528_u6027_u80FD_u65B9_u9762"><a href="#u8C03_u7528_u6027_u80FD_u65B9_u9762" class="headerlink" title="调用性能方面"></a>调用性能方面</h3><p>从前面虚函数的调用过程可知。当调用虚函数时过程如下(引自<em>More Effective C++</em>):</p>
+<blockquote>
+<p>通过对象的 vptr 找到类的 vtbl。这是一个简单的操作,因为编译器知道在对象内 哪里能找到 vptr(毕竟是由编译器放置的它们)。<br>因此这个代价只是一个偏移调整(以得到 vptr)和一个指针的间接寻址(以得到 vtbl)。<br>找到对应 vtbl 内的指向被调用函数的指针。这也是很简单的, 因为编译器为每个虚函数在 vtbl 内分配了一个唯一的索引。<br>这步的代价只是在 vtbl 数组内 的一个偏移。调用第二步找到的的指针所指向的函数。</p>
+</blockquote>
+<p>在单继承的情况下，调用虚函数所需的代价基本上和非虚函数效率一样，在大多数计算机上它多执行了很少的一些指令，所以有很多人一概而论说虚函数性能不行是不太科学的。<br>在多继承的情况下，由于会根据多个父类生成多个vptr，在对象里为寻找 vptr 而进行的偏移量计算会变得复杂一些，但这些并不是虚函数的性能瓶颈。<br><em>虚函数运行时所需的代价主要是虚函数不能是内联函</em>。这也是非常好理解的，是因为<em>内联函数</em>是指在<em>编译期间</em>用被调用的函数体本身来代替函数调用<br>的指令，但是虚函数的“虚”是指“直到运行时才能知道要调用的是哪一个函数。”但虚函数的运行时<em>多态特性</em>就是要在<em>运行时</em>才知道具体调用哪个虚函数，<br>所以没法在编译时进行内联函数展开。当然如果通过对象直接调用虚函数它是可以被内联，但是大多数虚函数是通过对象的指针或引用被调用的，<br>这种调用不能被内联。<br>因为这种调用是标准的调用方式，所以虚函数实际上不能被内联。</p>
+<h3 id="u5360_u7528_u7A7A_u95F4_u65B9_u9762"><a href="#u5360_u7528_u7A7A_u95F4_u65B9_u9762" class="headerlink" title="占用空间方面"></a>占用空间方面</h3><p>在上面的虚函数实现原理部分，可以看到为了实现运行时多态机制，编译器会给每一个包含虚函数或继承了虚函数的类自动建立一个虚函数表，<br>所以虚函数的一个代价就是会增加类的体积。在虚函数接口较少的类中这个代价并不明显，虚函数表vtbl的体积相当于几个函数指针的体积，<br>如果你有大量的类或者在每个类中有大量的虚函数,你会发现 vtbl 会占用大量的地址空间。但这并不是最主要的代价，主要的代价是发生在类<br>的继承过程中，在上面的分析中，可以看到，当子类继承父类的虚函数时，子类会有自己的vtbl，如果子类只覆盖父类的一两个虚函数接口，<br>子类vtbl的其余部分内容会与父类重复。这在如果存在大量的子类继承，且重写父类的虚函数接口只占总数的一小部分的情况下，会造成大量地址<br>空间浪费。在一些GUI库上这种大量子类继承自同一父类且只覆盖其中一两个虚函数的情况是经常有的，这样就导致UI库的占用内存明显变大。<br>由于虚函数指针vptr的存在，虚函数也会增加该类的每个对象的体积。在单继承或没有继承的情况下，类的每个对象会多一个vptr指针的体积，<br>也就是4个字节；在多继承的情况下，类的每个对象会多N个（N＝包含虚函数的父类个数）vptr的体积，也就是4N个字节。<br>当一个类的对象体积较大时，这个代价不是很明显，但当一个类的对象很轻量的时候，如成员变量只有4个字节，那么再加上4（或4N）个字节的vptr，<br>对象的体积相当于翻了1（或N）倍，这个代价是非常大的。</p>
+<h2 id="u56DB__u603B_u7ED3"><a href="#u56DB__u603B_u7ED3" class="headerlink" title="四 总结"></a>四 总结</h2><p>本文主要介绍了虚函数的实现机制，以及实现该机制所付出的代价，这里没有进一步讨论继承的利与弊，但经过上面的一些讨论，<br>也可以从侧面反映出一些问题。理解虚函数的代价是有必要的，一方面是有利于高效恰当的使用它，一方面也该意识到如果你需要这些功能,<br> 不管采取什么样的方法你都得为此付出代价，在多数情况下,你的人工模拟可能比编译器生成的代码效率更低,稳定性更差。<br> 例如使用嵌套的<code>switch</code>语句或层叠的<code>if-then-else</code>语句模拟虚函数的调用,其产生的代码比虚函数的调用还要多,而且代码运行速度也更慢。<br> 再有你必须自己人工跟踪对象类型,这意味着对象会携带它们自己的类型标签(type tag)，因此你不会得到更小的对象。                               </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/03/13/类的大小/" itemprop="url">
+                  深度探索C++对象模型：类的大小
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-13T11:09:00+08:00" content="2016-03-13">
+              2016-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://glgjing.github.io/blog/2015/03/23/shen-du-tan-suo-c-plus-plus-dui-xiang-mo-xing-:lei-de-da-xiao/" target="_blank" rel="external">转载出处</a><br>现在有这样一段代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> </span>&#123;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Y</span> : <span class="typename">public virtual X &#123;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Z</span> : <span class="typename">public virtual X &#123;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> : <span class="typename">public Y</span>, <span class="typename">public Z &#123;</span></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>对 <code>class X、Y、Z、A</code> 进行 <code>sizeof</code> 运算结果是什么呢？</p>
+<p>C++ 初学者常有一个错误的认识，认为一个 <code>class</code> 的大小就是该 <code>class</code> 内所有 <code>non static members</code> 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 class 内所有 <code>non static members</code> 的大小总和。在 c++ 对象模型里，一个 class 的大小主要受下面三个方面影响：</p>
+<h1 id="1__u8BED_u8A00_u672C_u8EAB_u7279_u6027_u9020_u6210_u7684_u989D_u5916_u8D1F_u62C5"><a href="#1__u8BED_u8A00_u672C_u8EAB_u7279_u6027_u9020_u6210_u7684_u989D_u5916_u8D1F_u62C5" class="headerlink" title="1 语言本身特性造成的额外负担"></a>1 语言本身特性造成的额外负担</h1><p>这里的额外负担主要是受 <code>virtual</code> 特性影响，包括 <code>virtual base class</code> 和 <code>virtual function</code>。在 <code>derived class</code> 中这种额外负担反映在某种形式的指针上，可以是虚函数指针，或者指向虚基类的 <code>subject class</code> 偏移地址等。</p>
+<h1 id="2__u7F16_u8BD1_u5668_u5BF9_u7279_u6B8A_u60C5_u51B5_u7684_u4F18_u5316_u5904_u7406"><a href="#2__u7F16_u8BD1_u5668_u5BF9_u7279_u6B8A_u60C5_u51B5_u7684_u4F18_u5316_u5904_u7406" class="headerlink" title="2 编译器对特殊情况的优化处理"></a>2 编译器对特殊情况的优化处理</h1><p>例如对于 <code>empty virtual base class</code> 的特殊支持，在 <em>C++ 对象模型中一个空的 class 大小为 1 byte</em>，因为编译器为了使每个 object 在内存中能有独一无二的地址，为空 class 安插了一个 char。如果一个空的 class 大小为 0 byte，那么像该 class 的数组 X x[10];，编译器将无法区分每个元素的地址。但是如果 derived class 的大小不为 0，就不需要 <code>base class</code> 的 1 byte 进行内存地址区分，那么如果编译器对这种情况进行了优化的话，就会将该 1 byte 去掉，如果没有还是会继续保留这个额外的 1 byte 空间。</p>
+<p>说到编译器对特殊情况的优化，下面这段话比较恰当表述了编译器演化与C++对象模型的关系：</p>
+<p>编译器之间的潜在差异正说明了 C++ 对象模型的演化。<br>这个模型为一般情况提供了解决之道，当特殊情况渐渐被挖掘出来时，种种启发法于是被引入，提供优化的处理。<br>如果成功，启发法于是就提升为普遍的策略，并跨越各种编译器而合并。他被视为标准（虽然他并不被规范为标准），久而久之也就成了语言的一部分。</p>
+<h1 id="3__u8FB9_u754C_u8C03_u6574_uFF08Alignment_uFF09_u7684_u5F71_u54CD"><a href="#3__u8FB9_u754C_u8C03_u6574_uFF08Alignment_uFF09_u7684_u5F71_u54CD" class="headerlink" title="3 边界调整（Alignment）的影响"></a>3 边界调整（Alignment）的影响</h1><p>为了数据能够更有效率的在内存中存取，编译器会 class 的内存边界进行调整，在32位机器上通常 <code>alignment</code> 为 4 bytes，以<em>使总线的运输效率最高</em>。<br>经过上面的分析后，可以看出具体结果要视编译器而定。首先讨论在编译器没有对 <code>empty virtual base class</code> 进行优化的情况，那么：</p>
+<p>class X 的大小应该是 1 byte，该 1 byte 由编译器插入。<br>class Y 和 class Z 的大小相同为 8，包括 4 byte 的 虚基类指针再加上 1 byte 的基类 X的大小，考虑到内存对齐需要补齐 3 byte，所以最终结果为 8 byte。<br>class A 的大小为12 byte，包括 class Y 和 class Z 内的两个 4 byte 虚基类指针共 8 byte，此外由于 X 为虚基类，所以在 A 内只有一个实体，所以应该再加上 X 的 1 byte 和内存对齐额外补齐的 3 byte，共 12 byte。<br>所以最终结果为：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(X)</span></span> = <span class="number">1</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(Y)</span></span> = <span class="function"><span class="title">sizeof</span><span class="params">(Z)</span></span> = <span class="number">8</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(A)</span></span> = <span class="number">12</span> byte</span><br></pre></td></tr></table></figure>
+<p>如果编译器对 <code>empty virtual base class</code> 进行了优化，那么 class X 的 1 byte 空间在派生类中将被拿掉，相应的由于内存对齐而引起的 3 byte 也被去掉了，所以最终结果应该是：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(X)</span></span> = <span class="number">1</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(Y)</span></span> = <span class="function"><span class="title">sizeof</span><span class="params">(Z)</span></span> = <span class="number">4</span> byte</span><br><span class="line"><span class="function"><span class="title">sizeof</span><span class="params">(A)</span></span> = <span class="number">8</span> byte</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/08/python模拟微博自动登录获取Code调用API/" itemprop="url">
                   Python模拟微博自动登录获取Code调用API源码
                 </a>
@@ -301,265 +553,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/05/valgrind/" itemprop="url">
-                  Valgrind 安装与使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-05T10:10:21+08:00" content="2016-03-05">
-              2016-03-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>valgrind是Linux平台下著名的内存泄漏检测工具</p>
-<p>安装流程：</p>
-<ol>
-<li><p>到www.valgrind.org下载最新版valgrind-<em>.</em>.*.tar.bz2</p>
-</li>
-<li><p>解压安装包：tar –jxvf valgrind-3.2.3.tar.bz2</p>
-</li>
-<li><p>解压后生成目录valgrind-3.2.3</p>
-</li>
-<li><p>cd valgrind-3.2.3</p>
-</li>
-<li><p>./autogen.sh<br> 如果出现：./autogen.sh: 1: eval: aclocal: not found错误，则apt-get install autoconf</p>
-</li>
-<li><p>./configure;配置Valgrind，生成MakeFile文件，具体参数信息详见INSTALL文件。一般只需要设置–prefix=/where/you/want/it/installed</p>
-</li>
-<li><p>Make；编译Valgrind</p>
-</li>
-<li><p>make install；安装Valgrind</p>
-</li>
-</ol>
-<p>使用：<br>    待更新</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/03/python/" itemprop="url">
-                  Python报错：'str' is not callable
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-03T10:10:21+08:00" content="2016-03-03">
-              2016-03-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中</p>
-<pre><code>
-    @property
-    def authorize_url(self):
-        params = {
-            'client_id': self.client_id,
-            'redirect_uri': self.redirect_uri
-        }
-        return "{0}?{1}".format(self.authorization_url, urlencode(params))
-
-</code></pre>
-改为
-<pre><code>
-    #@property                       修改处
-    def authorize_url(self):
-        params = {
-            'client_id': self.client_id,
-            'redirect_uri': self.redirect_uri
-        }
-        return "{0}?{1}".format(self.authorization_url, urlencode(params))
-
-</code></pre>
-
-<p>原因：<br>    待更新</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -605,7 +598,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -613,7 +606,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

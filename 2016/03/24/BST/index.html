@@ -57,15 +57,23 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="代码小书童">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），是指一棵空树或者具有下列性质的二叉树：
+
+任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；任意节点的左、右子树也分别为二叉查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BST解析">
+<meta property="og:url" content="http://yoursite.com/2016/03/24/BST/index.html">
 <meta property="og:site_name" content="代码小书童">
-<meta property="og:description">
+<meta property="og:description" content="二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），是指一棵空树或者具有下列性质的二叉树：
+
+任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；任意节点的左、右子树也分别为二叉查">
+<meta property="og:image" content="http://yoursite.com/img/bst.png">
+<meta property="og:updated_time" content="2016-03-24T14:27:50.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="代码小书童">
-<meta name="twitter:description">
+<meta name="twitter:title" content="BST解析">
+<meta name="twitter:description" content="二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），是指一棵空树或者具有下列性质的二叉树：
+
+任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；任意节点的左、右子树也分别为二叉查">
 
 
 
@@ -83,7 +91,7 @@
   };
 </script>
 
-  <title> 代码小书童 </title>
+  <title> BST解析 | 代码小书童 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -102,9 +110,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -191,9 +197,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -213,10 +219,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/03/24/BST/" itemprop="url">
-                  BST解析
-                </a>
+                BST解析
               
             
           </h1>
@@ -274,9 +277,7 @@
       
 
       
-        
-          
-            <p>二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），<br>是指一棵空树或者具有下列性质的二叉树：</p>
+        <p>二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），<br>是指一棵空树或者具有下列性质的二叉树：</p>
 <blockquote>
 <p>任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；<br>任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；<br>任意节点的左、右子树也分别为二叉查找树；</p>
 </blockquote>
@@ -292,12 +293,12 @@
 <figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> Delete(TreeNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>((root-&gt;left == <span class="keyword">NULL</span>)&amp;&amp;(root-&gt;right == <span class="keyword">NULL</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        delete root;</span><br><span class="line">        root = <span class="keyword">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *lchild = root-&gt;left;</span><br><span class="line">        root-&gt;val = lchild -&gt;val;</span><br><span class="line">        root-&gt;left = lchild -&gt; left;</span><br><span class="line">        root-&gt;right = lchild -&gt;right;</span><br><span class="line">        delete lchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;right == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *rchild = root-&gt;right;</span><br><span class="line">        root-&gt;val = rchild -&gt;val;</span><br><span class="line">        root-&gt;left = rchild -&gt;left;</span><br><span class="line">        root-&gt;right = rchild -&gt;right;</span><br><span class="line">        delete rchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left &amp;&amp; root-&gt;right)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode * p = root-&gt;left;</span><br><span class="line">        TreeNode * s = root; ;</span><br><span class="line">        <span class="keyword">while</span>(p-&gt;right)</span><br><span class="line">        &#123;</span><br><span class="line">            s = p;</span><br><span class="line">            p = p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//此时p指向root左子树中最大的数据，且p不可能有右子树</span></span><br><span class="line">        <span class="comment">//s是p的前驱节点 </span></span><br><span class="line">        <span class="comment">//Delete p </span></span><br><span class="line">        root-&gt;val = p-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(s == root)</span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;left = p-&gt;left;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;right = p-&gt;left; <span class="comment">//important</span></span><br><span class="line">        &#125;</span><br><span class="line">        delete p;</span><br><span class="line">        delete s;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> DeleteBST(TreeNode * root,Keytype key)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;val == key) <span class="keyword">return</span> Delete(root);</span><br><span class="line">    <span class="keyword">if</span>(key &gt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;right);</span><br><span class="line">    <span class="keyword">if</span>(key &lt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>绝大部分内容来自<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9" target="_blank" rel="external">维基百科</a></p>
 
-          
-        
       
     </div>
 
     <div>
+      
+        
       
     </div>
 
@@ -305,241 +306,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/03/24/指针的引用/" rel="next" title="指针的引用">
+                <i class="fa fa-chevron-left"></i> 指针的引用
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/03/24/指针的引用/" itemprop="url">
-                  指针的引用
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-24T22:13:11+08:00" content="2016-03-24">
-              2016-03-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>指针(<em>)和引用(&amp;),解引用(</em>)和取地址(&amp;), 主要观察是在左面, 还是在右面, 如果在左面是前者, 在右面是后者;<br>如果比较多, 则要认真观察, 譬如int*&amp;, 就是指针的引用, 可以避免指针内部元素的复制;<br>还有其他的一些形式, 见下面的例子;<br>代码:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">(<span class="keyword">void</span>)</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">i</span><span class="params">(<span class="number">10</span>)</span></span>;  </span><br><span class="line">    <span class="keyword">int</span>* j = &amp;i;  </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">i1</span><span class="params">(<span class="number">20</span>)</span></span>;  </span><br><span class="line">    <span class="keyword">int</span>*&amp; k = j; <span class="comment">//指针的引用, *k是*j的引用  </span></span><br><span class="line">    *k = i1; <span class="comment">//修改*k所指的内容, 则修改*j的内容; </span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span>* pint;  </span><br><span class="line">    pint&amp; k2 = j;      </span><br><span class="line">    <span class="keyword">int</span>* k3 = &amp;*j, k4 = <span class="number">10</span>;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k = "</span> &lt;&lt; *k &lt;&lt;<span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*j = "</span> &lt;&lt; *j &lt;&lt;<span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k2 = "</span> &lt;&lt; *k2 &lt;&lt; <span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k3 = "</span> &lt;&lt; *k3 &lt;&lt; <span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"k4 = "</span> &lt;&lt; k4 &lt;&lt; <span class="built_in">std</span>::endl;   </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/23/网易实习编程第二题字符串/" itemprop="url">
-                  2016网易实习生招聘笔试编程题2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T11:13:11+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>输入：<br>    第1行输入数据行数<br>    第2行开始输入一串字符串</p>
-<p>输出：<br>    字符串逆序</p>
-<p>样例：<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">input</span>:</span><br><span class="line">    <span class="number">2</span></span><br><span class="line">    i want <span class="keyword">to</span> play basketball</span><br><span class="line">    who <span class="keyword">is</span> <span class="keyword">this</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">output</span>:</span><br><span class="line">    basketball play <span class="keyword">to</span> want i</span><br><span class="line">    <span class="keyword">this</span> <span class="keyword">is</span> who</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverseWords</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="built_in">string</span>&gt; &amp;v)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=v.size()-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;v[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;N;</span><br><span class="line">    getchar();                        <span class="comment">//重点： 吸收后面的换行符</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">char</span> c;</span><br><span class="line">        <span class="keyword">while</span>((c=<span class="built_in">cin</span>.get())!=<span class="string">'\n'</span>)    <span class="comment">//重点： 一行终止判断</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cin</span>.unget();</span><br><span class="line">            <span class="built_in">string</span> s;</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;s;</span><br><span class="line">            v.push_back(s);</span><br><span class="line">        &#125;</span><br><span class="line">        reverseWords(v);</span><br><span class="line">        v.clear();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -547,6 +339,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -566,8 +362,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -643,6 +448,23 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u67E5_u627E"><span class="nav-number">1.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u63D2_u5165"><span class="nav-number">2.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u6784_u9020_u4E8C_u53C9_u67E5_u627E_u6811"><span class="nav-number">3.</span> <span class="nav-text">构造二叉查找树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E8C_u53C9_u67E5_u627E_u6811_u5220_u7ED3_u70B9"><span class="nav-number">4.</span> <span class="nav-text">二叉查找树删结点</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
     </div>
@@ -727,6 +549,167 @@
   
 
   
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   
 
