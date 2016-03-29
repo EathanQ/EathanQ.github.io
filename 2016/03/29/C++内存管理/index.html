@@ -1,0 +1,731 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++ malloc new," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="一.内存的常见分配方式  1.从静态区分配,一般是全局变量和static类型变量  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++内存管理">
+<meta property="og:url" content="http://yoursite.com/2016/03/29/C++内存管理/index.html">
+<meta property="og:site_name" content="代码小书童">
+<meta property="og:description" content="一.内存的常见分配方式  1.从静态区分配,一般是全局变量和static类型变量  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存">
+<meta property="og:updated_time" content="2016-03-29T15:21:39.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++内存管理">
+<meta name="twitter:description" content="一.内存的常见分配方式  1.从静态区分配,一般是全局变量和static类型变量  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> C++内存管理 | 代码小书童 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">代码小书童</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C++内存管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-29T23:25:21+08:00" content="2016-03-29">
+              2016-03-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F"><a href="#u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F" class="headerlink" title="一.内存的常见分配方式"></a>一.内存的常见分配方式</h1><p>  1.从静态区分配,一般是全局变量和static类型变量<br>  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放<br>  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,<br>    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存泄露,造成了内存浪费</p>
+<h1 id="u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219"><a href="#u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219" class="headerlink" title="二.内存的使用规则"></a>二.内存的使用规则</h1><p>  1.在使用malloc()或new申请空间时,要检查有没有分配空间成功,判断方法是判断指针是否为NULL,如申请一块很大的内存而没有这么大的内存则分配<br>内存会失败<br>  2.申请成功后最好是将该内存清空,使用memset()后ZeroMemory()清空,不然存在垃圾而造成有时候输出很大乱码<br>  3.不要忘记为数组和动态内存赋初值。防止将未被初始化的内存作为右值使用。(这句话不太理解)<br>  4.要防止数组或指针内存越界,<br>  5.申请内存成功后,使用结束后要释放,系统不会自动释放手动分配的内存<br>  6.内存释放后,指针还是指向那块地址,不过这指针已经是”野指针”了,所以释放内存后指针要指向NULL,<br>    不然很危险,容易出错,if()对野指针的判断不起作用</p>
+<h1 id="u4E09-_u6307_u9488_u548C_u6570_u7EC4"><a href="#u4E09-_u6307_u9488_u548C_u6570_u7EC4" class="headerlink" title="三.指针和数组"></a>三.指针和数组</h1><h2 id="1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C"><a href="#1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C" class="headerlink" title="1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,"></a>1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,</h2><p>而指针char *p = “Word”,p是指向了一串常量的字符串,常量字符串是不可修改的,如 p[0] = ‘X’,编译器编译时不会报错,但执行时会出错。</p>
+<h2 id="2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83"><a href="#2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83" class="headerlink" title="2.内容的复制与比较"></a>2.内容的复制与比较</h2><p>   内容的复制要使用strcpy()函数,不要使用赋值符”=”,内容的比较也是不要使用比较符号”&lt;,&gt;,==”,使用strcmp()函数。</p>
+<p>  ##3.计算空间的大小<br>   对数组的计算是使用sizeof()函数,该函数会按照内存对齐的方式4的倍数计算,而指针的空间大小没法计算,只能记住在申请空间时的空间大小<br>   注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针,不论数组a的容量是多少，sizeof(a)始终等于sizeof(char *)</p>
+<pre><code>void Func(char a[100])  
+{  
+  cout&lt;&lt; sizeof(a) &lt;&lt; endl;   // 4字节而不是100字节  
+}
+</code></pre><h1 id="u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B"><a href="#u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B" class="headerlink" title="四 malloc()/free()与new/delete的区别"></a>四 malloc()/free()与new/delete的区别</h1><p>malloc与free是C++/C语言的标准库函数，new/delete是C++的运算符。<br>它们都可用于申请动态内存和释放内存。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求。<br>对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。<br>由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。<br>因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete。<br>所以我们不要企图用malloc/free来完成动态对象的内存管理，应该用new/delete。<br>由于内部数据类型的“对象”没有构造与析构的过程，对它们而言malloc/free和new/delete是等价的。<br>既然new/delete的功能完全覆盖了malloc/free，为什么C++不把malloc/free淘汰出局呢？<br>这是因为C++程序经常要调用C函数，而C程序只能用malloc/free管理动态内存。<br>如果用free释放“new创建的动态对象”，那么该对象因无法执行析构函数而可能导致程序出错。<br>如果用delete释放“malloc申请的动态内存”，理论上讲程序不会出错，但是该程序的可读性很差。<br>所以new/delete必须配对使用，malloc/free也一样。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-malloc-new/" rel="tag">#C++ malloc new</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/29/linux-IO-epoll/" rel="next" title="Linux IO模式以及select/poll/epoll区别">
+                <i class="fa fa-chevron-left"></i> Linux IO模式以及select/poll/epoll区别
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="EATHAN" />
+          <p class="site-author-name" itemprop="name">EATHAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2017971021/profile?topnav=1&wvr=6" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://braverichard.sinaapp.com/" target="_blank">Brave</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F"><span class="nav-number">1.</span> <span class="nav-text">一.内存的常见分配方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219"><span class="nav-number">2.</span> <span class="nav-text">二.内存的使用规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4E09-_u6307_u9488_u548C_u6570_u7EC4"><span class="nav-number">3.</span> <span class="nav-text">三.指针和数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C"><span class="nav-number">3.1.</span> <span class="nav-text">1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83"><span class="nav-number">3.2.</span> <span class="nav-text">2.内容的复制与比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B"><span class="nav-number">4.</span> <span class="nav-text">四 malloc()/free()与new/delete的区别</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EATHAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
