@@ -214,6 +214,115 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/01/QT中文相关问题/" itemprop="url">
+                  QT程序中中文显示乱码问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-01T08:10:21+08:00" content="2016-03-01">
+              2016-03-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/QT/" itemprop="url" rel="index">
+                    <span itemprop="name">QT</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>为了让QT控件正确显示中文：<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec codec <span class="comment">;</span></span><br><span class="line">codec = QTextCo<span class="number">dec::c</span>odecForName("GB18030")<span class="comment">;</span></span><br><span class="line">QTextCo<span class="number">dec::</span>setCodecForLocale(codec)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>在QT中可以这样处理中文路径名的QString转换成std::string<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QTextCodec *code = QTextCodec::codecForName(<span class="string">"gb18030"</span>);</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">string</span> name = code-&gt;fromUnicode(fileName).data(); </span><br><span class="line"><span class="comment">// fileName 为QString的中文路径名</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/21/datastruc/" itemprop="url">
                   数据结构
                 </a>
@@ -409,123 +518,11 @@ OK了！！
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/16/C/" itemprop="url">
-                  C++笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-16T19:10:16+08:00" content="2015-07-16">
-              2015-07-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#操作符重载<br>&lt;&lt;的重载<br>void operator &lt;&lt; (ostream &amp;os,const Time &amp;t)<br>{<br>    os&lt;&lt;t.hours&lt;&lt;”hours,”&lt;&lt;t.minutes&lt;&lt;”minutes”&lt;&lt;endl;<br>}<br>可直接使用cout&lt;&lt;Time_inst;<br>但是这样定义<strong>存在问题：</strong><br>cout&lt;&lt;”Time is :” &lt;&lt;Time_inst&lt;&lt;”@@\n” ;    //不能执行<br>需要将重载函数改为<br>ostream &amp; operator &lt;&lt; (ostream &amp;os,const Time &amp;t)<br>{<br>    os&lt;&lt;t.hours&lt;&lt;”hours,”&lt;&lt;t.minutes&lt;&lt;”minutes”&lt;&lt;endl;<br>    return os;<br>}</p>
-<p>#类与动态内存分配<br>如果在类中创建一个静态类变量，那么类的所有对象共享这个静态成员。(static 成员)</p>
-<p>#抽象容器类型<br>vector  list</p>
-<p>##定义一个顺序容器、迭代器<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="built_in">vector</span> &lt;<span class="built_in">string</span>&gt; ivec;</span><br><span class="line"><span class="built_in">vector</span> &lt;<span class="built_in">string</span>&gt;::iterator iter = iver.begin();  <span class="comment">//vector &lt;int&gt;::const_iterator iter;</span></span><br><span class="line"><span class="built_in">list</span> &lt;<span class="built_in">string</span>&gt; ilist;</span><br><span class="line"><span class="built_in">string</span> text;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;text) iver.push_back(text);</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">spouse</span><span class="params">(<span class="string">"Beth"</span>)</span></span>;</span><br><span class="line">ilist.insert(ilist.begin(),spouse);</span><br><span class="line">ivec.insert(iter,spouse);</span><br><span class="line"><span class="keyword">for</span>(;iter != ivec.end();++iter)</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;*iter&lt;&lt;<span class="string">'\n'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>745页/1043</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -566,7 +563,7 @@ OK了！！
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -583,7 +580,7 @@ OK了！！
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

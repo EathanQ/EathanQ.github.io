@@ -214,6 +214,122 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/22/滑雪问题/" itemprop="url">
+                  DP-滑雪问题-网易
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-22T22:36:21+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>2016网易实习生招聘笔试编程第一题<br>动态规划掌握不够好，挂了这题。</p>
+<p>Michael喜欢滑雪百这并不奇怪，因为滑雪的确很刺激。可是为了获得速度，滑的区域必须向下倾斜，而且当你滑到坡底，<br>你不得不再次走上坡或者等待升降机来载你。Michael想知道载一个区域中最长底滑坡。<br>区域由一个二维数组给出。数组的每个数字代表点的高度。下面是一个例子<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span> <span class="number">5</span></span><br><span class="line"><span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">6</span></span><br><span class="line"><span class="number">15</span> <span class="number">24</span> <span class="number">25</span> <span class="number">20</span> <span class="number">7</span></span><br><span class="line"><span class="number">14</span> <span class="number">23</span> <span class="number">22</span> <span class="number">21</span> <span class="number">8</span></span><br><span class="line"><span class="number">13</span> <span class="number">12</span> <span class="number">11</span> <span class="number">10</span> <span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<p>一个人可以从某个点滑向上下左右相邻四个点之一，当且仅当高度减小。在上面的例子中，一条可滑行的滑坡为24-17-16-1。<br>当然25-24-23-…-3-2-1更长。事实上，这是最长的一条。</p>
+<p>思路：题目意思其实很简单，给出一个二维数组，在其中找出一个点，是它能找到一条高度依次下降的路径并使得这条路径最长。<br>      利用动态规划的变形<br>      求解从每个点出发的最长路径长度，<br>      求解从每一个出发点最长路径过程就是一个不断求最优解的过程。<br>      关键就是理解动态规划和递归的关系！<br>摘自算法导论:</p>
+<blockquote>
+<p>通常按如下4个步骤设计一个动态规划算法<br>1.刻画一个最优解的结构特征<br>2.递归地定义最优解的值            –重点理解<br>3.计算最优解的值，通常采用自底向上的方法<br>4.利用计算出的信息构造一个最优解</p>
+</blockquote>
+<p>在这题中，一个点的最大高度等于周围点即上下左右点最大高度加1。需要注意各种判断条件。</p>
+<p>代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"><span class="keyword">int</span> data[<span class="number">102</span>][<span class="number">102</span>], longest[<span class="number">102</span>][<span class="number">102</span>];  </span><br><span class="line"><span class="keyword">int</span> m,n;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> max = <span class="number">0</span>;<span class="comment">//保存周围节点的最大长度，最优子问题的变形;  </span></span><br><span class="line">    <span class="keyword">if</span> (longest[i][j] &gt; <span class="number">0</span>)   </span><br><span class="line">        <span class="keyword">return</span> longest[i][j];  </span><br><span class="line">    <span class="keyword">if</span> ( i-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; data[i][j]&gt;data[i-<span class="number">1</span>][j] &amp;&amp; max&lt;cal(i-<span class="number">1</span>,j))   </span><br><span class="line">        max = cal(i-<span class="number">1</span>,j);  </span><br><span class="line">    <span class="keyword">if</span> ( j-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; data[i][j]&gt;data[i][j-<span class="number">1</span>] &amp;&amp; max&lt;cal(i,j-<span class="number">1</span>))  </span><br><span class="line">        max = cal(i,j-<span class="number">1</span>);  </span><br><span class="line">    <span class="keyword">if</span>( i+<span class="number">1</span>&lt;m &amp;&amp; data[i][j]&gt;data[i+<span class="number">1</span>][j] &amp;&amp; max&lt;cal(i+<span class="number">1</span>,j))  </span><br><span class="line">        max = cal(i+<span class="number">1</span>,j);  </span><br><span class="line">    <span class="keyword">if</span>( j+<span class="number">1</span>&lt;n &amp;&amp; data[i][j]&gt;data[i][j+<span class="number">1</span>] &amp;&amp; max&lt;cal(i,j+<span class="number">1</span>))  </span><br><span class="line">        max = cal(i,j+<span class="number">1</span>);  </span><br><span class="line">    <span class="keyword">return</span> longest[i][j] = max+<span class="number">1</span>;   </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> i,j;  </span><br><span class="line">    <span class="keyword">int</span> maxway = <span class="number">0</span>;  </span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n;  </span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;m; i++)  </span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;n; j++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;data[i][j];  </span><br><span class="line">            longest[i][j] = <span class="number">0</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;m; i++)  </span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;n; j++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            longest[i][j] = cal(i,j);  </span><br><span class="line">            <span class="keyword">if</span>(maxway&lt;longest[i][j])  </span><br><span class="line">                maxway = longest[i][j];  </span><br><span class="line">        &#125;  </span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;maxway&lt;&lt;endl;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/21/排序/" itemprop="url">
                   各种排序
                 </a>
@@ -396,121 +512,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/15/AVL/" itemprop="url">
-                  Convert Sorted Array/List to AVL Tree
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-15T22:08:00+08:00" content="2016-03-15">
-              2016-03-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Array:<br>    利用递归思想很容易实现。<br>    首先找到根节点，应该谁作为根节点呢？显然是数组中中间位置的数。<br>    然后对两侧的数据分别递归处理。<br>我的代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode * <span class="title">convert</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums,<span class="keyword">int</span> begin,<span class="keyword">int</span> end)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>(begin == end ) </span><br><span class="line">        &#123;</span><br><span class="line">            TreeNode * t = <span class="keyword">new</span> TreeNode(nums[begin]);</span><br><span class="line">            <span class="keyword">return</span> t;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(begin == end -<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            TreeNode * p = <span class="keyword">new</span> TreeNode(nums[begin]);</span><br><span class="line">            TreeNode * s = <span class="keyword">new</span> TreeNode(nums[end]);</span><br><span class="line">            p-&gt;right = s;</span><br><span class="line">            <span class="keyword">return</span> p;               </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (begin+end)/<span class="number">2</span>;</span><br><span class="line">            TreeNode * root = <span class="keyword">new</span> TreeNode(nums[mid]);</span><br><span class="line">            root-&gt;left = convert(nums,begin,mid-<span class="number">1</span>);</span><br><span class="line">            root-&gt;right = convert(nums,mid+<span class="number">1</span>,end);</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">sortedArrayToBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> convert(nums,<span class="number">0</span>,nums.size()-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>LeetCode Hot Code (More Concise):<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode *<span class="title">sortedArrayToBST</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(num.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>(num.size() == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeNode(num[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> middle = num.size()/<span class="number">2</span>;</span><br><span class="line">        TreeNode* root = <span class="keyword">new</span> TreeNode(num[middle]);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; leftInts(num.begin(), num.begin()+middle);</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rightInts(num.begin()+middle+<span class="number">1</span>, num.end());</span><br><span class="line"></span><br><span class="line">        root-&gt;left = sortedArrayToBST(leftInts);</span><br><span class="line">        root-&gt;right = sortedArrayToBST(rightInts);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>Sorted Linked List:<br>    与Array思路基本一致<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    TreeNode *sortedListToBST(ListNode *head)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> sortedListToBST( head, <span class="keyword">NULL</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    TreeNode *sortedListToBST(ListNode *head, ListNode *tail)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( head == tail )</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>( head-&gt;next == tail )    <span class="comment">// </span></span><br><span class="line">        &#123;   </span><br><span class="line">            TreeNode *root = <span class="keyword">new</span> TreeNode( head-&gt;val );</span><br><span class="line">            <span class="keyword">return</span> root;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode *mid = head, *temp = head;</span><br><span class="line">        <span class="keyword">while</span>( temp != tail &amp;&amp; temp-&gt;next != tail )    <span class="comment">// 寻找中间节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            mid = mid-&gt;next;</span><br><span class="line">            temp = temp-&gt;next-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode *root = <span class="keyword">new</span> TreeNode( mid-&gt;val );</span><br><span class="line">        root-&gt;left = sortedListToBST( head, mid );</span><br><span class="line">        root-&gt;right = sortedListToBST( mid-&gt;next, tail );</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -551,7 +557,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -568,7 +574,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

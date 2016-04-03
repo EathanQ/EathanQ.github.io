@@ -214,6 +214,128 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/24/BST/" itemprop="url">
+                  BST解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-24T22:32:49+08:00" content="2016-03-24">
+              2016-03-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），<br>是指一棵空树或者具有下列性质的二叉树：</p>
+<blockquote>
+<p>任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；<br>任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；<br>任意节点的左、右子树也分别为二叉查找树；</p>
+</blockquote>
+<p>二叉查找树相比于其他数据结构的优势在于查找、插入的时间复杂度较低。为O(log n)。<br>二叉查找树是基础性数据结构，用于构建更为抽象的数据结构，如集合、multiset、关联数组等。</p>
+<p>二叉查找树的查找过程和次优二叉树类似，通常采取二叉链表作为二叉查找树的存储结构。<br>中序遍历二叉查找树可得到一个关键字的有序序列，一个无序序列可以通过构造一棵二叉查找树变成一个有序序列，构造树的过程即为<br>对无序序列进行查找的过程。每次插入的新的结点都是二叉查找树上新的叶子结点，在进行插入操作时，不必移动其它结点，只需改动某个<br>结点的指针，由空变为非空即可。搜索、插入、删除的复杂度等于树高，期望O(\log n)，最坏O(n)（数列有序，树退化成线性表）。</p>
+<h1 id="u67E5_u627E"><a href="#u67E5_u627E" class="headerlink" title="查找"></a>查找</h1><p>在二叉搜索树b中查找x的过程为：<br>1.若b是空树，则搜索失败，否则：<br>2.若x等于b的根节点的数据域之值，则查找成功；否则：<br>3.若x小于b的根节点的数据域之值，则搜索左子树；否则：查找右子树。<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef int Keytype;</span><br><span class="line">struct TreeNode&#123;</span><br><span class="line">    Keytype val;    </span><br><span class="line">    TreeNode * <span class="attribute">left</span>;</span><br><span class="line">    TreeNode * <span class="attribute">right</span>;</span><br><span class="line">    <span class="function">TreeNode</span>(Keytype x)<span class="value">:<span class="function">val</span>(x),<span class="function">left</span>(NULL),<span class="function">right</span>(NULL)&#123;&#125;</span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SearchBST(TreeNode *root ,Keytype key)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;val == key) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(key &gt; root-&gt;val) <span class="keyword">return</span> SearchBST(root-&gt;right,key);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> SearchBST(root-&gt;left,key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="u63D2_u5165"><a href="#u63D2_u5165" class="headerlink" title="插入"></a>插入</h1><p>向一个二叉搜索树b中插入一个节点s的算法，过程为：<br>1.若b是空树，则将s所指结点作为根节点插入，否则：<br>2.若s-&gt;data等于b的根节点的数据域之值，则返回，否则：<br>3.若s-&gt;data小于b的根节点的数据域之值，则把s所指节点插入到左子树中，否则：把s所指节点插入到右子树中。(新插入节点总是叶子节点)</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool InsertBST(TreeNode * root , Keytype <span class="variable">key</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root = NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        root = <span class="keyword">new</span> TreeNode(<span class="variable">key</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> == root-&gt;val) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> &gt; root-&gt;val) <span class="keyword">return</span> InsertBST(root-&gt;right,<span class="variable">key</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> &lt; root-&gt;val) <span class="keyword">return</span> InsertBST(root-&gt;left,<span class="variable">key</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="u6784_u9020_u4E8C_u53C9_u67E5_u627E_u6811"><a href="#u6784_u9020_u4E8C_u53C9_u67E5_u627E_u6811" class="headerlink" title="构造二叉查找树"></a>构造二叉查找树</h1><p>用一组数值建造一棵二叉查找树的同时，也把这组数值进行了排序。其最差时间复杂度为O(n^2)。<br>例如，若该组数值经是有序的（从小到大），则建造出来的二叉查找树的所有节点，都没有左子树。<br>自平衡二叉查找树可以克服上述缺点，其时间复杂度为O(nlog n)。<br>一方面，树排序的问题使得CPU Cache性能较差，特别是当节点是动态内存分配时。而堆排序的CPU Cache性能较好。<br>另一方面，树排序是最优的增量排序（incremental sorting）算法，保持一个数值序列的有序性。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">CreateBST</span><span class="params">(TreeNode *root , <span class="built_in">vector</span>&lt;Keytype&gt; &amp;v)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;v.size();i++)</span><br><span class="line">		InsertBST(root,v[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="u4E8C_u53C9_u67E5_u627E_u6811_u5220_u7ED3_u70B9"><a href="#u4E8C_u53C9_u67E5_u627E_u6811_u5220_u7ED3_u70B9" class="headerlink" title="二叉查找树删结点"></a>二叉查找树删结点</h1><p>  分三种情况讨论：<br>1.若<em>p结点为叶子结点，即PL（左子树）和PR（右子树）均为空树。由于删去叶子结点不破坏整棵树的结构，则只需修改其双亲结点的指针即可。<br>2.若</em>p结点只有左子树PL或右子树PR，此时只要令PL或PR直接成为其双亲结点<em>f的左子树（当</em>p是左子树）或右子树（当<em>p是右子树）即可，<br>  作此修改也不破坏二叉查找树的特性。<br>2.若</em>p结点的左子树和右子树均不空。在删去<em>p之后，为保持其它元素之间的相对位置不变，可按中序遍历保持有序进行调整，<br>  可以有两种做法：<br>  其一是令</em>p的左子树为<em>f的左/右（依</em>p是<em>f的左子树还是右子树而定）子树，</em>s为<em>p左子树的最右下的结点，而</em>p的右子树为<em>s的右子树；<br>  其二是令</em>p的直接前驱(in-order predecessor)或直接后继(in-order successor)替代*p，然后再从二叉查找树中删去它的直接前驱(或直接后继)。</p>
+<p><img src="/img/bst.png" alt="DeleteNode"></p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> Delete(TreeNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>((root-&gt;left == <span class="keyword">NULL</span>)&amp;&amp;(root-&gt;right == <span class="keyword">NULL</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        delete root;</span><br><span class="line">        root = <span class="keyword">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *lchild = root-&gt;left;</span><br><span class="line">        root-&gt;val = lchild -&gt;val;</span><br><span class="line">        root-&gt;left = lchild -&gt; left;</span><br><span class="line">        root-&gt;right = lchild -&gt;right;</span><br><span class="line">        delete lchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;right == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *rchild = root-&gt;right;</span><br><span class="line">        root-&gt;val = rchild -&gt;val;</span><br><span class="line">        root-&gt;left = rchild -&gt;left;</span><br><span class="line">        root-&gt;right = rchild -&gt;right;</span><br><span class="line">        delete rchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left &amp;&amp; root-&gt;right)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode * p = root-&gt;left;</span><br><span class="line">        TreeNode * s = root; ;</span><br><span class="line">        <span class="keyword">while</span>(p-&gt;right)</span><br><span class="line">        &#123;</span><br><span class="line">            s = p;</span><br><span class="line">            p = p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//此时p指向root左子树中最大的数据，且p不可能有右子树</span></span><br><span class="line">        <span class="comment">//s是p的前驱节点 </span></span><br><span class="line">        <span class="comment">//Delete p </span></span><br><span class="line">        root-&gt;val = p-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(s == root)</span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;left = p-&gt;left;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;right = p-&gt;left; <span class="comment">//important</span></span><br><span class="line">        &#125;</span><br><span class="line">        delete p;</span><br><span class="line">        delete s;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> DeleteBST(TreeNode * root,Keytype key)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;val == key) <span class="keyword">return</span> Delete(root);</span><br><span class="line">    <span class="keyword">if</span>(key &gt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;right);</span><br><span class="line">    <span class="keyword">if</span>(key &lt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>绝大部分内容来自<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9" target="_blank" rel="external">维基百科</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/24/指针的引用/" itemprop="url">
                   指针的引用
                 </a>
@@ -411,119 +533,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/23/常见C++面试题/" itemprop="url">
-                  常见C++面试题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T11:13:11+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1.C++多态性有哪些？<br>    静态：编译时刻多态，通过重载函数，类模板多态实现<br>    动态：运行时刻多态，通过虚函数类继承实现<br>2.C++中类型转换有哪些？<br>    static_cast      :最常用的类型转换，如把int转换为float<br>    const_cast       :用于取出const属性，例如把const指针转换为非const指针<br>    dynamic_cast     :只在转换一个具有至少一个虚函数的类时合法<br>    reinterpret_cast :重新解释数据的二进制，很少用<br>3.什么是浅拷贝深拷贝？<br>    浅拷贝：用一个现成的对象创建另一个对象时，只拷贝了成员，没有拷贝分配给现成对象中成员的资源<br>    深拷贝：定义对象的拷贝函数，使之资源也拷贝</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -564,7 +578,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -581,7 +595,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
