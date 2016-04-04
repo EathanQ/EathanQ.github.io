@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/03/23/常见C++面试题/index.html">
 <meta property="og:site_name" content="代码小书童">
 <meta property="og:description" content="1.C++多态性有哪些？    静态：编译时刻多态，通过重载函数，类模板多态实现    动态：运行时刻多态，通过虚函数类继承实现2.C++中类型转换有哪些？    static_cast      :最常用的类型转换，如把int转换为float    const_cast       :用于取出const属性，例如把const指针转换为非const指针    dynamic_cast     :只">
-<meta property="og:updated_time" content="2016-03-23T12:10:14.718Z">
+<meta property="og:updated_time" content="2016-04-04T03:07:05.560Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见C++面试题">
 <meta name="twitter:description" content="1.C++多态性有哪些？    静态：编译时刻多态，通过重载函数，类模板多态实现    动态：运行时刻多态，通过虚函数类继承实现2.C++中类型转换有哪些？    static_cast      :最常用的类型转换，如把int转换为float    const_cast       :用于取出const属性，例如把const指针转换为非const指针    dynamic_cast     :只">
@@ -270,7 +270,11 @@
       
 
       
-        <p>1.C++多态性有哪些？<br>    静态：编译时刻多态，通过重载函数，类模板多态实现<br>    动态：运行时刻多态，通过虚函数类继承实现<br>2.C++中类型转换有哪些？<br>    static_cast      :最常用的类型转换，如把int转换为float<br>    const_cast       :用于取出const属性，例如把const指针转换为非const指针<br>    dynamic_cast     :只在转换一个具有至少一个虚函数的类时合法<br>    reinterpret_cast :重新解释数据的二进制，很少用<br>3.什么是浅拷贝深拷贝？<br>    浅拷贝：用一个现成的对象创建另一个对象时，只拷贝了成员，没有拷贝分配给现成对象中成员的资源<br>    深拷贝：定义对象的拷贝函数，使之资源也拷贝</p>
+        <p>1.C++多态性有哪些？<br>    静态：编译时刻多态，通过重载函数，类模板多态实现<br>    动态：运行时刻多态，通过虚函数类继承实现<br>2.C++中类型转换有哪些？<br>    static_cast      :最常用的类型转换，如把int转换为float<br>    const_cast       :用于取出const属性，例如把const指针转换为非const指针<br>    dynamic_cast     :只在转换一个具有至少一个虚函数的类时合法<br>    reinterpret_cast :重新解释数据的二进制，很少用<br>3.什么是浅拷贝深拷贝？<br>    浅拷贝：用一个现成的对象创建另一个对象时，只拷贝了成员，没有拷贝分配给现成对象中成员的资源<br>    深拷贝：定义对象的拷贝函数，使之资源也拷贝<br>4.const int i怎么做到的只可读？<br>    编译器相关，优化可能让其直接转为一个常量代入<br>5.OFFSETOF(s,m)的宏定义，s是结构类型，m是S的成员，求m在s中的偏移量</p>
+<pre><code>#define OFFSETOF(s,m) ((size_t)(&amp;s-&gt;m)-(size_t)(&amp;s))
+#define OFFSETOF(s,m) (size_t)&amp;(((s*)0)-&gt;m)
+取地址符号 &amp; 决定表达式不会出现访问内存错误，因为将0转化为结构体指针类型后是不能访问的地址。-&gt;的本质就是在0后面加上结构体m的偏移量。
+</code></pre><p>6.</p>
 
       
     </div>
@@ -366,7 +370,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -383,7 +387,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
