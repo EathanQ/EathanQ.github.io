@@ -214,6 +214,277 @@
             
               
                 
+                <a class="post-title-link" href="/2015/05/29/跳台阶/" itemprop="url">
+                  跳台阶
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-29T15:33:20+08:00" content="2015-05-29">
+              2015-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目描述：</p>
+<pre><code>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+</code></pre><p>输入：</p>
+<pre><code>输入可能包含多个测试样例，对于每个测试案例，
+
+输入包括一个整数n(1&lt;=n&lt;=70)。
+</code></pre><p>输出：</p>
+<pre><code>对应每个测试案例，
+
+输出该青蛙跳上一个n级的台阶总共有多少种跳法。
+</code></pre><p>样例输入：</p>
+<pre><code>5
+</code></pre><p>样例输出：</p>
+<pre><code>8
+</code></pre><p>分析：<br>    如果只有1个台阶，1种跳法，s=1<br>    如果只有2个台阶，2种跳法, s=2<br>    如果有多余2个的n个台阶：<br>        1.第一次跳1个台阶,s=s(n-1)<br>        2.第一次跳2个台阶,s=s(n-2)<br>      所以s(n) = s(n-1) + s(n-2)<br>    可以看出结果为斐波那契数列：1 2 3 5 8 13 21 34 … …<br>递规代码如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&#60;iostream&#62;&#10;using namespace std;&#10;int fun(int step)&#10;&#123;&#10;  if(step == 1) return 1;&#10;  else if(step == 2) return 2;&#10;  else return fun(step -1) +fun(step -2)&#9;;&#9;&#10;&#125;&#10;int main()&#10;&#123;&#10;&#9;int step; &#10;&#9;int s;&#10;&#9;while(cin&#62;&#62;step)&#10;&#9;&#123;&#10;&#9;  s = fun(step);&#10;&#9;  cout &#38;lt&#38;lt s&#38;lt&#38;lt endl;  &#9;&#10;&#9;&#125;&#10;    return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这是基本的动态规划算法，用递归效率太低。可以用一个数组记录中间变量（<strong>以空间换时间</strong>），可以提高效率。算法复杂度为O(n)，如果递归的话，算法复杂度为 (3/2)^(N)。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &#60;iostream&#62;&#10;using namespace std;&#10;long long way [71];&#10;void init_way(long long way[])&#10;&#123;   &#10;     int i=1;&#10;     for(i=1; i &#38;lt =70; i++)&#10;     &#123;&#10;     if(i==1 | i==2) way[i]=i;&#10;     else way[i]=way[i-1]+way[i-2];&#10;     &#125;&#10;&#125;&#10;int main()&#10;&#123;&#10;     int step;&#10;     init_way(way);&#10;     while(cin&#62;&#62;step)&#10;    &#123;&#10;      cout &#60;&#60;way[step] &#60;&#60; endl;&#10;     &#125;&#10;     return 0;&#10;&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/05/28/dev/" itemprop="url">
+                  shell中/dev/null含义及实例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-28T22:01:29+08:00" content="2015-05-28">
+              2015-05-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Shell/" itemprop="url" rel="index">
+                    <span itemprop="name">Shell</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>shell中可能经常能看到：echo log &gt; /dev/null 2&gt;&amp;1</p>
+<p>/dev/null ：代表空设备文件</p>
+<blockquote>
+<p> ：代表重定向到哪里，例如：echo “123” &gt; /home/123.txt<br>1  ：表示stdout标准输出，系统默认值是1，所以”&gt;/dev/null”等同于”1&gt;/dev/null”<br>2  ：表示stderr标准错误<br>&amp;  ：表示等同于的意思，2&gt;&amp;1，表示2的输出重定向等同于1</p>
+</blockquote>
+<p>1 &gt; /dev/null 2&gt;&amp;1 语句含义：<br>1 &gt; /dev/null ： 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。<br>2&gt;&amp;1 ：接着，标准错误输出重定向（等同于）标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。</p>
+<p>实例解析：</p>
+<p>cmd &gt;a 2&gt;a 和 cmd &gt;a 2&gt;&amp;1 为什么不同？<br>cmd &gt;a 2&gt;a ：stdout和stderr都直接送往文件 a ，a文件会被打开两遍，由此导致stdout和stderr互相覆盖。<br>cmd &gt;a 2&gt;&amp;1 ：stdout直接送往文件a ，stderr是继承了FD1的管道之后，再被送往文件a 。a文件只被打开一遍，就是FD1将其打开。</p>
+<p>两者的不同点在于：</p>
+<p>cmd &gt;a 2&gt;a 相当于使用了FD1、FD2两个互相竞争使用文件 a 的管道；<br>cmd &gt;a 2&gt;&amp;1 只使用了一个管道FD1，但已经包括了stdout和stderr。<br>从IO效率上来讲，cmd &gt;a 2&gt;&amp;1的效率更高。</p>
+<p>经常可以在一些脚本，尤其是在crontab调用时发现如下形式的命令调用</p>
+<p>/tmp/test.sh &gt; /tmp/test.log 2&gt;&amp;1<br>前半部分/tmp/test.sh &gt; /tmp/test.log很容易理解，那么后面的2&gt;&amp;1是怎么回事呢？</p>
+<p>要解释这个问题，还是得提到文件重定向。我们知道&gt;和&lt;是文件重定向符。那么1和2是什么？</p>
+<p>在shell中，每个进程都和三个系统文件 相关联：标准输入stdin，标准输出stdout、标准错误stderr，三个系统文件的文件描述符分别为0，1、2。所以这里2&gt;&amp;1 的意思就是将标准错误也输出到标准输出当中。</p>
+<p>下面通过一个例子来展示2&gt;&amp;1有什么作用：</p>
+<p>$ cat test.sh<br>t<br>date<br>test.sh中包含两个命令，其中t是一个不存在的命令，执行会报错，默认情况下，错误会输出到stderr。date则能正确执行，并且输出时间信息，默认输出到stdout</p>
+<p>./test.sh &gt; test1.log<br>./test.sh: line 1: t: command not found</p>
+<p>$ cat test1.log<br>Wed Jul 10 21:12:02 CST 2013</p>
+<p>可以看到，date的执行结果被重定向到log文件中了，而t无法执行的错误则只打印在屏幕上。</p>
+<p>$ ./test.sh &gt; test2.log 2&gt;&amp;1</p>
+<p>$ cat test2.log<br>./test.sh: line 1: t: command not found<br>Tue Oct 9 20:53:44 CST 2007<br>这次，stderr和stdout的内容都被重定向到log文件中了。</p>
+<p>实际上， &gt; 就相当于 1&gt; 也就是重定向标准输出，不包括标准错误。通过2&gt;&amp;1，就将标准错误重定向到标准输出了，那么再使用&gt;重定向就会将标准输出和标准错误信息一同重定向了。如果只想重定向标准错误到文件中，则可以使用2&gt; file。</p>
+<p>linux shell 中”2&gt;&amp;1”含义脚本是：<br>       nohup /mnt/Nand3/H2000G &gt;/dev/null 2&gt;&amp;1 &amp;</p>
+<p>对于&amp;1 更准确的说应该是文件描述符 1，而1 一般代表的就是STDOUT_FILENO,实际上这个操作就是一个dup2(2)调用.他标准输出到all_result ，然后复制标准输出到文件描述符2(STDERR_FILENO)，其后果就是文件描述符1和2指向同一个文件表项,也可以说错误的输出被合并了，其中0 表示键盘输入 1表示屏幕输出 2表示错误输出，把标准出错重定向到标准输出,然后扔到/DEV/NULL下面去。通俗的说，就是把所有标准输出和标准出错都扔到垃圾桶里面。<br>       command &gt;out.file 2&gt;&amp;1 &amp;<br>       command &gt;out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。 2&gt;&amp;1 是将标准出错重定向到标准输出，这里的标准输出已经重定向到了out.file文件，即将标准出错也输出到out.file文件中。最后一个&amp; ， 是让该命令在后台执行。</p>
+<pre><code>试想2&gt;1代表什么，2与&gt;结合代表错误重定向，而1则代表错误重定向到一个文件1，而不代表标准输出；
+</code></pre><p>换成2&gt;&amp;1，&amp;与1结合就代表标准输出了，就变成错误重定向到标准输出.</p>
+<pre><code>你可以用
+      ls 2&gt;1测试一下，不会报没有2文件的错误，但会输出一个空的文件1；
+      ls xxx 2&gt;1测试，没有xxx这个文件的错误输出到了1中；
+      ls xxx 2&gt;&amp;1测试，不会生成1这个文件了，不过错误跑到标准输出了；
+      ls xxx &gt;out.txt 2&gt;&amp;1, 实际上可换成 ls xxx 1&gt;out.txt 2&gt;&amp;1；重定向符号&gt;默认是1,错误和输出都传到out.txt了。
+</code></pre><p>为何2&gt;&amp;1要写在后面？<br>       command &gt; file 2&gt;&amp;1<br>        首先是command &gt; file将标准输出重定向到file中， 2&gt;&amp;1 是标准错误拷贝了标准输出的行为，也就是同样被重定向到file中，最终结果就是标准输出和错误都被重定向到file中。<br>       command 2&gt;&amp;1 &gt;file<br>       2&gt;&amp;1 标准错误拷贝了标准输出的行为，但此时标准输出还是在终端。&gt;file 后输出才被重定向到file，但标准错误仍然保持在终端。</p>
+<p>用strace可以看到： </p>
+<ol>
+<li><p>command &gt; file 2&gt;&amp;1<br>这个命令中实现重定向的关键系统调用序列是：<br>open(file) == 3<br>dup2(3,1)<br>dup2(1,2)</p>
+</li>
+<li><p>command 2&gt;&amp;1 &gt;file<br>这个命令中实现重定向的关键系统调用序列是：<br>dup2(1,2)<br>open(file) == 3<br>dup2(3,1)</p>
+</li>
+</ol>
+<p>可以考虑一下不同的dup2()调用序列会产生怎样的文件共享结构。请参考APUE 3.10, 3.12 </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/05/27/first/" itemprop="url">
                   使用gdk-pixbuf将图像转换成C语言源代码格式
                 </a>
@@ -277,7 +548,7 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cimlmnfy3001yuwwkp1hbi6er"
+                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" rel="gallery_cimp017bx0021vswkr9kqqh2x"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" itemprop="contentUrl"/>
               </a>
@@ -285,7 +556,7 @@
           
             
               <a class="post-gallery-img fancybox"
-                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cimlmnfy3001yuwwkp1hbi6er"
+                 href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" rel="gallery_cimp017bx0021vswkr9kqqh2x"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" itemprop="contentUrl"/>
               </a>
@@ -352,121 +623,11 @@ static const guint8 PIC02[] =
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/06/Scrapy安装/" itemprop="url">
-                  win7(x64)安装scrapy框架
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-06T10:10:21+08:00" content="2015-03-06">
-              2015-03-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>安装:<br>    1.python 2.7  安装版本： python-2.7.5.amd64.msi<br>      <a href="http://www.python.org/downloads/windows/" target="_blank" rel="external">http://www.python.org/downloads/windows/</a><br>      add C:\Python27 and C:\Python27\scripts in your PATH.<br>      检验是否安装成功方法为：win+R运行CMD输入python<br>    2.OpenSSL<br>      <a href="http://slproweb.com/products/Win32OpenSSL.html" target="_blank" rel="external">http://slproweb.com/products/Win32OpenSSL.html</a><br>      add C:\OpenSSL-Win64\bin in your PATH<br>    3.SetupTools<br>      win7 64位必须使用ez_setup.py进行安装。<br>      方法是下载ez_setup.py后，在cmd下执行 python ez_setup.py，即可自动安装setuptools。<br>      win7 32位可以下载setuptools-0.6c11.win32-py2.7.exe<br>    4.pywin32<br>      <a href="https://sourceforge.net/projects/pywin32/files/pywin32/" target="_blank" rel="external">https://sourceforge.net/projects/pywin32/files/pywin32/</a><br>      选择最新的下载<br>    5.pip:Python的包管理工具<br>      可以参考：<a href="http://blog.csdn.net/liuchunming033/article/details/39578019" target="_blank" rel="external">http://blog.csdn.net/liuchunming033/article/details/39578019</a><br>         下载pip的安装包get-pip.py，下载地址：<a href="https://pip.pypa.io/en/latest/installing.html#id7" target="_blank" rel="external">https://pip.pypa.io/en/latest/installing.html#id7</a><br>          python get-pip.py<br>    6.twisted<br>      <a href="https://pypi.python.org/pypi/Twisted" target="_blank" rel="external">https://pypi.python.org/pypi/Twisted</a><br>      Twisted-15.5.0-cp27-none-win_amd64.whl (md5)<br>      运行pip install Twisted-15.5.0-cp27-none-win_amd64.whl 安装<br>    7.zope interface<br>      <a href="https://pypi.python.org/pypi/zope.interface/4.1.0" target="_blank" rel="external">https://pypi.python.org/pypi/zope.interface/4.1.0</a><br>      选择与安装的python对应版本安装<br>    8.lxml<br>      lxml-3.4.4-cp27-none-win_amd64.whl<br>    9.Scrapy<br>      cmd中输入pip install scrapy</p>
-<p>错误处理：<br>    1.unable to find vcvarsall.bat<br>      安装VCForPython27.msi<br>    2.其他安装错误<br>      检查安装版本是否与安装python版本对应，例如如果安装python-win32-2.7，那么应该安装32位对应2.7python</p>
-<p>参考文献：<br>    <a href="http://www.cnblogs.com/zhxhdean/p/3580224.html" target="_blank" rel="external">http://www.cnblogs.com/zhxhdean/p/3580224.html</a><br>    <a href="http://www.cnblogs.com/thinksasa/archive/2013/08/26/3283695.html" target="_blank" rel="external">http://www.cnblogs.com/thinksasa/archive/2013/08/26/3283695.html</a><br>    <a href="http://blog.csdn.net/liuchunming033/article/details/39578019" target="_blank" rel="external">http://blog.csdn.net/liuchunming033/article/details/39578019</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -507,7 +668,7 @@ static const guint8 PIC02[] =
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-count">34</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -515,7 +676,7 @@ static const guint8 PIC02[] =
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -524,7 +685,7 @@ static const guint8 PIC02[] =
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
