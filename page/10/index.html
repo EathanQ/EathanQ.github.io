@@ -214,6 +214,172 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/12/getline/" itemprop="url">
+                  统计字符
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-12T16:26:47+08:00" content="2015-07-12">
+              2015-07-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">Leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>题目描述：<br>        统计一个给定字符串中指定的字符出现的次数。</p>
+<p>输入：<br>        测试输入包含若干测试用例，每个测试用例包含2行，第1行为一个长度不超过5的字符串，第2行为一个长度不超过80的字符串。注意这里的字符串包含空格，即空格也可能是要求被统计的字符之一。当读到’#’时输入结束，相应的结果不要输出。</p>
+<p>输出：<br>        对每个测试用例，统计第1行中字符串的每个字符在第2行字符串中出现的次数，按如下格式输出：<br>        c0 n0<br>        c1 n1<br>        c2 n2<br>        …<br>        其中ci是第1行中第i个字符，ni是ci出现的次数。</p>
+<p>样例输入：</p>
+<pre><code>I
+THIS IS A TEST
+i ng
+this is a long test string
+#
+</code></pre><p>样例输出：</p>
+<pre><code>I 2
+i 3
+  5
+n 2
+g 2
+</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1,l2;</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">    <span class="keyword">int</span> len1,len2;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))     </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(l1 == <span class="string">"#"</span>)  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		getline(<span class="built_in">cin</span>,l2);					<span class="comment">//如果cin&gt;&gt;l2,那么l2的size(),length()不是以字符个数统计的，而是按空格</span></span><br><span class="line">		len1 = l1.size();</span><br><span class="line">		len2 = l2.size();</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len2;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l2[j] == l1[i]) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;l1[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>题目1098：字母统计<br>    题目描述：</p>
+<pre><code>    输入一行字符串，计算其中A-Z大写字母出现的次数
+
+输入：
+
+    案例可能有多组，每个案例输入为一行字符串。
+
+输出：
+
+    对每个案例按A-Z的顺序输出其中大写字母出现的次数。
+
+样例输入：
+
+    DFJEIWFNQLEF0395823048+_+JDLSFJDLSJFKK
+
+样例输出：
+
+    A:0
+    B:0
+    C:0
+    D:3
+    E:2
+    F:5
+    G:0
+    H:0
+    I:1
+    J:4
+    K:2
+    L:3
+    M:0
+    N:1
+    O:0
+    P:0
+    Q:1
+    R:0
+    S:2
+    T:0
+    U:0
+    V:0
+    W:1
+    X:0
+    Y:0
+    Z:0
+</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">char</span> p;</span><br><span class="line">    <span class="keyword">int</span> len1;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))</span><br><span class="line">	&#123;		</span><br><span class="line">		len1 = l1.size();	</span><br><span class="line">	**	<span class="keyword">for</span>(p=<span class="string">'A'</span>;p&lt;=<span class="string">'Z'</span>;p++) **</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len1;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l1[j] == p) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;p&lt;&lt;<span class="string">":"</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/10/quote/" itemprop="url">
                   C++中的引用
                 </a>
@@ -489,150 +655,6 @@ A 　&amp;Ref = b; // 用派生类对象初始化基类对象的引用，与指�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/18/string/" itemprop="url">
-                  字符串A与B
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-18T21:55:05+08:00" content="2015-06-18">
-              2015-06-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载自<br><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.02.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.02.md</a><br>如有侵权，请告知。<br>题目描述</p>
-<p>给定两个分别由字母组成的字符串A和字符串B，字符串B的长度比字符串A短。请问，如何最快地判断字符串B中所有字母是否都在字符串A里？</p>
-<p>为了简单起见，我们规定输入的字符串只包含大写英文字母，请实现函数bool StringContains(string &amp;A, string &amp;B)</p>
-<p>比如，如果是下面两个字符串：</p>
-<p>String 1：ABCD</p>
-<p>String 2：BAD</p>
-<p>答案是true，即String2里的字母在String1里也都有，或者说String2是String1的真子集。</p>
-<p>如果是下面两个字符串：</p>
-<p>String 1：ABCD</p>
-<p>String 2：BCE</p>
-<p>答案是false，因为字符串String2里的E字母不在字符串String1里。</p>
-<p>同时，如果string1：ABCD，string 2：AA，同样返回true。<br>分析与解法</p>
-<p>题目描述虽长，但题意很明了，就是给定一长一短的两个字符串A，B，假设A长B短，要求判断B是否包含在字符串A中。</p>
-<p>初看似乎简单，但实现起来并不轻松，且如果面试官步步紧逼，一个一个否决你能想到的方法，要你给出更好、最好的方案时，恐怕就要伤不少脑筋了。<br>解法一</p>
-<p>判断string2中的字符是否在string1中?最直观也是最简单的思路是，针对string2中每一个字符，逐个与string1中每个字符比较，看它是否在String1中。</p>
-<p>代码可如下编写：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">bool StringContain(<span class="built_in">string</span> &amp;a,<span class="built_in">string</span> &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span><span class="comment">; i &lt; b.length(); ++i) &#123;</span></span><br><span class="line">        <span class="built_in">int</span> j<span class="comment">;</span></span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span><span class="comment">; (j &lt; a.length()) &amp;&amp; (a[j] != b[i]); ++j)</span></span><br><span class="line">            <span class="comment">;</span></span><br><span class="line">        <span class="keyword">if</span> (j &gt;= a.length())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span><span class="comment">;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span><span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>假设n是字符串String1的长度，m是字符串String2的长度，那么此算法，需要O(n*m)次操作。显然，时间开销太大，应该找到一种更好的办法。<br>解法二</p>
-<p>如果允许排序的话，我们可以考虑下排序。比如可先对这两个字符串的字母进行排序，然后再同时对两个字串依次轮询。两个字串的排序需要(常规情况)O(m log m) + O(n log n)次操作，之后的线性扫描需要O(m+n)次操作。</p>
-<p>关于排序方法，可采用最常用的快速排序，参考代码如下：</p>
-<p>//注意A B中可能包含重复字符，所以注意A下标不要轻易移动。这种方法改变了字符串。如不想改变请自己复制<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">StringContain</span><span class="params">(<span class="built_in">string</span> &amp;a,<span class="built_in">string</span> &amp;b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    sort(a.begin(),a.end());</span><br><span class="line">    sort(b.begin(),b.end());</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> pa = <span class="number">0</span>, pb = <span class="number">0</span>; pb &lt; b.length();)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> ((pa &lt; a.length()) &amp;&amp; (a[pa] &lt; b[pb]))</span><br><span class="line">        &#123;</span><br><span class="line">            ++pa;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((pa &gt;= a.length()) || (a[pa] &gt; b[pb]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//a[pa] == b[pb]</span></span><br><span class="line">        ++pb;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>解法三</p>
-<p>有没有比快速排序更好的方法呢？</p>
-<p>我们换一种角度思考本问题：</p>
-<p>假设有一个仅由字母组成字串，让每个字母与一个素数对应，从2开始，往后类推，A对应2，B对应3，C对应5，……。遍历第一个字串，把每个字母对应素数相乘。最终会得到一个整数。</p>
-<p>利用上面字母和素数的对应关系，对应第二个字符串中的字母，然后轮询，用每个字母对应的素数除前面得到的整数。如果结果有余数，说明结果为false。如果整个过程中没有余数，则说明第二个字符串是第一个的子集了（判断是不是真子集，可以比较两个字符串对应的素数乘积，若相等则不是真子集）。</p>
-<p>思路总结如下：</p>
-<pre><code>按照从小到大的顺序，用26个素数分别与字符&apos;A&apos;到&apos;Z&apos;一一对应。
-遍历长字符串，求得每个字符对应素数的乘积。
-遍历短字符串，判断乘积能否被短字符串中的字符对应的素数整除。
-输出结果。
-</code></pre><p>如前所述，算法的时间复杂度为O(m+n)的最好的情况为O(n)（遍历短的字符串的第一个数，与长字符串素数的乘积相除，即出现余数，便可退出程序，返回false），n为长字串的长度，空间复杂度为O(1)。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此方法只有理论意义，因为整数乘积很大，有溢出风险</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">StringContain</span><span class="params">(<span class="built_in">string</span> &amp;a,<span class="built_in">string</span> &amp;b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span> p[<span class="number">26</span>] = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>, <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>,<span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>, <span class="number">101</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> x = p[a[i] - <span class="string">'A'</span>];</span><br><span class="line">        <span class="keyword">if</span> (f % x)</span><br><span class="line">        &#123;</span><br><span class="line">            f *= x;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; b.length(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> x = p[b[i] - <span class="string">'A'</span>];</span><br><span class="line">        <span class="keyword">if</span> (f % x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>此种素数相乘的方法看似完美，但缺点是素数相乘的结果容易导致整数溢出。<br>解法四</p>
-<p>如果面试官继续追问，还有没有更好的办法呢？计数排序？除了计数排序呢？</p>
-<p>事实上，可以先把长字符串a中的所有字符都放入一个Hashtable里，然后轮询短字符串b，看短字符串b的每个字符是否都在Hashtable里，如果都存在，说明长字符串a包含短字符串b，否则，说明不包含。</p>
-<p>再进一步，我们可以对字符串A，用位运算（26bit整数表示)计算出一个“签名”，再用B中的字符到A里面进行查找。</p>
-<p>// “最好的方法”，时间复杂度O(n + m)，空间复杂度O(1)<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">StringContain</span><span class="params">(<span class="built_in">string</span> &amp;a,<span class="built_in">string</span> &amp;b)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hash = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        hash |= (<span class="number">1</span> &lt;&lt; (a[i] - <span class="string">'A'</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; b.length(); ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ((hash &amp; (<span class="number">1</span> &lt;&lt; (b[i] - <span class="string">'A'</span>))) == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法的实质是用一个整数代替了hashtable，空间复杂度为O(1)，时间复杂度还是O(n + m)。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -678,7 +700,7 @@ A 　&amp;Ref = b; // 用派生类对象初始化基类对象的引用，与指�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -686,7 +708,7 @@ A 　&amp;Ref = b; // 用派生类对象初始化基类对象的引用，与指�
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -695,7 +717,7 @@ A 　&amp;Ref = b; // 用派生类对象初始化基类对象的引用，与指�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

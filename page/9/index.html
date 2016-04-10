@@ -214,6 +214,120 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/18/grub/" itemprop="url">
+                  Ubuntu与WIn7双系统开机找不到Grub修复
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-18T08:57:02+08:00" content="2015-07-18">
+              2015-07-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>有时候装了双系统之后，开机会出现：<br>“error:file’/boot/grub/i386-pc/normal.mod’not found”<br>这样的错误，修复方法如下。<br>1.输入：ls<br>    会显示类似如下信息：<br>        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..<br>2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls (hd0,msdos14)/boot/grub<br>        直到出现的不是error:unknown filesystem为止。<br>        表示找到了grub.cfg文件<br>3.依次输入：</p>
+<pre><code>&gt;set root=(hd0,msdos12)/grub                //假设输入 ls (hd0,msdos12)/grub之后找到cfg文件
+&gt;set prefix=(hd0,msdos12)/grub
+&gt;insmod normal
+&gt;normal
+
+OK了！！
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/16/C/" itemprop="url">
                   C++笔记
                 </a>
@@ -443,172 +557,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/12/getline/" itemprop="url">
-                  统计字符
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-12T16:26:47+08:00" content="2015-07-12">
-              2015-07-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>题目描述：<br>        统计一个给定字符串中指定的字符出现的次数。</p>
-<p>输入：<br>        测试输入包含若干测试用例，每个测试用例包含2行，第1行为一个长度不超过5的字符串，第2行为一个长度不超过80的字符串。注意这里的字符串包含空格，即空格也可能是要求被统计的字符之一。当读到’#’时输入结束，相应的结果不要输出。</p>
-<p>输出：<br>        对每个测试用例，统计第1行中字符串的每个字符在第2行字符串中出现的次数，按如下格式输出：<br>        c0 n0<br>        c1 n1<br>        c2 n2<br>        …<br>        其中ci是第1行中第i个字符，ni是ci出现的次数。</p>
-<p>样例输入：</p>
-<pre><code>I
-THIS IS A TEST
-i ng
-this is a long test string
-#
-</code></pre><p>样例输出：</p>
-<pre><code>I 2
-i 3
-  5
-n 2
-g 2
-</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1,l2;</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">    <span class="keyword">int</span> len1,len2;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))     </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(l1 == <span class="string">"#"</span>)  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		getline(<span class="built_in">cin</span>,l2);					<span class="comment">//如果cin&gt;&gt;l2,那么l2的size(),length()不是以字符个数统计的，而是按空格</span></span><br><span class="line">		len1 = l1.size();</span><br><span class="line">		len2 = l2.size();</span><br><span class="line">		<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len1;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len2;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l2[j] == l1[i]) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;l1[i]&lt;&lt;<span class="string">" "</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>题目1098：字母统计<br>    题目描述：</p>
-<pre><code>    输入一行字符串，计算其中A-Z大写字母出现的次数
-
-输入：
-
-    案例可能有多组，每个案例输入为一行字符串。
-
-输出：
-
-    对每个案例按A-Z的顺序输出其中大写字母出现的次数。
-
-样例输入：
-
-    DFJEIWFNQLEF0395823048+_+JDLSFJDLSJFKK
-
-样例输出：
-
-    A:0
-    B:0
-    C:0
-    D:3
-    E:2
-    F:5
-    G:0
-    H:0
-    I:1
-    J:4
-    K:2
-    L:3
-    M:0
-    N:1
-    O:0
-    P:0
-    Q:1
-    R:0
-    S:2
-    T:0
-    U:0
-    V:0
-    W:1
-    X:0
-    Y:0
-    Z:0
-</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> l1;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">char</span> p;</span><br><span class="line">    <span class="keyword">int</span> len1;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(getline(<span class="built_in">cin</span>,l1))</span><br><span class="line">	&#123;		</span><br><span class="line">		len1 = l1.size();	</span><br><span class="line">	**	<span class="keyword">for</span>(p=<span class="string">'A'</span>;p&lt;=<span class="string">'Z'</span>;p++) **</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;len1;j++)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(l1[j] == p) count+=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;p&lt;&lt;<span class="string">":"</span>&lt;&lt;count&lt;&lt;endl;</span><br><span class="line">			count=<span class="number">0</span>; </span><br><span class="line">		&#125;	</span><br><span class="line">			</span><br><span class="line">	&#125;		</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -654,7 +602,7 @@ g 2
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -662,7 +610,7 @@ g 2
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -671,7 +619,7 @@ g 2
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

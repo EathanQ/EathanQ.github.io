@@ -214,6 +214,122 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/22/滑雪问题/" itemprop="url">
+                  DP-滑雪问题-网易
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-22T22:36:21+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>2016网易实习生招聘笔试编程第一题<br>动态规划掌握不够好，挂了这题。</p>
+<p>Michael喜欢滑雪百这并不奇怪，因为滑雪的确很刺激。可是为了获得速度，滑的区域必须向下倾斜，而且当你滑到坡底，<br>你不得不再次走上坡或者等待升降机来载你。Michael想知道载一个区域中最长底滑坡。<br>区域由一个二维数组给出。数组的每个数字代表点的高度。下面是一个例子<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>  <span class="number">4</span> <span class="number">5</span></span><br><span class="line"><span class="number">16</span> <span class="number">17</span> <span class="number">18</span> <span class="number">19</span> <span class="number">6</span></span><br><span class="line"><span class="number">15</span> <span class="number">24</span> <span class="number">25</span> <span class="number">20</span> <span class="number">7</span></span><br><span class="line"><span class="number">14</span> <span class="number">23</span> <span class="number">22</span> <span class="number">21</span> <span class="number">8</span></span><br><span class="line"><span class="number">13</span> <span class="number">12</span> <span class="number">11</span> <span class="number">10</span> <span class="number">9</span></span><br></pre></td></tr></table></figure></p>
+<p>一个人可以从某个点滑向上下左右相邻四个点之一，当且仅当高度减小。在上面的例子中，一条可滑行的滑坡为24-17-16-1。<br>当然25-24-23-…-3-2-1更长。事实上，这是最长的一条。</p>
+<p>思路：题目意思其实很简单，给出一个二维数组，在其中找出一个点，是它能找到一条高度依次下降的路径并使得这条路径最长。<br>      利用动态规划的变形<br>      求解从每个点出发的最长路径长度，<br>      求解从每一个出发点最长路径过程就是一个不断求最优解的过程。<br>      关键就是理解动态规划和递归的关系！<br>摘自算法导论:</p>
+<blockquote>
+<p>通常按如下4个步骤设计一个动态规划算法<br>1.刻画一个最优解的结构特征<br>2.递归地定义最优解的值            –重点理解<br>3.计算最优解的值，通常采用自底向上的方法<br>4.利用计算出的信息构造一个最优解</p>
+</blockquote>
+<p>在这题中，一个点的最大高度等于周围点即上下左右点最大高度加1。需要注意各种判断条件。</p>
+<p>代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"><span class="keyword">int</span> data[<span class="number">102</span>][<span class="number">102</span>], longest[<span class="number">102</span>][<span class="number">102</span>];  </span><br><span class="line"><span class="keyword">int</span> m,n;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cal</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> max = <span class="number">0</span>;<span class="comment">//保存周围节点的最大长度，最优子问题的变形;  </span></span><br><span class="line">    <span class="keyword">if</span> (longest[i][j] &gt; <span class="number">0</span>)   </span><br><span class="line">        <span class="keyword">return</span> longest[i][j];  </span><br><span class="line">    <span class="keyword">if</span> ( i-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; data[i][j]&gt;data[i-<span class="number">1</span>][j] &amp;&amp; max&lt;cal(i-<span class="number">1</span>,j))   </span><br><span class="line">        max = cal(i-<span class="number">1</span>,j);  </span><br><span class="line">    <span class="keyword">if</span> ( j-<span class="number">1</span>&gt;=<span class="number">0</span> &amp;&amp; data[i][j]&gt;data[i][j-<span class="number">1</span>] &amp;&amp; max&lt;cal(i,j-<span class="number">1</span>))  </span><br><span class="line">        max = cal(i,j-<span class="number">1</span>);  </span><br><span class="line">    <span class="keyword">if</span>( i+<span class="number">1</span>&lt;m &amp;&amp; data[i][j]&gt;data[i+<span class="number">1</span>][j] &amp;&amp; max&lt;cal(i+<span class="number">1</span>,j))  </span><br><span class="line">        max = cal(i+<span class="number">1</span>,j);  </span><br><span class="line">    <span class="keyword">if</span>( j+<span class="number">1</span>&lt;n &amp;&amp; data[i][j]&gt;data[i][j+<span class="number">1</span>] &amp;&amp; max&lt;cal(i,j+<span class="number">1</span>))  </span><br><span class="line">        max = cal(i,j+<span class="number">1</span>);  </span><br><span class="line">    <span class="keyword">return</span> longest[i][j] = max+<span class="number">1</span>;   </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> i,j;  </span><br><span class="line">    <span class="keyword">int</span> maxway = <span class="number">0</span>;  </span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;m&gt;&gt;n;  </span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;m; i++)  </span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;n; j++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;data[i][j];  </span><br><span class="line">            longest[i][j] = <span class="number">0</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;m; i++)  </span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;n; j++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            longest[i][j] = cal(i,j);  </span><br><span class="line">            <span class="keyword">if</span>(maxway&lt;longest[i][j])  </span><br><span class="line">                maxway = longest[i][j];  </span><br><span class="line">        &#125;  </span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;maxway&lt;&lt;endl;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/22/纯虚函数与抽象类/" itemprop="url">
                   纯虚函数与抽象类
                 </a>
@@ -393,118 +509,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/15/c++多态性与隐藏规则/" itemprop="url">
-                  C++中奇怪的隐藏
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-15T23:19:21+08:00" content="2016-03-15">
-              2016-03-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="u91CD_u8F7D"><a href="#u91CD_u8F7D" class="headerlink" title="重载"></a>重载</h1><p>相同的范围（在同一个类中）<br>函数名字相同<br>参数不同<br>virtual 关键字可有可无</p>
-<h1 id="u8986_u76D6_28_u6D3E_u751F_u7C7B_u51FD_u6570_u8986_u76D6_u57FA_u7C7B_u51FD_u6570_29"><a href="#u8986_u76D6_28_u6D3E_u751F_u7C7B_u51FD_u6570_u8986_u76D6_u57FA_u7C7B_u51FD_u6570_29" class="headerlink" title="覆盖(派生类函数覆盖基类函数)"></a>覆盖(派生类函数覆盖基类函数)</h1><p>不同的范围(分别位于派生类与基类)<br>函数名字相同<br>参数相同<br>基类函数必须有virtual关键字</p>
-<h1 id="u9690_u85CF"><a href="#u9690_u85CF" class="headerlink" title="隐藏"></a>隐藏</h1><p>(派生类的函数屏蔽了与其同名的基类函数)<br>如果派生类的函数与基类的函数同名，但是参数不同。此时，不论有无 virtual 关键字，基类的函数将被隐藏(注意别与重载混淆,区别在于隐藏作用于不同域)<br>如果派生类的函数与基类的函数同名，并且参数也相同，但是基类函数没有 virtual关键字。此时，基类的函数被隐藏(注意别与覆盖混淆，在于有无virtual)</p>
-<p>多态性可以简单地概括为“一个接口，多种方法”，程序在运行时才决定调用的函数，它是面向对象编程领域的核心概念。<br>1、多态性<br>指相同对象收到不同消息或不同对象收到相同消息时产生不同的实现动作。C++支持两种多态性：编译时多态性，运行时多态性。<br>a、编译时多态性：通过重载函数实现<br>b、运行时多态性：通过虚函数实现。<br>2、虚函数<br>虚函数是在基类中被声明为virtual，并在派生类中重新定义的成员函数，可实现成员函数的动态覆盖（Override）<br>3、抽象类<br>包含纯虚函数的类称为抽象类。由于抽象类包含了没有定义的纯虚函数，所以不能定义抽象类的对象。</p>
-<p>多态(polymorphism)，字面意思多种形状。C++多态性是通过虚函数来实现的，虚函数允许子类重新定义成员函数，<br>而子类重新定义父类的做法称为覆盖(override)，或者称为重写。（这里我觉得要补充，重写的话可以有两种，直接重写成员函数和重写虚函数，<br>只有重写了虚函数的才能算作是体现了C++多态性）而重载则是允许有多个同名的函数，而这些函数的参数列表不同，允许参数个数不同，参数类型不同，<br>或者两者都不同。编译器会根据这些函数的不同列表，将同名的函数的名称做修饰，从而生成一些不同名称的预处理函数，来实现同名函数调用时的重载<br>问题。但这并没有体现多态性。<br>多态与非多态的实质区别就是函数地址是早绑定还是晚绑定。如果函数的调用，在编译器编译期间就可以确定函数的调用地址，并生产代码，是静态的，<br>就是说地址是早绑定的。而如果函数调用的地址不能在编译器期间确定，需要在运行时才确定，这就属于晚绑定。<br>那么多态的作用是什么呢，封装可以使得代码模块化，继承可以扩展已存在的代码，他们的目的都是为了代码重用。<br>而多态的目的则是为了接口重用。也就是说，不论传递过来的究竟是那个类的对象，函数都能够通过同一个接口调用到适应各自对象的实现方法。<br>最常见的用法就是声明基类的指针，利用该指针指向任意一个子类对象，调用相应的虚函数，可以根据指向的子类的不同而实现不同的方法。<br>如果没有使用虚函数的话，即没有利用C++多态性，则利用基类指针调用相应的函数的时候，将总被限制在基类函数本身，而无法调用到子类中被<br>重写过的函数。因为没有多态性，函数调用的地址将是一定的，而固定的地址将始终调用到同一个函数，这就无法实现一个接口，多种方法的目的了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -550,7 +554,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -558,7 +562,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -567,7 +571,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

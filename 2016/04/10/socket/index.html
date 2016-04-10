@@ -1,0 +1,747 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linix socket," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="IPV4套接字地址结构  大多数套接字函数需要一个指向套接字地址结构的指针作为参数。struct in_addr{    in_addr_t s_addr;      //32-bit IPV4 地址};                         //网络字节顺序
+struct sockaddr_in{    uint8_t          sin_len;    sa_family_t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux下socket基础">
+<meta property="og:url" content="http://yoursite.com/2016/04/10/socket/index.html">
+<meta property="og:site_name" content="代码小书童">
+<meta property="og:description" content="IPV4套接字地址结构  大多数套接字函数需要一个指向套接字地址结构的指针作为参数。struct in_addr{    in_addr_t s_addr;      //32-bit IPV4 地址};                         //网络字节顺序
+struct sockaddr_in{    uint8_t          sin_len;    sa_family_t">
+<meta property="og:image" content="http://yoursite.com/img/socket编程流程.png">
+<meta property="og:image" content="http://yoursite.com/img/listen.png">
+<meta property="og:updated_time" content="2016-04-10T06:55:54.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux下socket基础">
+<meta name="twitter:description" content="IPV4套接字地址结构  大多数套接字函数需要一个指向套接字地址结构的指针作为参数。struct in_addr{    in_addr_t s_addr;      //32-bit IPV4 地址};                         //网络字节顺序
+struct sockaddr_in{    uint8_t          sin_len;    sa_family_t">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Linux下socket基础 | 代码小书童 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">代码小书童</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux下socket基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-10T14:55:54+08:00" content="2016-04-10">
+              2016-04-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Socket/" itemprop="url" rel="index">
+                    <span itemprop="name">Socket</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="IPV4_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><a href="#IPV4_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784" class="headerlink" title="IPV4套接字地址结构"></a>IPV4套接字地址结构</h1><p>  大多数套接字函数需要一个指向套接字地址结构的指针作为参数。<br>struct in_addr{<br>    in_addr_t s_addr;      //32-bit IPV4 地址<br>};                         //网络字节顺序</p>
+<p>struct sockaddr_in{<br>    uint8_t          sin_len;<br>    sa_family_t      sin_family;   /<em>AF_INET</em>/<br>    in_port_t        sin_port;     //16-bit tcp或udp端口号，网络字节顺序<br>    struct in_addr   sin_addr;     //32-bit 的IPV4地址，网络字节顺序<br>    char             sin_zero[8];  //未使用<br>};</p>
+<h1 id="u901A_u7528_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><a href="#u901A_u7528_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784" class="headerlink" title="通用套接字地址结构"></a>通用套接字地址结构</h1><p>struct sockaddr{<br>    uint8_t          sa_len;<br>    sa_family_t      sa_family;    /<em>address family : AF_xxx value</em>/<br>    char             sa_data[14];  //protocol-specific address<br>};</p>
+<h1 id="socket_u51FD_u6570"><a href="#socket_u51FD_u6570" class="headerlink" title="socket函数"></a>socket函数</h1><p>  为了执行网络I/O，一个进程必须做的第一件事情就是调用socket函数，指定期望的通信协议类型。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> family , <span class="keyword">int</span> type , <span class="keyword">int</span> protocol)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为非负描述符，否则为-1</span></span><br></pre></td></tr></table></figure></p>
+<p>family参数指名协议族或叫做协议域，值可以为：<br>AF_INET             IPV4协议<br>AF_INET6            IPV6协议<br>AF_ROUTE            路由套接字</p>
+<p>type参数指名套接字类型，值可以为：<br>SOCK_STREAM         字节流套接字<br>SOCK_DGRAM          数据报套接字<br>SOCK_SEQPACKET      有序分组套接字<br>SOCK_RAW            原始套接字</p>
+<p>protocol参数设置为0选择给定的family和type组合的系统默认值。</p>
+<p><img src="/img/socket编程流程.png" alt="socket"></p>
+<h1 id="connect_u51FD_u6570"><a href="#connect_u51FD_u6570" class="headerlink" title="connect函数"></a>connect函数</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd , con <span class="keyword">struct</span> sockaddr *servaddr , socklen_t addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure>
+<p>sockfd是由socket函数返回的套接字描述符，第二个与第三个参数分别是一个指向套接字地址接构的指针与该结构的大小。<br>客户在调用connect前不必非得调用bind函数，因为如果需要的话，内核会确定源ip地址，并选定一个临时端口作为源端口。<br>调用connect将激发TCP三次握手过程。</p>
+<h1 id="bind_u51FD_u6570"><a href="#bind_u51FD_u6570" class="headerlink" title="bind函数"></a>bind函数</h1><p>bind函数把一个本地协议地址赋予一个套接字。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *myaddr , socklen_t addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
+<p>第二个参数是一个指向特定于协议的地址结构的指针，第三个参数是该地址结构的长度。对于TCP，调用bind函数可以指定一个端口号，<br>或指定一个IP地址，也可以两者都指定。</p>
+<h1 id="listen_u51FD_u6570"><a href="#listen_u51FD_u6570" class="headerlink" title="listen函数"></a>listen函数</h1><p>listen函数仅由TCP服务器调用，它做两件事情：<br>1)listen函数把一个未连接的套接字转换成一个被动套接字，指示内核应接受指向该套接字的连接请求。调用listen导致套接字从CLOSED状态转换到LISTEN状态。<br>2)规定了内核应该为相应套接字排队的最大连接个数。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">int</span> backlog)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/listen.png" alt="listen"></p>
+<p>内核为任何一个给定的监听套接字维护两个队列：<br>(1)未完成连接队列：已由某个客户发出并到达服务器，而服务器正在等待完成相应的TCP三次握手过程，套接字处于SYN_RCVD状态。<br>(2)已完成连接队列：每个已完成TCP三次握手的客户对应其中一项，这些套接字处于ESTABLISHED状态<br>两队列之和不超过backlog。</p>
+<h1 id="accept_u51FD_u6570"><a href="#accept_u51FD_u6570" class="headerlink" title="accept函数"></a>accept函数</h1><p>accept函数由TCP服务器调用，用于从已完成连接队列队头返回下一个已完成连接，如果已完成连接队列为空，那么进程被投入睡眠。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr * sliaddr, socklen_t * addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为非负描述符，出错为-1</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="fork_u4E0Eexec_u51FD_u6570"><a href="#fork_u4E0Eexec_u51FD_u6570" class="headerlink" title="fork与exec函数"></a>fork与exec函数</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="keyword">pid_t</span> fork(<span class="keyword">void</span>);</span><br><span class="line"><span class="comment">//返回：在子进程中为0。在父进程中为子进程ID。出错为-1</span></span><br></pre></td></tr></table></figure>
+<p>fork在子进程返回0而不是父进程的进程ID原因：任何子进程只有一个父进程，而子进程总是可以通过getppid取得父进程的进程ID，<br>相反，父进程可以有许多子进程，而且无法获取各个子进程的进程ID，如果父进程想跟踪子进程的进程ID，就必须记录每次调用fork的返回值。<br>fork的两种典型用法:<br>    (1)一个进程创建自身的一个副本，这样每个副本可以在另一个副本执行其他任务同时处理各自操作，这是网络服务器典型用法<br>    (2) 一个进程想要执行另一个程序，于是首先调用fork创建一个自身副本，然后副本调用exec把副本自身替换为新的程序。这是shell之类程序的典型用法。</p>
+<h1 id="close_u51FD_u6570"><a href="#close_u51FD_u6570" class="headerlink" title="close函数"></a>close函数</h1><p>用来关闭套接字，并终止TCP连接<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> sockfd)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="getcoskname_u548Cgetpeername_u51FD_u6570"><a href="#getcoskname_u548Cgetpeername_u51FD_u6570" class="headerlink" title="getcoskname和getpeername函数"></a>getcoskname和getpeername函数</h1><p>getsockname返回与某个套接字相关联的本地协议地址<br>getpeername返回与某个套接字相关联的外地协议地址<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getsockname</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr *localaddr , socklen_t *adrlen)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getpeername</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr *peeraddr  , socklen_t *adrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
+<p>这两个函数装填由localaddr和peeraddr指向的套接字地址结构。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linix-socket/" rel="tag">#Linix socket</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/06/string类的编写/" rel="next" title="从头编写String类">
+                <i class="fa fa-chevron-left"></i> 从头编写String类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="EATHAN" />
+          <p class="site-author-name" itemprop="name">EATHAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2017971021/profile?topnav=1&wvr=6" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://braverichard.sinaapp.com/" target="_blank">Brave</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IPV4_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><span class="nav-number">1.</span> <span class="nav-text">IPV4套接字地址结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u901A_u7528_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><span class="nav-number">2.</span> <span class="nav-text">通用套接字地址结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#socket_u51FD_u6570"><span class="nav-number">3.</span> <span class="nav-text">socket函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#connect_u51FD_u6570"><span class="nav-number">4.</span> <span class="nav-text">connect函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bind_u51FD_u6570"><span class="nav-number">5.</span> <span class="nav-text">bind函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#listen_u51FD_u6570"><span class="nav-number">6.</span> <span class="nav-text">listen函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#accept_u51FD_u6570"><span class="nav-number">7.</span> <span class="nav-text">accept函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fork_u4E0Eexec_u51FD_u6570"><span class="nav-number">8.</span> <span class="nav-text">fork与exec函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#close_u51FD_u6570"><span class="nav-number">9.</span> <span class="nav-text">close函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#getcoskname_u548Cgetpeername_u51FD_u6570"><span class="nav-number">10.</span> <span class="nav-text">getcoskname和getpeername函数</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EATHAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -214,6 +214,137 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/03/python/" itemprop="url">
+                  Python报错：'str' is not callable
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-03T10:10:21+08:00" content="2016-03-03">
+              2016-03-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>新浪微博python的SDK中调用authorize_url,提示‘str’ is not callbale<br>将weibo.py中</p>
+<pre><code>
+    @property
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
+
+</code></pre>
+改为
+<pre><code>
+    #@property                       修改处
+    def authorize_url(self):
+        params = {
+            'client_id': self.client_id,
+            'redirect_uri': self.redirect_uri
+        }
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
+
+</code></pre>
+
+<p>原因：<br>    待更新</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/01/QT中文相关问题/" itemprop="url">
                   QT程序中中文显示乱码问题
                 </a>
@@ -404,120 +535,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/18/grub/" itemprop="url">
-                  Ubuntu与WIn7双系统开机找不到Grub修复
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-18T08:57:02+08:00" content="2015-07-18">
-              2015-07-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>有时候装了双系统之后，开机会出现：<br>“error:file’/boot/grub/i386-pc/normal.mod’not found”<br>这样的错误，修复方法如下。<br>1.输入：ls<br>    会显示类似如下信息：<br>        (hd0) (hd0,msdos14) (hd0,msdos13) (hd0,msdos12) …..<br>2.输入: ls (hd0,msdos14)/grub 有的需要输入：ls (hd0,msdos14)/boot/grub<br>        直到出现的不是error:unknown filesystem为止。<br>        表示找到了grub.cfg文件<br>3.依次输入：</p>
-<pre><code>&gt;set root=(hd0,msdos12)/grub                //假设输入 ls (hd0,msdos12)/grub之后找到cfg文件
-&gt;set prefix=(hd0,msdos12)/grub
-&gt;insmod normal
-&gt;normal
-
-OK了！！
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -563,7 +580,7 @@ OK了！！
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -571,7 +588,7 @@ OK了！！
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -580,7 +597,7 @@ OK了！！
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
