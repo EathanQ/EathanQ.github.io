@@ -1,0 +1,826 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Inner Peace" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="TCP/IP协议(族)应用层
+传输层   TCP UDP 
+网络层   IP ICMP IGMP
+链路层   设备驱动程序  以太网协议
+路由器为不同类型的物理网络提供连接：以太网、令牌环网
+五类ip地址
+A    0.0.0.0      ~   127.255.255.255   前1字节网络号
+B    128.0.0.0    ~   191.255.255.255   前2字节网络号
+C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP/IP协议族">
+<meta property="og:url" content="http://yoursite.com/2016/07/29/TCP/index.html">
+<meta property="og:site_name" content="代码小书童">
+<meta property="og:description" content="TCP/IP协议(族)应用层
+传输层   TCP UDP 
+网络层   IP ICMP IGMP
+链路层   设备驱动程序  以太网协议
+路由器为不同类型的物理网络提供连接：以太网、令牌环网
+五类ip地址
+A    0.0.0.0      ~   127.255.255.255   前1字节网络号
+B    128.0.0.0    ~   191.255.255.255   前2字节网络号
+C">
+<meta property="og:updated_time" content="2016-07-29T14:49:14.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP/IP协议族">
+<meta name="twitter:description" content="TCP/IP协议(族)应用层
+传输层   TCP UDP 
+网络层   IP ICMP IGMP
+链路层   设备驱动程序  以太网协议
+路由器为不同类型的物理网络提供连接：以太网、令牌环网
+五类ip地址
+A    0.0.0.0      ~   127.255.255.255   前1字节网络号
+B    128.0.0.0    ~   191.255.255.255   前2字节网络号
+C">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TCP/IP协议族 | 代码小书童 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">代码小书童</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TCP/IP协议族
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T22:49:14+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="TCP/IP_u534F_u8BAE_28_u65CF_29"><a href="#TCP/IP_u534F_u8BAE_28_u65CF_29" class="headerlink" title="TCP/IP协议(族)"></a>TCP/IP协议(族)</h1><pre><code>应用层
+传输层   TCP UDP 
+网络层   IP ICMP IGMP
+链路层   设备驱动程序  以太网协议
+</code></pre><p>路由器为不同类型的物理网络提供连接：以太网、令牌环网</p>
+<p>五类ip地址</p>
+<pre><code>A    0.0.0.0      ~   127.255.255.255   前1字节网络号
+B    128.0.0.0    ~   191.255.255.255   前2字节网络号
+C    192.0.0.0    ~   223.255.255.255   前3字节网络号
+D    224.0.0.0    ~   239.255.255.255
+E    240.0.0.0    ~   255.255.255.255
+</code></pre><hr>
+<h2 id="u94FE_u8DEF_u5C42"><a href="#u94FE_u8DEF_u5C42" class="headerlink" title="链路层"></a>链路层</h2><ol>
+<li>为ip模块发送和接收数据报</li>
+<li>为ARP模块发送ARP请求和接收ARP应答</li>
+<li>为RARP发送RARP请求和接收RARP应答</li>
+</ol>
+<hr>
+<h2 id="ip_u7F51_u9645_u534F_u8BAE"><a href="#ip_u7F51_u9645_u534F_u8BAE" class="headerlink" title="ip网际协议"></a>ip网际协议</h2><p>不可靠： 不能保证ip数据报能成功地到达目的地<br>无连接： ip数据报可以不按发送顺序接收</p>
+<p><strong>以big endian字节序传输</strong>，即先传高地址再传低地址，也称网络字节序。以其他形式存储二进制整数的机器，必须在传输数据之前把数据转换成网络字节序。</p>
+<p>路由表表项：</p>
+<pre><code>目的IP地址 
+下一站路由器IP地址
+标志
+</code></pre><p>IP路由选择过程：</p>
+<pre><code>搜索路由表,寻找能与*目的地IP完全区配*的表目
+搜索路由表，寻找能与*目的网络号*相区配的表目
+搜索路由表，寻找标为默认的路由
+</code></pre><p>由于B类地址主机数太多，将B类地址中留给主机的16bit中的前8bit作为子网地址，后8bit作为主机号。这样做的好处是减少了路由表的规模。</p>
+<p>子网掩码确定多少比特用于子网号以及多少比特用于主机号。</p>
+<p>子网掩码为32bit，其中值为1的比特留给网络号和子网号，值为0的比特留给主机号。<br>主机号全为1的为广播地址。</p>
+<h2 id="ARP__u4E0E_RARP"><a href="#ARP__u4E0E_RARP" class="headerlink" title="ARP 与 RARP"></a>ARP 与 RARP</h2><p>当一台主机把以太网数据帧发送到另一台主机时，是根据48bit的以太网地址来确定目的接口。</p>
+<p>ARP 为IP地址到对应的硬件地址之间提供动态映射。<br>RARP为硬件地址到IP地址提供映射</p>
+<p><strong>ARP过程：</strong></p>
+<p>  1.每个主机都会在自己的ARP缓冲区建立一个ARP列表，以表示IP地址和MAC地址之间的对应关系。</p>
+<p>  2.当源主机要发送数据时，首先检查ARP列表中是否有对应IP地址的目的主机的MAC地址，如果有，则直接发送数据。 如果没有，就向本网段的所有主机发送ARP数据包，该数据包包括：源主机IP地址，源主机MAC地址，目的主机IP地址</p>
+<p>  3.当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包如果是，则首先从数据包中取出源主机的IP和MAC地址写入ARP列表中，如果已存在则覆盖，然后将自己的MAC地下写入ARP响应包中，告诉源主机自己是它要找的MAC地址。</p>
+<p>  4.源主机收到ARP响应后，将目的地主的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败</p>
+<p>  广播发送ARP请求，单播发送ARP响应</p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p><strong>面向连接的，可靠的字节流服务</strong></p>
+<p>面向连接意味着两个使用TCP的应用在交换数据前必须先建立一个TCP连接；</p>
+<p>TCP通过以下方式提供可靠性：</p>
+<ol>
+<li>应用数据被分割成TCP认为最适合发送的数据块，与UDP不同(UDP很容易造成IP分片)</li>
+<li>TCP发出一个报文后，将启动一个定时器。</li>
+<li>当TCP收到一个报文后，将发送一个确认。</li>
+<li>TCP保持首部和数据的校验和，目的是检测数据在传输过程中的变化，这是一个端到端的检测，如果收到报文的校验有差错，将丢弃该报文和不确认收到该报文。</li>
+<li>TCP对收到的报文重新排序，且丢弃重复报文。</li>
+<li>TCP提供流量控制。</li>
+</ol>
+<h3 id="TCP_u8FDE_u63A5_u5EFA_u7ACB_u4E0E_u7EC8_u6B62"><a href="#TCP_u8FDE_u63A5_u5EFA_u7ACB_u4E0E_u7EC8_u6B62" class="headerlink" title="TCP连接建立与终止"></a>TCP连接建立与终止</h3><p>三次握手、四次挥手</p>
+<p>一个TCP连接由一个4元组确定：本地IP地址，本地端口号、远端IP地址、远端端口号</p>
+<p>连接时状态变化：</p>
+<ul>
+<li>主动端：SYN_SENT  -&gt;  ESTABLISHED</li>
+<li>被动端：SYN_RCVD  -&gt;  ESTABLISHED</li>
+</ul>
+<p>终止时状态变化：</p>
+<ul>
+<li>主动端：FIN_WAIT1  -&gt;  FIN_WAIT2  -&gt; TIME_WIAT</li>
+<li>被动端：CLOSE_WAIT -&gt;  LAST_ACK   -&gt; CLOSED</li>
+</ul>
+<p>2MSL等待状态：<br>MSL是报文段最大生存时间。<br>当TCP执行主动关闭，并发送最后一个ACK，该连接必须在TIME_WAIT状态停留的时间为2倍的MSL。</p>
+<p>2MSL等待状态存在理由：让4次挥手关闭流程更可靠：4次挥手的最后一个ACK是主动关闭方发送的，若这个ACK丢失，被动关闭方会再次发送FIN过来。若主动关闭方维持一个2MSL和TIME_WAIT状态，有更大机会让ACK再次发送。</p>
+<p>2MSL状态下的表现：<br>在此状态下，不能使用此端口。对服务器端有影响。</p>
+<p>其他问题：</p>
+<ul>
+<li>防止FIN_WAIT_2状态的无限等待</li>
+<li>防止由于客户机非正常关闭造成的服务器端存在许多半打开TCP连接</li>
+</ul>
+<h3 id="TCP_u4EA4_u4E92_u6570_u636E_u6D41_u7684Nagle_u7B97_u6CD5"><a href="#TCP_u4EA4_u4E92_u6570_u636E_u6D41_u7684Nagle_u7B97_u6CD5" class="headerlink" title="TCP交互数据流的Nagle算法"></a>TCP交互数据流的Nagle算法</h3><p>交互数据通常需要服务器端进行回显。因此客户端一般每次发送一个字节到服务器，在广域网上这些微小分组有造成拥塞的可能性。<br>为了减少分组，Nagle算法要求一个TCP连接上最多只能有一个示被确认的未完成的小组，在该分组的确认未到达之前不能发送其他分组，在此期间TCP收集这些分组，在确认来到时以一个分组的方式发出去。</p>
+<h3 id="TCP_u6210_u5757_u6570_u636E_u6D41_u2013_28_u6ED1_u52A8_u7A97_u53E3_u3001_u6162_u542F_u52A8_u7B49_29"><a href="#TCP_u6210_u5757_u6570_u636E_u6D41_u2013_28_u6ED1_u52A8_u7A97_u53E3_u3001_u6162_u542F_u52A8_u7B49_29" class="headerlink" title="TCP成块数据流–(滑动窗口、慢启动等)"></a>TCP成块数据流–(滑动窗口、慢启动等)</h3><p>滑动窗口协议： 允许发送方在停止并等待确认前可以连续发送多个分组，不必每发一个分组就停下来等待确认。</p>
+<p>具体细节： 1. ACK是累积的，即发送方收到的ACK序号代表接收方已经正确收到了此序号减1的所有字节。</p>
+<pre><code>2. 快的发送方与慢的接收方通信时，接收方除了发送ACK，还需要告知其窗口大小，告知发送方当前能发送的数据大小。简而言之，接收方会发送窗口更新。
+3. 缓冲区大小影响性能
+</code></pre><p>PUSH标志： 发送方使用该标志通知接收方将所收到的数据全部提交给接收进程。</p>
+<p>发送方一开始便向网络发送多个报文段，直到达到接收方通告的窗口大小为止，当发送方与接收方存在多个路由器或链路，容易造成中间路由器耗尽空间，因此需要慢启动。</p>
+<p>慢启动：  通过观察到新分组进入网络的速率与另一端返回确认的速率工作。<br>慢启动为发送方的TCP增加了“<strong>拥塞窗口</strong>”cwnd。 当与另一个主机建立TCP连接时，拥塞窗口大小设为1个报文段，每收到一个ACK拥塞窗口大小加1。<strong>发送方取拥塞窗口与通知窗口下限作为发送上限</strong>。通知窗口即接收方使用的流量控制。</p>
+<h3 id="TCP_u8D85_u65F6_u4E0E_u91CD_u4F20"><a href="#TCP_u8D85_u65F6_u4E0E_u91CD_u4F20" class="headerlink" title="TCP超时与重传"></a>TCP超时与重传</h3><p>TCP的可靠： 1.确认从另一端收到的数据  2. 确认也有可能丢失，所以要有超时重传</p>
+<p>TCP的4个定时器：</p>
+<ol>
+<li>重传定时器  使用于希望收到另一端的确认</li>
+<li>坚持定时器  周期地向接收方查询窗口大小，防止窗口更新数据丢失导致死锁等待</li>
+<li>保活定时器  可检测到一个空闲连接的另一端何时崩溃或重启 </li>
+<li>2MSL定时器  测量一个连接处于TIME_WAIT的时间</li>
+</ol>
+<p>拥塞避免算法： 拥塞窗口cwnd和慢启动门限ssthresh<br>ssthresh设置为拥塞发生时(超时或重传)当前窗口的一半，在未到达ssthresh时慢启动，否则线性增加窗口大小。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/29/OS/" rel="next" title="操作系统">
+                <i class="fa fa-chevron-left"></i> 操作系统
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="EATHAN" />
+          <p class="site-author-name" itemprop="name">EATHAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2017971021/profile?topnav=1&wvr=6" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://braverichard.sinaapp.com/" target="_blank">Brave</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP/IP_u534F_u8BAE_28_u65CF_29"><span class="nav-number">1.</span> <span class="nav-text">TCP/IP协议(族)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u94FE_u8DEF_u5C42"><span class="nav-number">1.1.</span> <span class="nav-text">链路层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ip_u7F51_u9645_u534F_u8BAE"><span class="nav-number">1.2.</span> <span class="nav-text">ip网际协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARP__u4E0E_RARP"><span class="nav-number">1.3.</span> <span class="nav-text">ARP 与 RARP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP"><span class="nav-number">1.4.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP_u8FDE_u63A5_u5EFA_u7ACB_u4E0E_u7EC8_u6B62"><span class="nav-number">1.4.1.</span> <span class="nav-text">TCP连接建立与终止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP_u4EA4_u4E92_u6570_u636E_u6D41_u7684Nagle_u7B97_u6CD5"><span class="nav-number">1.4.2.</span> <span class="nav-text">TCP交互数据流的Nagle算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP_u6210_u5757_u6570_u636E_u6D41_u2013_28_u6ED1_u52A8_u7A97_u53E3_u3001_u6162_u542F_u52A8_u7B49_29"><span class="nav-number">1.4.3.</span> <span class="nav-text">TCP成块数据流–(滑动窗口、慢启动等)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP_u8D85_u65F6_u4E0E_u91CD_u4F20"><span class="nav-number">1.4.4.</span> <span class="nav-text">TCP超时与重传</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EATHAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

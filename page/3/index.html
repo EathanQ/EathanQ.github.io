@@ -214,8 +214,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/03/29/C++内存管理/" itemprop="url">
-                  C++内存管理
+                <a class="post-title-link" href="/2016/04/06/string类的编写/" itemprop="url">
+                  从头编写String类
                 </a>
               
             
@@ -228,8 +228,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-29T23:25:21+08:00" content="2016-03-29">
-              2016-03-29
+            <time itemprop="dateCreated" datetime="2016-04-06T23:17:55+08:00" content="2016-04-06">
+              2016-04-06
             </time>
           </span>
 
@@ -276,17 +276,7 @@
       
         
           
-            <h1 id="u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F"><a href="#u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F" class="headerlink" title="一.内存的常见分配方式"></a>一.内存的常见分配方式</h1><p>  1.从静态区分配,一般是全局变量和static类型变量<br>  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放<br>  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,<br>    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存泄露,造成了内存浪费</p>
-<h1 id="u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219"><a href="#u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219" class="headerlink" title="二.内存的使用规则"></a>二.内存的使用规则</h1><p>  1.在使用malloc()或new申请空间时,要检查有没有分配空间成功,判断方法是判断指针是否为NULL,如申请一块很大的内存而没有这么大的内存则分配<br>内存会失败<br>  2.申请成功后最好是将该内存清空,使用memset()后ZeroMemory()清空,不然存在垃圾而造成有时候输出很大乱码<br>  3.不要忘记为数组和动态内存赋初值。防止将未被初始化的内存作为右值使用。(这句话不太理解)<br>  4.要防止数组或指针内存越界,<br>  5.申请内存成功后,使用结束后要释放,系统不会自动释放手动分配的内存<br>  6.内存释放后,指针还是指向那块地址,不过这指针已经是”野指针”了,所以释放内存后指针要指向NULL,<br>    不然很危险,容易出错,if()对野指针的判断不起作用</p>
-<h1 id="u4E09-_u6307_u9488_u548C_u6570_u7EC4"><a href="#u4E09-_u6307_u9488_u548C_u6570_u7EC4" class="headerlink" title="三.指针和数组"></a>三.指针和数组</h1><h2 id="1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C"><a href="#1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C" class="headerlink" title="1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,"></a>1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,</h2><p>而指针char *p = “Word”,p是指向了一串常量的字符串,常量字符串是不可修改的,如 p[0] = ‘X’,编译器编译时不会报错,但执行时会出错。</p>
-<h2 id="2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83"><a href="#2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83" class="headerlink" title="2.内容的复制与比较"></a>2.内容的复制与比较</h2><p>   内容的复制要使用strcpy()函数,不要使用赋值符”=”,内容的比较也是不要使用比较符号”&lt;,&gt;,==”,使用strcmp()函数。</p>
-<p>  ##3.计算空间的大小<br>   对数组的计算是使用sizeof()函数,该函数会按照内存对齐的方式4的倍数计算,而指针的空间大小没法计算,只能记住在申请空间时的空间大小<br>   注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针,不论数组a的容量是多少，sizeof(a)始终等于sizeof(char *)</p>
-<pre><code>void Func(char a[100])  
-{  
-  cout&lt;&lt; sizeof(a) &lt;&lt; endl;   // 4字节而不是100字节  
-}
-</code></pre><h1 id="u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B"><a href="#u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B" class="headerlink" title="四 malloc()/free()与new/delete的区别"></a>四 malloc()/free()与new/delete的区别</h1><p>malloc与free是C++/C语言的标准库函数，new/delete是C++的运算符。<br>它们都可用于申请动态内存和释放内存。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求。<br>对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。<br>由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。<br>因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete。<br>所以我们不要企图用malloc/free来完成动态对象的内存管理，应该用new/delete。<br>由于内部数据类型的“对象”没有构造与析构的过程，对它们而言malloc/free和new/delete是等价的。<br>既然new/delete的功能完全覆盖了malloc/free，为什么C++不把malloc/free淘汰出局呢？<br>这是因为C++程序经常要调用C函数，而C程序只能用malloc/free管理动态内存。<br>如果用free释放“new创建的动态对象”，那么该对象因无法执行析构函数而可能导致程序出错。<br>如果用delete释放“malloc申请的动态内存”，理论上讲程序不会出错，但是该程序的可读性很差。<br>所以new/delete必须配对使用，malloc/free也一样。</p>
-
+            <figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">class <span class="keyword">String</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="keyword">public</span>: </span><br><span class="line"> <span class="keyword">String</span>(<span class="keyword">const</span> <span class="built_in">char</span> *<span class="built_in">str</span> = NULL); <span class="comment">// 普通构造函数 </span></span><br><span class="line"> <span class="keyword">String</span>(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other); <span class="comment">// 拷贝构造函数 </span></span><br><span class="line"> ~ <span class="keyword">String</span>(<span class="keyword">void</span>); <span class="comment">// 析构函数 </span></span><br><span class="line"> <span class="keyword">String</span> &amp; operator =(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other); <span class="comment">// 赋值函数 </span></span><br><span class="line"> <span class="keyword">private</span>: </span><br><span class="line"> <span class="built_in">char</span> *m_data; <span class="comment">// 用于保存字符串 </span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//普通构造函数</span></span><br><span class="line"><span class="keyword">String</span>::<span class="keyword">String</span>(<span class="keyword">const</span> <span class="built_in">char</span> *<span class="built_in">str</span>) </span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">if</span>(<span class="built_in">str</span>==NULL) </span><br><span class="line"> &#123;</span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[<span class="number">1</span>]; <span class="comment">// 得分点：对空字符串自动申请存放结束标志'\0'的空</span></span><br><span class="line"> <span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> *m_data = <span class="string">'\0'</span>; </span><br><span class="line"> &#125; </span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">int</span> length = strlen(<span class="built_in">str</span>); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; <span class="comment">// 若能加 NULL 判断则更好 </span></span><br><span class="line"> strcpy(m_data, <span class="built_in">str</span>); </span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// String的析构函数</span></span><br><span class="line"><span class="keyword">String</span>::~<span class="keyword">String</span>(<span class="keyword">void</span>) </span><br><span class="line">&#123;</span><br><span class="line"> delete [] m_data; <span class="comment">// 或delete m_data;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//拷贝构造函数</span></span><br><span class="line"><span class="keyword">String</span>::<span class="keyword">String</span>(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other) 　　　<span class="comment">// 得分点：输入参数为const型</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="built_in">int</span> length = strlen(other.m_data); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; 　　　　<span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> strcpy(m_data, other.m_data); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//赋值函数</span></span><br><span class="line"><span class="keyword">String</span> &amp; <span class="keyword">String</span>::operate =(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other) <span class="comment">// 得分点：输入参数为const型</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">this</span> == &amp;other) 　　<span class="comment">//得分点：检查自赋值</span></span><br><span class="line"> <span class="keyword">return</span> *<span class="keyword">this</span>; </span><br><span class="line"> delete [] m_data; 　　　　<span class="comment">//得分点：释放原有的内存资源</span></span><br><span class="line"> <span class="built_in">int</span> length = strlen( other.m_data ); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; 　<span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> strcpy( m_data, other.m_data ); </span><br><span class="line"> <span class="keyword">return</span> *<span class="keyword">this</span>; 　　　　　　　　<span class="comment">//得分点：返回本对象的引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -331,8 +321,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/03/29/linux-IO-epoll/" itemprop="url">
-                  Linux IO模式以及select/poll/epoll区别
+                <a class="post-title-link" href="/2016/04/06/arp与tcp/" itemprop="url">
+                  ARP与TCP协议基础
                 </a>
               
             
@@ -345,8 +335,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-29T23:19:21+08:00" content="2016-03-29">
-              2016-03-29
+            <time itemprop="dateCreated" datetime="2016-04-06T23:16:04+08:00" content="2016-04-06">
+              2016-04-06
             </time>
           </span>
 
@@ -359,8 +349,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
                   </a>
                 </span>
 
@@ -393,117 +383,41 @@
       
         
           
-            <p><a href="https://segmentfault.com/a/1190000003063859" target="_blank" rel="external">转载自SegementFalut,感谢人云思云</a></p>
-<blockquote>
-<p>同步IO和异步IO，阻塞IO和非阻塞IO分别是什么，到底有什么区别？<br>不同的人在不同的上下文下给出的答案是不同的。<br>所以先限定一下本文的上下文,本文讨论的背景是Linux环境下的network IO。</p>
-</blockquote>
-<h1 id="u4E00__u6982_u5FF5_u8BF4_u660E"><a href="#u4E00__u6982_u5FF5_u8BF4_u660E" class="headerlink" title="一 概念说明"></a>一 概念说明</h1><p>在进行解释之前，首先要说明几个概念：</p>
-<ul>
-<li>用户空间和内核空间</li>
-<li>进程切换</li>
-<li>进程的阻塞</li>
-<li>文件描述符</li>
-<li>缓存 I/O</li>
-</ul>
-<h2 id="u7528_u6237_u7A7A_u95F4_u4E0E_u5185_u6838_u7A7A_u95F4"><a href="#u7528_u6237_u7A7A_u95F4_u4E0E_u5185_u6838_u7A7A_u95F4" class="headerlink" title="用户空间与内核空间"></a>用户空间与内核空间</h2><p>现在操作系统都是采用虚拟存储器，那么对32位操作系统而言，它的寻址空间（虚拟存储空间）为4G（2的32次方）。<br>操作系统的核心是内核，独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。<br>为了保证用户进程不能直接操作内核（kernel），保证内核的安全，操心系统将虚拟空间划分为两部分，一部分为内核空间，<br>一部分为用户空间。针对linux操作系统而言，将最高的1G字节（从虚拟地址0xC0000000到0xFFFFFFFF），<br>供内核使用，称为内核空间，而将较低的3G字节（从虚拟地址0x00000000到0xBFFFFFFF），供各个进程使用，称为用户空间。</p>
-<p>##　进程切换<br>为了控制进程的执行，内核必须有能力挂起正在CPU上运行的进程，并恢复以前挂起的某个进程的执行。<br>这种行为被称为进程切换。因此可以说，任何进程都是在操作系统内核的支持下运行的，是与内核紧密相关的。</p>
-<blockquote>
-<p>从一个进程的运行转到另一个进程上运行，这个过程中经过下面这些变化：</p>
-<ol>
-<li>保存处理机上下文，包括程序计数器和其他寄存器。</li>
-<li>更新PCB信息。</li>
-<li>把进程的PCB移入相应的队列，如就绪、在某事件阻塞等队列。</li>
-<li>选择另一个进程执行，并更新其PCB。</li>
-<li>更新内存管理的数据结构。</li>
-<li>恢复处理机上下文。</li>
-</ol>
-</blockquote>
-<h2 id="u8FDB_u7A0B_u7684_u963B_u585E"><a href="#u8FDB_u7A0B_u7684_u963B_u585E" class="headerlink" title="进程的阻塞"></a>进程的阻塞</h2><p>正在执行的进程，由于期待的某些事件未发生，如请求系统资源失败、等待某种操作的完成、新数据尚未到达或无新工作做等，<br>则由系统自动执行阻塞原语(Block)，使自己由运行状态变为阻塞状态。可见，进程的阻塞是进程自身的一种主动行为，<br>也因此只有处于运行态的进程（获得CPU），才可能将其转为阻塞状态。当进程进入阻塞状态，是不占用CPU资源的。</p>
-<h2 id="u6587_u4EF6_u63CF_u8FF0_u7B26fd"><a href="#u6587_u4EF6_u63CF_u8FF0_u7B26fd" class="headerlink" title="文件描述符fd"></a>文件描述符fd</h2><p>文件描述符（File descriptor）是计算机科学中的一个术语，是一个用于表述指向文件的引用的抽象化概念。<br>文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。<br>当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。<br>在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于UNIX、Linux这样的操作系统。</p>
-<h2 id="u7F13_u5B58_I/O"><a href="#u7F13_u5B58_I/O" class="headerlink" title="缓存 I/O"></a>缓存 I/O</h2><p>缓存 I/O 又被称作标准 I/O，大多数文件系统的默认 I/O 操作都是缓存 I/O。在 Linux 的缓存 I/O 机制中，<br>操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，<br>然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。</p>
-<h2 id="u7F13_u5B58_I/O__u7684_u7F3A_u70B9_uFF1A"><a href="#u7F13_u5B58_I/O__u7684_u7F3A_u70B9_uFF1A" class="headerlink" title="缓存 I/O 的缺点："></a>缓存 I/O 的缺点：</h2><p>数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作，这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。</p>
-<h1 id="u4E8C_IO_u6A21_u5F0F"><a href="#u4E8C_IO_u6A21_u5F0F" class="headerlink" title="二 IO模式"></a>二 IO模式</h1><p>刚才说了，对于一次IO访问（以read举例），数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。<br>所以说，当一个read操作发生时，它会经历两个阶段：</p>
-<ol>
-<li>等待数据准备 (Waiting for the data to be ready)</li>
-<li>将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)</li>
-</ol>
-<blockquote>
-<p>正式因为这两个阶段，linux系统产生了下面五种网络模式的方案。</p>
-<ul>
-<li>阻塞 I/O（blocking IO）</li>
-<li>非阻塞 I/O（nonblocking IO）</li>
-<li>I/O 多路复用（ IO multiplexing）</li>
-<li>信号驱动 I/O（ signal driven IO）</li>
-<li>异步 I/O（asynchronous IO）<br>注：由于signal driven IO在实际中并不常用，所以我这只提及剩下的四种IO Model。</li>
-</ul>
-</blockquote>
-<h2 id="u963B_u585E_I/O_uFF08blocking_IO_uFF09"><a href="#u963B_u585E_I/O_uFF08blocking_IO_uFF09" class="headerlink" title="阻塞 I/O（blocking IO）"></a>阻塞 I/O（blocking IO）</h2><p>在linux中，默认情况下所有的socket都是blocking，一个典型的读操作流程大概是这样：<br><img src="/img/blockio.png" alt="BlockingIO"><br>当用户进程调用了recvfrom这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。<br>比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来）。<br>这个过程需要等待，也就是说数据被拷贝到操作系统内核的缓冲区中是需要一个过程的。<br>而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。<br>当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。<br>所以，blocking IO的特点就是在IO执行的两个阶段都被block了。</p>
-<h2 id="u975E_u963B_u585E_I/O_uFF08nonblocking_IO_uFF09"><a href="#u975E_u963B_u585E_I/O_uFF08nonblocking_IO_uFF09" class="headerlink" title="非阻塞 I/O（nonblocking IO）"></a>非阻塞 I/O（nonblocking IO）</h2><p>linux下，可以通过设置socket使其变为non-blocking。当对一个non-blocking socket执行读操作时，流程是这个样子：<br><img src="/img/nonblockio.png" alt="nonblock"><br>当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个error。<br>从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，<br>它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，<br>那么它马上就将数据拷贝到了用户内存，然后返回。<br>所以，nonblocking IO的特点是用户进程需要不断的主动询问kernel数据好了没有。</p>
-<h2 id="I/O__u591A_u8DEF_u590D_u7528_uFF08_IO_multiplexing_uFF09"><a href="#I/O__u591A_u8DEF_u590D_u7528_uFF08_IO_multiplexing_uFF09" class="headerlink" title="I/O 多路复用（ IO multiplexing）"></a>I/O 多路复用（ IO multiplexing）</h2><p>IO multiplexing就是我们说的select，poll，epoll，有些地方也称这种IO方式为event driven IO。<br><img src="/img/iomulti.png" alt="multiio"><br>select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。<br>它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。<br>当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，<br>select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。<br>所以，I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，<br>select()函数就可以返回。这个图和blocking IO的图其实并没有太大的不同，事实上，还更差一些。<br>因为这里需要使用两个system call (select 和 recvfrom)，而blocking IO只调用了一个system call (recvfrom)。<br>但是，用select的优势在于它可以同时处理多个connection。</p>
-<p>所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，<br>可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。）</p>
-<p>在IO multiplexing Model中，实际中，对于每一个socket，一般都设置成为non-blocking，但是，如上图所示，<br>整个用户的process其实是一直被block的。只不过process是被select这个函数block，而不是被socket IO给block。</p>
-<h2 id="u5F02_u6B65_I/O_uFF08asynchronous_IO_uFF09"><a href="#u5F02_u6B65_I/O_uFF08asynchronous_IO_uFF09" class="headerlink" title="异步 I/O（asynchronous IO）"></a>异步 I/O（asynchronous IO）</h2><p>inux下的asynchronous IO其实用得很少。先看一下它的流程：<br><img src="/img/asyncio.png" alt="asyncio"><br>用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，<br>首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，<br>kernel会给用户进程发送一个signal，告诉它read操作完成了。</p>
-<h1 id="u603B_u7ED3"><a href="#u603B_u7ED3" class="headerlink" title="总结"></a>总结</h1><h2 id="blocking_u548Cnon-blocking_u7684_u533A_u522B"><a href="#blocking_u548Cnon-blocking_u7684_u533A_u522B" class="headerlink" title="blocking和non-blocking的区别"></a>blocking和non-blocking的区别</h2><p>调用blocking IO会一直block住对应的进程直到操作完成，而non-blocking IO在kernel还准备数据的情况下会立刻返回。</p>
-<h2 id="synchronous_IO_u548Casynchronous_IO_u7684_u533A_u522B"><a href="#synchronous_IO_u548Casynchronous_IO_u7684_u533A_u522B" class="headerlink" title="synchronous IO和asynchronous IO的区别"></a>synchronous IO和asynchronous IO的区别</h2><p>在说明synchronous IO和asynchronous IO的区别之前，需要先给出两者的定义。POSIX的定义是这样子的：</p>
-<ul>
-<li>A synchronous I/O operation causes the requesting process to be blocked until that I/O operation completes;</li>
-<li>An asynchronous I/O operation does not cause the requesting process to be blocked;</li>
-</ul>
-<p>两者的区别就在于synchronous IO做”IO operation”的时候会将process阻塞。<br>按照这个定义，之前所述的blocking IO，non-blocking IO，IO multiplexing都属于synchronous IO。</p>
-<p>有人会说，non-blocking IO并没有被block啊。这里有个非常“狡猾”的地方，定义中所指的”IO operation”是指真实的IO操作，<br>就是例子中的recvfrom这个system call。non-blocking IO在执行recvfrom这个system call的时候，如果kernel的数据没有准备好，<br>这时候不会block进程。但是，当kernel中数据准备好的时候，recvfrom会将数据从kernel拷贝到用户内存中，这个时候进程是被block了，<br>在这段时间内，进程是被block的。</p>
-<p>而asynchronous IO则不一样，当进程发起IO 操作之后，就直接返回再也不理睬了，直到kernel发送一个信号，<br>告诉进程说IO完成。在这整个过程中，进程完全没有被block。</p>
-<p>各个IO Model的比较如图所示：<br><img src="/img/iomodelcompare.png" alt="iomodel"><br>通过上面的图片，可以发现non-blocking IO和asynchronous IO的区别还是很明显的。<br>在non-blocking IO中，虽然进程大部分时间都不会被block，但是它仍然要求进程去主动的check，<br>并且当数据准备完成以后，也需要进程主动的再次调用recvfrom来将数据拷贝到用户内存。<br>而asynchronous IO则完全不同。它就像是用户进程将整个IO操作交给了他人（kernel）完成，<br>然后他人做完后发信号通知。在此期间，用户进程不需要去检查IO操作的状态，也不需要主动的去拷贝数据。</p>
-<h1 id="u4E09_I/O__u591A_u8DEF_u590D_u7528_u4E4Bselect_u3001poll_u3001epoll_u8BE6_u89E3"><a href="#u4E09_I/O__u591A_u8DEF_u590D_u7528_u4E4Bselect_u3001poll_u3001epoll_u8BE6_u89E3" class="headerlink" title="三 I/O 多路复用之select、poll、epoll详解"></a>三 I/O 多路复用之select、poll、epoll详解</h1><p>select，poll，epoll都是IO多路复用的机制。I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，<br>一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。但select，poll，epoll本质上都是同步I/O，<br>因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的，而异步I/O则无需自己负责进行读写，<br>异步I/O的实现会负责把数据从内核拷贝到用户空间。</p>
-<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int <span class="operator"><span class="keyword">select</span> (<span class="built_in">int</span> <span class="keyword">n</span>, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="keyword">struct</span> timeval *<span class="keyword">timeout</span>);</span></span><br></pre></td></tr></table></figure>
-<p>select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds。调用后select函数会阻塞，<br>直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），<br>函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
-<p>select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。<br>select的一 个缺点在于单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024，<br>可以通过修改宏定义甚至重新编译内核的方式提升这一限制，但是这样也会造成效率的降低。</p>
-<h2 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span> <span class="params">(<span class="keyword">struct</span> pollfd *fds, <span class="keyword">unsigned</span> <span class="keyword">int</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> pollfd &#123;</span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">/* file descriptor */</span></span><br><span class="line">    <span class="keyword">short</span> events; <span class="comment">/* requested events to watch */</span></span><br><span class="line">    <span class="keyword">short</span> revents; <span class="comment">/* returned events witnessed */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。<br>同时，pollfd并没有最大数量限制（但是数量过大后性能也是会下降）。<br>和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。<br>从上面看，select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。<br>事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
-<h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><p>epoll是在2.6内核中提出的，是之前的select和poll的增强版本。相对于select和poll来说，epoll更加灵活，没有描述符限制。<br>epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
-<p>一 epoll操作过程<br>epoll操作过程需要三个接口，分别如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_create</span>(<span class="params"><span class="keyword">int</span> size</span>)；<span class="comment">//创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大</span></span><br><span class="line"><span class="keyword">int</span> <span class="title">epoll_ctl</span>(<span class="params"><span class="keyword">int</span> epfd, <span class="keyword">int</span> op, <span class="keyword">int</span> fd, <span class="keyword">struct</span> epoll_event *<span class="keyword">event</span></span>)；</span><br><span class="line"><span class="keyword">int</span> <span class="title">epoll_wait</span>(<span class="params"><span class="keyword">int</span> epfd, <span class="keyword">struct</span> epoll_event * events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout</span>)</span>;</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li><p>int epoll_create(int size);<br>创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大，这个参数不同于select()中的第一个参数，给出最大监听的fd+1的值，<br>参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。<br>当创建好epoll句柄后，它就会占用一个fd值，在linux下如果查看/proc/进程id/fd/，是能够看到这个fd的，所以在使用完epoll后，<br>必须调用close()关闭，否则可能导致fd被耗尽。</p>
-</li>
-<li><p>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；<br>函数是对指定描述符fd执行op操作。</p>
-</li>
-</ol>
-<ul>
-<li>epfd：是epoll_create()的返回值。</li>
-<li>op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL，修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。</li>
-<li>fd：是需要监听的fd（文件描述符）</li>
-<li>epoll_event：是告诉内核需要监听什么事，struct epoll_event结构如下：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> epoll_event &#123;</span><br><span class="line">  <span class="keyword">__uint32_t</span> events;  <span class="comment">/* Epoll events */</span></span><br><span class="line">  <span class="keyword">epoll_data_t</span> data;  <span class="comment">/* User data variable */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//events可以是以下几个宏的集合：</span></span><br><span class="line">EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；</span><br><span class="line">EPOLLOUT：表示对应的文件描述符可以写；</span><br><span class="line">EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；</span><br><span class="line">EPOLLERR：表示对应的文件描述符发生错误；</span><br><span class="line">EPOLLHUP：表示对应的文件描述符被挂断；</span><br><span class="line">EPOLLET： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。</span><br><span class="line">EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ol>
-<li>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);<br>等待epfd上的io事件，最多返回maxevents个事件。<br>参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，<br>参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。</li>
-</ol>
-<h1 id="u4E8C__u5DE5_u4F5C_u6A21_u5F0F"><a href="#u4E8C__u5DE5_u4F5C_u6A21_u5F0F" class="headerlink" title="二 工作模式"></a>二 工作模式</h1><p>　epoll对文件描述符的操作有两种模式：LT（level trigger）和ET（edge trigger）。LT模式是默认模式，LT模式与ET模式的区别如下：<br>　　LT模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，<br>会再次响应应用程序并通知此事件。<br>　　ET模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，<br>不会再次响应应用程序并通知此事件。</p>
-<h2 id="1-_LT_u6A21_u5F0F"><a href="#1-_LT_u6A21_u5F0F" class="headerlink" title="1. LT模式"></a>1. LT模式</h2><p>LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，<br>然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你的。</p>
-<h2 id="2-_ET_u6A21_u5F0F"><a href="#2-_ET_u6A21_u5F0F" class="headerlink" title="2. ET模式"></a>2. ET模式</h2><p>ET(edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。<br>然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符<br>不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致了一个EWOULDBLOCK 错误）。<br>但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once)</p>
-<p>ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，<br>以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
-<h2 id="3-__u603B_u7ED3"><a href="#3-__u603B_u7ED3" class="headerlink" title="3. 总结"></a>3. 总结</h2><p>假如有这样一个例子：</p>
-<ol>
-<li>我们已经把一个用来从管道中读取数据的文件句柄(RFD)添加到epoll描述符</li>
-<li>这个时候从管道的另一端被写入了2KB的数据</li>
-<li>调用epoll_wait(2)，并且它会返回RFD，说明它已经准备好读取操作</li>
-<li>然后我们读取了1KB的数据</li>
-<li>调用epoll_wait(2)……</li>
-</ol>
-<p>LT模式：<br>如果是LT模式，那么在第5步调用epoll_wait(2)之后，仍然能受到通知。</p>
-<p>ET模式：<br>如果我们在第1步将RFD添加到epoll描述符的时候使用了EPOLLET标志，那么在第5步调用epoll_wait(2)之后将有可能会挂起，<br>因为剩余的数据还存在于文件的输入缓冲区内，而且数据发出端还在等待一个针对已经发出数据的反馈信息。<br>只有在监视的文件句柄上发生了某个事件的时候 ET 工作模式才会汇报事件。因此在第5步的时候，<br>调用者可能会放弃等待仍在存在于文件输入缓冲区内的剩余数据。</p>
-<p>当使用epoll的ET模型来工作时，当产生了一个EPOLLIN事件后，<br>读数据的时候需要考虑的是当recv()返回的大小如果等于请求的大小，那么很有可能是缓冲区还有数据未读完，也意味着该次事件还没有处理完，<br>所以还需要再次读取：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(rs)&#123;</span><br><span class="line">  buflen = recv(activeevents[i].data.fd, buf, <span class="keyword">sizeof</span>(buf), <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">if</span>(buflen &lt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// 由于是非阻塞的模式,所以当errno为EAGAIN时,表示当前缓冲区已无数据可读</span></span><br><span class="line">    <span class="comment">// 在这里就当作是该次事件已处理处.</span></span><br><span class="line">    <span class="keyword">if</span>(errno == EAGAIN)&#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(buflen == <span class="number">0</span>)&#123;</span><br><span class="line">     <span class="comment">// 这里表示对端的socket已正常关闭.</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span>(buflen == <span class="keyword">sizeof</span>(buf)&#123;</span><br><span class="line">      rs = <span class="number">1</span>;   <span class="comment">// 需要再次读取</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">else</span>&#123;</span><br><span class="line">      rs = <span class="number">0</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>Linux中的EAGAIN含义<br>Linux环境下开发经常会碰到很多错误(设置errno)，其中EAGAIN是其中比较常见的一个错误(比如用在非阻塞操作中)。<br>从字面上来看，是提示再试一次。这个错误经常出现在当应用程序进行一些非阻塞(non-blocking)操作(对文件或socket)的时候。</p>
-</blockquote>
-<p>例如，以 O_NONBLOCK的标志打开文件/socket/FIFO，如果你连续做read操作而没有数据可读。此时程序不会阻塞起来等待数据准备就绪返回，<br>read函数会返回一个错误EAGAIN，提示你的应用程序现在没有数据可读请稍后再试。<br>又例如，当一个系统调用(比如fork)因为没有足够的资源(比如虚拟内存)而执行失败，返回EAGAIN提示其再调用一次(也许下次就能成功)。</p>
-<h1 id="u4E09_epoll_u603B_u7ED3"><a href="#u4E09_epoll_u603B_u7ED3" class="headerlink" title="三 epoll总结"></a>三 epoll总结</h1><p>在 select/poll中，进程只有在调用一定的方法后，内核才对所有监视的文件描述符进行扫描，而epoll事先通过epoll_ctl()来注册一个文件描述符，<br>一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。<br>(此处去掉了遍历文件描述符，而是通过监听回调的的机制。这正是epoll的魅力所在。)</p>
-<p>epoll的优点主要是一下几个方面：</p>
-<ol>
-<li>监视的描述符数量不受限制，它所支持的FD上限是最大可以打开文件的数目，这个数字一般远大于2048,<br>举个例子,在1GB内存的机器上大约是10万左 右，具体数目可以cat /proc/sys/fs/file-max察看,一般来说这个数目和系统内存关系很大。<br>select的最大缺点就是进程打开的fd是有数量限制的。这对 于连接数量比较大的服务器来说根本不能满足。<br>虽然也可以选择多进程的解决方案( Apache就是这样实现的)，不过虽然linux上面创建进程的代价比较小，但仍旧是不可忽视的，<br>加上进程间数据同步远比不上线程间同步的高效，所以也不是一种完美的方案。</li>
-</ol>
-<p>IO的效率不会随着监视fd的数量的增长而下降。epoll不同于select和poll轮询的方式，而是通过每个fd定义的回调函数来实现的。<br>只有就绪的fd才会执行回调函数。<br>如果没有大量的idle -connection或者dead-connection，epoll的效率并不会比select/poll高很多，但是当遇到大量的idle- connection，<br>就会发现epoll的效率大大高于select/poll。</p>
-
+            <h2 id="ARP_u5730_u5740_u89E3_u6790_u534F_u8BAE"><a href="#ARP_u5730_u5740_u89E3_u6790_u534F_u8BAE" class="headerlink" title="ARP地址解析协议"></a>ARP地址解析协议</h2><p>  1.每个主机都会在自己的ARP缓冲区建立一个ARP列表，以表示IP地址和MAC地址之间的对应关系。<br>  2.当源主机要发送数据时，首先检查ARP列表中是否有对应IP地址的目的主机的MAC地址，如果有，则直接发送数据。<br>  如果没有，就向本网段的所有主机发送ARP数据包，该数据包包括：源主机IP地址，源主机MAC地址，目的主机IP地址<br>  3.当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包<br>    如果是，则首先从数据包中取出源主机的IP和MAC地址写入ARP列表中，如果已存在则覆盖，然后将自己的MAC地下写入ARP响应包中，告诉源<br>    主机自己是它要找的MAC地址。<br>  4.源主机收到ARP响应后，将目的地主的IP和MAC地址写入ARP列表，并利用此信息发送数据。<br>    如果源主机一直没有收到ARP响应数据包，表示ARP查询失败</p>
+<p>  广播发送ARP请求，单播发送ARP响应</p>
+<h2 id="RARP"><a href="#RARP" class="headerlink" title="RARP"></a>RARP</h2><p>  RARP是逆地址解析协议，作用是完成硬件地址到IP地址的映射，主要用于无盘工作站，因为给无盘工作站配置的IP地址不能保存。<br>  工作流程：在网络中配置一台RARP服务器，里面保存着IP地址和MAC地址的映射关系，当无盘工作站启动后，就封装一个RARP数据包，<br>  里面有其MAC地址，然后广播到网络上去，当服务器收到请求包后，就查找对应的MAC地址的IP地址装入响应报文中发回给请求者。<br>  因为需要广播请求报文，因此RARP只能用于具有广播能力的网络。</p>
+<h2 id="TCP_u4E09_u6B21_u63E1_u624B_u548C_u56DB_u6B21_u63E1_u624B_u7684_u5168_u8FC7_u7A0B"><a href="#TCP_u4E09_u6B21_u63E1_u624B_u548C_u56DB_u6B21_u63E1_u624B_u7684_u5168_u8FC7_u7A0B" class="headerlink" title="TCP三次握手和四次握手的全过程"></a>TCP三次握手和四次握手的全过程</h2><p>  答:三次握手：<br>     第一次握手：客户端发送syn包(syn=x)到服务器，并进入SYN_SEND状态，等待服务器确认；<br>     第二次握手：服务器收到syn包，必须确认客户的SYN（ack=x+1），同时自己也发送一个SYN包（syn=y），即SYN+ACK包，此时服务器进入SYN_RECV状态；<br>     第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=y+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。<br>     握手过程中传送的包里不包含数据，三次握手完毕后，客户端与服务器才正式开始传送数据。<br>     理想状态下，TCP连接一旦建立，在通信双方中的任何一方主动关闭连接之前，TCP 连接都将被一直保持下去。</p>
+<pre><code>四次握手
+与建立连接的“三次握手”类似，断开一个TCP连接则需要“四次握手”。
+第一次挥手：主动关闭方发送一个FIN，用来关闭主动方到被动关闭方的数据传送，
+  也就是主动关闭方告诉被动关闭方：我已经不会再给你发数据了(当然，在fin包之前发送出去的数据，如果没有收到对应的ack确认报文，主动关闭方依然会重发这些数据)，
+  但是，此时主动关闭方还可以接受数据(半关闭特性)。
+第二次挥手：被动关闭方收到FIN包后，发送一个ACK给对方，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号）。
+第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。
+第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。
+</code></pre><h2 id="TCP_u7684_u4E09_u6B21_u63E1_u624B_u8FC7_u7A0B_uFF1F_u4E3A_u4EC0_u4E48_u4F1A_u91C7_u7528_u4E09_u6B21_u63E1_u624B_uFF0C_u82E5_u91C7_u7528_u4E8C_u6B21_u63E1_u624B_u53EF_u4EE5_u5417_uFF1F"><a href="#TCP_u7684_u4E09_u6B21_u63E1_u624B_u8FC7_u7A0B_uFF1F_u4E3A_u4EC0_u4E48_u4F1A_u91C7_u7528_u4E09_u6B21_u63E1_u624B_uFF0C_u82E5_u91C7_u7528_u4E8C_u6B21_u63E1_u624B_u53EF_u4EE5_u5417_uFF1F" class="headerlink" title="TCP的三次握手过程？为什么会采用三次握手，若采用二次握手可以吗？"></a>TCP的三次握手过程？为什么会采用三次握手，若采用二次握手可以吗？</h2><pre><code>答:建立连接的过程是利用客户服务器模式，假设主机A为客户端，主机B为服务器端。
+ （1）TCP的三次握手过程：主机A向B发送连接请求；主机B对收到的主机A的报文段进行确认；主机A再次对主机B的确认进行确认。
+ （2）采用三次握手是为了防止失效的连接请求报文段突然又传送到主机B，因而产生错误。
+      失效的连接请求报文段是指：主机A发出的连接请求没有收到主机B的确认，于是经过一段时间后，主机A又重新向主机B发送连接请求，且建立成功，顺序完成数据传输。
+      考虑这样一种特殊情况，主机A第一次发送的连接请求并没有丢失，而是因为网络节点导致延迟达到主机B，
+      主机B以为是主机A又发起的新连接，于是主机B同意连接，并向主机A发回确认，但是此时主机A根本不会理会，
+      主机B就一直在等待主机A发送数据，导致主机B的资源浪费。
+ （3）采用两次握手不行，原因就是上面说的实效的连接请求的特殊情况。
+</code></pre><h2 id="TCP_u548CUDP_u7684_u533A_u522B_uFF1F"><a href="#TCP_u548CUDP_u7684_u533A_u522B_uFF1F" class="headerlink" title="TCP和UDP的区别？"></a>TCP和UDP的区别？</h2><pre><code>答:TCP提供面向连接的、可靠的数据流传输，而UDP提供的是非面向连接的、不可靠的数据流传输。
+   TCP传输单位称为TCP报文段，UDP传输单位称为用户数据报。
+   TCP注重数据安全性，UDP数据传输快，因为不需要连接等待，少了许多操作，但是其安全性却一般。
+   TCP对应的协议和UDP对应的协议
+   TCP对应的协议：
+   （1） FTP：定义了文件传输协议，使用21端口。
+   （2） Telnet：一种用于远程登陆的端口，使用23端口，用户可以以自己的身份远程连接到计算机上，可提供基于DOS模式下的通信服务。
+   （3） SMTP：邮件传送协议，用于发送邮件。服务器开放的是25号端口。
+   （4） POP3：它是和SMTP对应，POP3用于接收邮件。POP3协议所用的是110端口。
+   （5）HTTP：是从Web服务器传输超文本到本地浏览器的传送协议。
+   UDP对应的协议：
+   （1） DNS：用于域名解析服务，将域名地址转换为IP地址。DNS用的是53号端口。
+   （2） SNMP：简单网络管理协议，使用161号端口，是用来管理网络设备的。由于网络设备很多，无连接的服务就体现出其优势。
+   （3） TFTP(Trival File Tran敏感词er Protocal)，简单文件传输协议，该协议在熟知端口69上使用UDP服务。
+</code></pre>
           
         
       
@@ -548,8 +462,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/03/24/BST/" itemprop="url">
-                  BST解析
+                <a class="post-title-link" href="/2016/04/04/tencent_4-3/" itemprop="url">
+                  腾讯4.3日实习生招聘后台开发笔试编程题
                 </a>
               
             
@@ -562,8 +476,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-24T22:32:49+08:00" content="2016-03-24">
-              2016-03-24
+            <time itemprop="dateCreated" datetime="2016-04-04T14:37:43+08:00" content="2016-04-04">
+              2016-04-04
             </time>
           </span>
 
@@ -576,8 +490,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
                   </a>
                 </span>
 
@@ -610,21 +524,7 @@
       
         
           
-            <p>二叉查找树(英语：Binary Search Tree)，也称二叉搜索树、有序二叉树（英语：ordered binary tree），排序二叉树（英语：sorted binary tree），<br>是指一棵空树或者具有下列性质的二叉树：</p>
-<blockquote>
-<p>任意节点的左子树不空，则左子树上所有结点的值均小于它的根结点的值；<br>任意节点的右子树不空，则右子树上所有结点的值均大于它的根结点的值；<br>任意节点的左、右子树也分别为二叉查找树；</p>
-</blockquote>
-<p>二叉查找树相比于其他数据结构的优势在于查找、插入的时间复杂度较低。为O(log n)。<br>二叉查找树是基础性数据结构，用于构建更为抽象的数据结构，如集合、multiset、关联数组等。</p>
-<p>二叉查找树的查找过程和次优二叉树类似，通常采取二叉链表作为二叉查找树的存储结构。<br>中序遍历二叉查找树可得到一个关键字的有序序列，一个无序序列可以通过构造一棵二叉查找树变成一个有序序列，构造树的过程即为<br>对无序序列进行查找的过程。每次插入的新的结点都是二叉查找树上新的叶子结点，在进行插入操作时，不必移动其它结点，只需改动某个<br>结点的指针，由空变为非空即可。搜索、插入、删除的复杂度等于树高，期望O(\log n)，最坏O(n)（数列有序，树退化成线性表）。</p>
-<h1 id="u67E5_u627E"><a href="#u67E5_u627E" class="headerlink" title="查找"></a>查找</h1><p>在二叉搜索树b中查找x的过程为：<br>1.若b是空树，则搜索失败，否则：<br>2.若x等于b的根节点的数据域之值，则查找成功；否则：<br>3.若x小于b的根节点的数据域之值，则搜索左子树；否则：查找右子树。<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef int Keytype;</span><br><span class="line">struct TreeNode&#123;</span><br><span class="line">    Keytype val;    </span><br><span class="line">    TreeNode * <span class="attribute">left</span>;</span><br><span class="line">    TreeNode * <span class="attribute">right</span>;</span><br><span class="line">    <span class="function">TreeNode</span>(Keytype x)<span class="value">:<span class="function">val</span>(x),<span class="function">left</span>(NULL),<span class="function">right</span>(NULL)&#123;&#125;</span><br><span class="line">&#125;;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> SearchBST(TreeNode *root ,Keytype key)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;val == key) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(key &gt; root-&gt;val) <span class="keyword">return</span> SearchBST(root-&gt;right,key);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> SearchBST(root-&gt;left,key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="u63D2_u5165"><a href="#u63D2_u5165" class="headerlink" title="插入"></a>插入</h1><p>向一个二叉搜索树b中插入一个节点s的算法，过程为：<br>1.若b是空树，则将s所指结点作为根节点插入，否则：<br>2.若s-&gt;data等于b的根节点的数据域之值，则返回，否则：<br>3.若s-&gt;data小于b的根节点的数据域之值，则把s所指节点插入到左子树中，否则：把s所指节点插入到右子树中。(新插入节点总是叶子节点)</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool InsertBST(TreeNode * root , Keytype <span class="variable">key</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root = NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        root = <span class="keyword">new</span> TreeNode(<span class="variable">key</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> == root-&gt;val) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> &gt; root-&gt;val) <span class="keyword">return</span> InsertBST(root-&gt;right,<span class="variable">key</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">key</span> &lt; root-&gt;val) <span class="keyword">return</span> InsertBST(root-&gt;left,<span class="variable">key</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="u6784_u9020_u4E8C_u53C9_u67E5_u627E_u6811"><a href="#u6784_u9020_u4E8C_u53C9_u67E5_u627E_u6811" class="headerlink" title="构造二叉查找树"></a>构造二叉查找树</h1><p>用一组数值建造一棵二叉查找树的同时，也把这组数值进行了排序。其最差时间复杂度为O(n^2)。<br>例如，若该组数值经是有序的（从小到大），则建造出来的二叉查找树的所有节点，都没有左子树。<br>自平衡二叉查找树可以克服上述缺点，其时间复杂度为O(nlog n)。<br>一方面，树排序的问题使得CPU Cache性能较差，特别是当节点是动态内存分配时。而堆排序的CPU Cache性能较好。<br>另一方面，树排序是最优的增量排序（incremental sorting）算法，保持一个数值序列的有序性。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">CreateBST</span><span class="params">(TreeNode *root , <span class="built_in">vector</span>&lt;Keytype&gt; &amp;v)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;v.size();i++)</span><br><span class="line">		InsertBST(root,v[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="u4E8C_u53C9_u67E5_u627E_u6811_u5220_u7ED3_u70B9"><a href="#u4E8C_u53C9_u67E5_u627E_u6811_u5220_u7ED3_u70B9" class="headerlink" title="二叉查找树删结点"></a>二叉查找树删结点</h1><p>  分三种情况讨论：<br>1.若<em>p结点为叶子结点，即PL（左子树）和PR（右子树）均为空树。由于删去叶子结点不破坏整棵树的结构，则只需修改其双亲结点的指针即可。<br>2.若</em>p结点只有左子树PL或右子树PR，此时只要令PL或PR直接成为其双亲结点<em>f的左子树（当</em>p是左子树）或右子树（当<em>p是右子树）即可，<br>  作此修改也不破坏二叉查找树的特性。<br>2.若</em>p结点的左子树和右子树均不空。在删去<em>p之后，为保持其它元素之间的相对位置不变，可按中序遍历保持有序进行调整，<br>  可以有两种做法：<br>  其一是令</em>p的左子树为<em>f的左/右（依</em>p是<em>f的左子树还是右子树而定）子树，</em>s为<em>p左子树的最右下的结点，而</em>p的右子树为<em>s的右子树；<br>  其二是令</em>p的直接前驱(in-order predecessor)或直接后继(in-order successor)替代*p，然后再从二叉查找树中删去它的直接前驱(或直接后继)。</p>
-<p><img src="/img/bst.png" alt="DeleteNode"></p>
-<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> Delete(TreeNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>((root-&gt;left == <span class="keyword">NULL</span>)&amp;&amp;(root-&gt;right == <span class="keyword">NULL</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        delete root;</span><br><span class="line">        root = <span class="keyword">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *lchild = root-&gt;left;</span><br><span class="line">        root-&gt;val = lchild -&gt;val;</span><br><span class="line">        root-&gt;left = lchild -&gt; left;</span><br><span class="line">        root-&gt;right = lchild -&gt;right;</span><br><span class="line">        delete lchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;right == <span class="keyword">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode *rchild = root-&gt;right;</span><br><span class="line">        root-&gt;val = rchild -&gt;val;</span><br><span class="line">        root-&gt;left = rchild -&gt;left;</span><br><span class="line">        root-&gt;right = rchild -&gt;right;</span><br><span class="line">        delete rchild;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;left &amp;&amp; root-&gt;right)</span><br><span class="line">    &#123;</span><br><span class="line">        TreeNode * p = root-&gt;left;</span><br><span class="line">        TreeNode * s = root; ;</span><br><span class="line">        <span class="keyword">while</span>(p-&gt;right)</span><br><span class="line">        &#123;</span><br><span class="line">            s = p;</span><br><span class="line">            p = p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//此时p指向root左子树中最大的数据，且p不可能有右子树</span></span><br><span class="line">        <span class="comment">//s是p的前驱节点 </span></span><br><span class="line">        <span class="comment">//Delete p </span></span><br><span class="line">        root-&gt;val = p-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(s == root)</span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;left = p-&gt;left;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            s-&gt;right = p-&gt;left; <span class="comment">//important</span></span><br><span class="line">        &#125;</span><br><span class="line">        delete p;</span><br><span class="line">        delete s;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> DeleteBST(TreeNode * root,Keytype key)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root==<span class="keyword">NULL</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(root-&gt;val == key) <span class="keyword">return</span> Delete(root);</span><br><span class="line">    <span class="keyword">if</span>(key &gt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;right);</span><br><span class="line">    <span class="keyword">if</span>(key &lt; root-&gt;val) <span class="keyword">return</span> Delete(root-&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>绝大部分内容来自<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9" target="_blank" rel="external">维基百科</a></p>
+            <p>给定任意一个字符串，字符串最大长度为1000，计算出最长的回文字符串长度，如“cabedaf”的回文串包括“c”，“abba”，“aba”等等，最长回文长度为4。<br>示例：<br>输入： cabbeaf<br>输出： 4<br>思路： 标定两个指针，一个从前往后遍历，一个从后往前遍历，找到最外层的相同字母位置，让后将这两个位置中间的string进行递归求解。<br>       cabbeaf:找到位置1，5 ，string变为bbe，count+2=2<br>       bbe    :找到位置0，1，string变为空，count+2=4<br>       “”     :停止<br>注意：我觉得需要特别考虑的地方：<br>      1.最外层的位置是唯一的吗？  例如字符串cabbeaf是唯一的，那么cabbecaf呢？？所以要保证每次的距离应最大<br>      2.当string只有一个char的情况<br>检讨：<br>      题目其实不太难，但是没见过，做的时候有点慌，连substr都写成substring了。<br>      还需要多练习<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">findMaxDistance</span><span class="params">(<span class="built_in">string</span> s,<span class="keyword">int</span> &amp;start,<span class="keyword">int</span> &amp;end)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> maxD = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.size();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=s.size()-<span class="number">1</span>;j&gt;=i;j--)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(s[i]==s[j])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(maxD &lt; (j-i))</span><br><span class="line">                &#123;</span><br><span class="line">                    maxD = j-i;</span><br><span class="line">                    start = i;</span><br><span class="line">                    end = j;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxPara</span><span class="params">(<span class="built_in">string</span> s)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">string</span> tmp = s;</span><br><span class="line">    <span class="keyword">int</span> start=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> end =<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!tmp.empty())</span><br><span class="line">    &#123;   </span><br><span class="line">        findMaxDistance(tmp,start,end);</span><br><span class="line">        <span class="keyword">if</span>(start&lt;end)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp = tmp.substr(start+<span class="number">1</span>,end-start-<span class="number">1</span>);</span><br><span class="line">            count += <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(start == end)</span><br><span class="line">        &#123;</span><br><span class="line">            tmp = <span class="string">""</span>;</span><br><span class="line">            count += <span class="number">1</span>; </span><br><span class="line">        &#125;</span><br><span class="line">        start = end =<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;maxPara(s)&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -653,7 +553,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -694,7 +594,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">40</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -702,7 +602,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -711,7 +611,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

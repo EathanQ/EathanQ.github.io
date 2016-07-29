@@ -1,0 +1,909 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="stl," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="STL源码
+alloc空间配置器stl_construct.h         定义了全局函数construct()和destroy()，负责对象的构造与析构
+stl_alloc.h             定义了一、二级配置器alloc
+stl_uninitialized.h     定义了一些全局函数，用来copy或fill大块内存uninitialized_copy/uninitialize">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STL源码">
+<meta property="og:url" content="http://yoursite.com/2016/07/29/STL源码/index.html">
+<meta property="og:site_name" content="代码小书童">
+<meta property="og:description" content="STL源码
+alloc空间配置器stl_construct.h         定义了全局函数construct()和destroy()，负责对象的构造与析构
+stl_alloc.h             定义了一、二级配置器alloc
+stl_uninitialized.h     定义了一些全局函数，用来copy或fill大块内存uninitialized_copy/uninitialize">
+<meta property="og:updated_time" content="2016-07-29T14:44:04.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="STL源码">
+<meta name="twitter:description" content="STL源码
+alloc空间配置器stl_construct.h         定义了全局函数construct()和destroy()，负责对象的构造与析构
+stl_alloc.h             定义了一、二级配置器alloc
+stl_uninitialized.h     定义了一些全局函数，用来copy或fill大块内存uninitialized_copy/uninitialize">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> STL源码 | 代码小书童 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">代码小书童</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                STL源码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T22:44:04+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="STL_u6E90_u7801"><a href="#STL_u6E90_u7801" class="headerlink" title="STL源码"></a>STL源码</h1><hr>
+<h2 id="alloc_u7A7A_u95F4_u914D_u7F6E_u5668"><a href="#alloc_u7A7A_u95F4_u914D_u7F6E_u5668" class="headerlink" title="alloc空间配置器"></a>alloc空间配置器</h2><pre><code>stl_construct.h         定义了全局函数construct()和destroy()，负责对象的构造与析构
+stl_alloc.h             定义了一、二级配置器alloc
+stl_uninitialized.h     定义了一些全局函数，用来copy或fill大块内存uninitialized_copy/uninitialized_fill等
+</code></pre><p>第一级配置器： 直接使用malloc()和free()</p>
+<p>第二级配置器：</p>
+<ol>
+<li>大于128bytes调用第一级配置器</li>
+<li>小于128bytes则检查对应的自由链表free list（8，16，24…128)，如果链表中有可用块直接用</li>
+<li>如果链表中无可用块，调用refill()从内存池中取空间</li>
+<li>如果内存池中空间无法满足需求，则调用malloc为内存池扩充</li>
+</ol>
+<p><code>uninitialized_copy/uninitialized_fill</code> 中调用<code>copy constructor</code></p>
+<hr>
+<h2 id="u8FED_u4EE3_u5668_u4E0Etraits"><a href="#u8FED_u4EE3_u5668_u4E0Etraits" class="headerlink" title="迭代器与traits"></a>迭代器与traits</h2><p>思路：</p>
+<p>迭代器是数据容器与算法之间的粘和剂，切合STL的中心思想：将容器与算法分开</p>
+<p>设计迭代器无可避免的需要使用型别，如何得到这个型别？ 利用<strong>模板的参数推导机制</strong></p>
+<p>模板参数推导机制只能推导参数，如果返回值需要用到这个型别则需要<strong>声明内嵌型别</strong>,函数返回值为<code>typename I::value_type</code>，value_type即声明的内嵌型别</p>
+<p>但是，并不是所有的型别都是class type，指针就不是，因此需要<strong>偏特化</strong>，为指针设计特化版本</p>
+<p>综上可引出<strong>traits</strong>，即<strong>特性萃取机</strong>，提取内型型别以及提代偏特化(能通过typename *推导出typename)</p>
+<p>迭代器型别：</p>
+<ol>
+<li>input iterator                                      最一般</li>
+<li>output iterator </li>
+<li>forward iterator</li>
+<li>bidirectional iterator</li>
+<li>random access iterator                              最特殊</li>
+</ol>
+<p>前三种去持operator++，第四种再加上operator–，第五种涵盖所有指针算术能力p+n,p-n,p[n]等</p>
+<p>规定任何迭代器都应提代五个内嵌型别，以便于类型萃取：</p>
+<ol>
+<li>iterator_categor     ： 迭代器类型</li>
+<li>value_type           ： 数据类型</li>
+<li>difference_type      ： 迭代器间距离</li>
+<li>pointer              ： 数据指针类型</li>
+<li>reference            ： 数据引用类型</li>
+</ol>
+<hr>
+<h1 id="u5E8F_u5217_u5F0F_u5BB9_u5668"><a href="#u5E8F_u5217_u5F0F_u5BB9_u5668" class="headerlink" title="序列式容器"></a>序列式容器</h1><h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><p>线性连续空间</p>
+<p>注意要点： 迭代器失效</p>
+<p>erase是将要删除位置后的元素向前拷贝，并返回删除此元素后的第一个位置</p>
+<pre><code>iterator erase(iterator position)
+{
+    if(position + 1 != end())
+        copy(postion+1,finish,position)      
+    --finish;
+    destroy(finish);
+    return position;
+}
+</code></pre><p>insert有可能引起vector重新配置空间，一旦重新配置空间，原有迭代器都失效了(因为迭代器本质还是指针，空间重新配置后，元素存放位置改变了，不再是原来地址)。</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>对于任何位置的元素插入或元素删除，list永远是常数时间</p>
+<p>list插入操作和接和(splice)操作都不会造成原有的list迭代器失效，list在某个节点作插入操作是在节点前插入</p>
+<p>splice: 将某连续范围的元素从一个list移动到另一个(或同一个)list某个定点</p>
+<pre><code>ilist.splice(ite,ilist2);
+</code></pre><p>元素操作：</p>
+<pre><code>push_front、push_back
+erase
+pop_front、pop_back
+clear、remove、unique
+splice、merge、splice、reverse、sort
+</code></pre><p>slist是单向链表(single linked list)</p>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双向开口的连续线性空间(逻辑上看来如此)</p>
+<p>与vector的差异： </p>
+<ul>
+<li>在于deque允许于常数时间内对起头端进行元素插入或移除操作</li>
+<li>是deque没有所谓的“容量”的概念,不会发生“旧空间不足而重新配置一块更大空间”</li>
+</ul>
+<p>deque由一段一段的定量连续空间构成，一旦有必要在deque的前端或尾端增加新空间，便配置一段定量连续空间串接在整个deque的头端或尾端。</p>
+<p>deque采用一块map(非stl::map)作为主控，map其实是个T**，指向一片连续区域，区域中的值指向一段连续的线性空间称为缓冲区。(问题：map有可能重新整治)</p>
+<h3 id="u914D_u63A5_u5668"><a href="#u914D_u63A5_u5668" class="headerlink" title="配接器"></a>配接器</h3><p>修改某物接口形成另一种风貌,即配接器</p>
+<p>stack： 以deque或list作为底层容器<br>        无迭代器</p>
+<p>queue： 以deque或list作为底层容器<br>        无迭代器</p>
+<h2 id="heap"><a href="#heap" class="headerlink" title="heap"></a>heap</h2><p>binary heap就是一种complete binary tree完全二叉树，整棵binary tree除了最底层的叶节点之外是填满的，最底层的叶结点从左至右不得有空隙。</p>
+<p>以最大堆为例：</p>
+<p>push_heap          O(1)<br>新结点是否适用于现在位置？执行上溯程序。<br>将新节点与父结点比较，如果键值比父节点大，就父子交换，如此一直上溯直到不产生交换</p>
+<p>pop_heap        O(logN)<br>执行下溯程序<br>取出根结点的最大值后，割舍最下层最右边结点，从根结点开始下放：将当前节点与<strong>较大子节点</strong>对调并持续下放，直到叶点节为止。</p>
+<p>sort_heap<br>最大堆   -&gt;   递增序列<br>最小堆   -&gt;   递减序列</p>
+<p>make_heap<br>将一段现有数据转化为一个heap<br><code>make_heap(RandomAccessIterator first,RandomAccessIterator end)</code></p>
+<h3 id="priority_queue"><a href="#priority_queue" class="headerlink" title="priority_queue"></a>priority_queue</h3><p><code>template&lt;class T,class Sequence=vector&lt;T&gt;,class Compare=less&lt;tyname Sequence::value_type&gt;&gt;</code></p>
+<p>priority_queue默认使用最大堆,以vector为底部容器</p>
+<hr>
+<h1 id="u5173_u8054_u5F0F_u5BB9_u5668"><a href="#u5173_u8054_u5F0F_u5BB9_u5668" class="headerlink" title="关联式容器"></a>关联式容器</h1><p><code>set</code> <code>map</code><br><code>multiset</code> <code>multimap</code><br>均以RB-tree红黑树完成</p>
+<p><code>hash_table</code>散列表<br>及以<code>hashtable</code>为底层机制完成的<code>hash_set</code>、<code>hash_map</code>、<code>hash_multiset</code>、<code>hash_multimap</code></p>
+<h2 id="u6811"><a href="#u6811" class="headerlink" title="树"></a>树</h2><p>根节点至任一节点的路径长度，即该<strong>节点的深度</strong></p>
+<p>某节点到最深节点的路径长度，即该<strong>节点的高度</strong></p>
+<p>树的高度由根点节的高度表示</p>
+<p><strong>二叉搜索树</strong>： 可提供对数时间的元素插入和访问</p>
+<p>二叉搜索树删除节点A：如果A只有一个子节点，将A的子节点连至A的父节点。<strong>如果A有两个子节点，以右子树的最小节点取代A</strong></p>
+<p>AVLTree : 任何节点的左右子树高度相差最多1</p>
+<h2 id="RB-Tree"><a href="#RB-Tree" class="headerlink" title="RB-Tree"></a>RB-Tree</h2><h2 id="hashtable"><a href="#hashtable" class="headerlink" title="hashtable"></a>hashtable</h2><p>如何避免使用一个太大的array来获取常数时间的基本操作？？使用某种<strong>映射函数，将大数映射为小数</strong>。<br>可能有不同的元素被映射到相同位置，所以需要解决碰撞问题：线性探测、二次探测</p>
+<p><strong>二次探测</strong>：如果hash function计算出新元素位置为H，依次尝试H+1,H+2^2,H+3^2,H+4^2….<br>         不是线性探测的H+1,H+2,H+3…..</p>
+<p>结论： 如果表格大小为质数，负载系数(元素个数/表格大小)在0.5以下，每插入一个新元素所需要探测次数不多于2</p>
+<p><strong>开链</strong>： hash function为我们分配一个list，然后在list身上进行元素插入、搜寻、删除等操作。<br>虽然针对list的搜寻只是一种线性操作，但是list如果够短，速度仍很快(SGI STL 采用开链)</p>
+<p><code>hash_set</code><br>运用<code>set</code>目的是快速搜寻元素，<strong><code>set</code>的元素有自动排序功能而<code>hash_set</code>没有</strong></p>
+<h3 id="map__u4E0E_hash_map__u4E0E_unordered_map"><a href="#map__u4E0E_hash_map__u4E0E_unordered_map" class="headerlink" title="map 与 hash_map 与 unordered_map"></a><code>map</code> 与 <code>hash_map</code> 与 <code>unordered_map</code></h3><p>c++11增加了unordered系列的容器(<code>unordered_set</code>、<code>unordered_multiset</code>、<code>unordered_map</code>、<code>unordered_multimap</code>），其原理是用hash做的，自然查找速度比原先的map和set要快很多。<br>其实在C++11标准出来之前，基于hash的容器也已经有了，就是<code>hash_map</code>（在<code>std::tr1</code>内），只是正式标准出来之后，建议统一使用<code>unordered</code>系列的容器。</p>
+<p>map的key需要定义operator&lt; ,而<code>unordered_map</code>需要定义hash_value函数并且重载operator==。<br>对于内置类型，如string，这些都不用操心</p>
+<h1 id="u4EFF_u51FD_u6570"><a href="#u4EFF_u51FD_u6570" class="headerlink" title="仿函数"></a>仿函数</h1><p>仿函数的作用：<br>STL算法往往提代两个版本，第一个版本是最常用的某种运算，第二个版本表现出泛化的演算流程，允许用户以“template参数来指定要采用的策略”</p>
+<p>函数指针不能满足抽象性的要求，也无法和STL其它组件搭配产生更灵活的变化。</p>
+<p>头文件： <code>&lt;functional&gt;</code></p>
+<pre><code>equal_to&lt;T&gt;
+greater&lt;T&gt;
+less&lt;T&gt;
+greater_equal&lt;T&gt;
+
+plus&lt;T&gt;
+minus&lt;T&gt;
+</code></pre><p>仿函数greater的定义</p>
+<pre><code>template&lt;class _Ty&gt;
+    struct greater
+        : public binary_function&lt;_Ty, _Ty, bool&gt;
+    {    // functor for operator&gt;
+    bool operator()(const _Ty&amp; _Left, const _Ty&amp; _Right) const
+        {    // apply operator&gt; to operands
+        return (_Left &gt; _Right);
+        }
+    };
+</code></pre><h1 id="u914D_u63A5_u5668-1"><a href="#u914D_u63A5_u5668-1" class="headerlink" title="配接器"></a>配接器</h1><p>Adapter这个概念，事实上是一种设计模式</p>
+<p>STL中改变仿函数接口者，称为函数配接器，数量最多最庞大最灵活</p>
+<p>改变容器接口者，称为容器配接器，如queue,stack</p>
+<p>改变迭代器接口者，称为迭代器配接器，如insert iterators,reverse iterators,iostream iterators</p>
+<h2 id="u8FED_u4EE3_u5668_u914D_u63A5_u5668"><a href="#u8FED_u4EE3_u5668_u914D_u63A5_u5668" class="headerlink" title="迭代器配接器"></a>迭代器配接器</h2><p>头文件 <code>&lt;iterator&gt;</code></p>
+<ol>
+<li><p>Insert Iterators</p>
+<p> <code>back_insert_iterator</code><br> <code>front_insert_iterator</code><br> <code>insert_iterator</code></p>
+</li>
+</ol>
+<p>例如：</p>
+<pre><code>int ia[]    ={0,1,2,3,4,5}
+deque&lt;inat&gt; id(ia,ia+6);
+dopy(ia+3,ia+4,back_inster(id));//  0 1 2 3 4 5 3
+</code></pre><ol>
+<li><p>Reverse Iterators</p>
+</li>
+<li><p>IOStream Iterators </p>
+<p> //将outtie绑定到cout，每次对outite指派一个元素，就后接一个“ ”<br> ostream_iterator<int> outite(cout,” “);<br> copy(id.begin(),id.end(),outtite);</int></p>
+</li>
+</ol>
+<h2 id="u4EFF_u51FD_u6570_u914D_u63A5_u5668"><a href="#u4EFF_u51FD_u6570_u914D_u63A5_u5668" class="headerlink" title="仿函数配接器"></a>仿函数配接器</h2><p>头文件<code>&lt;functional&gt;</code></p>
+<p><code>not1(bind2nd(less&lt;int&gt;(),12))   //不小于12</code></p>
+<pre><code>bind1st(const Op&amp;op,const T&amp; x);  ==&gt;  op(x,param)
+bind2nd(const Op&amp;op,const T&amp; x);  ==&gt;  op(param,x)
+compose(const Op1&amp; op1,const Op2&amp; op2) ==&gt; op1(op2(param))
+ptr_fun(Result(*fp)(Arg))         ==&gt; fp(param)           //ptr_fun参数为函数指针
+mem_fun(S (T::*f)())              ==&gt; (param-&gt;*f)() 
+</code></pre><p>例子：</p>
+<pre><code>void print(int i)
+{
+    cout&lt;&lt;i&lt;&lt;&quot; &quot;;
+}
+
+for_each(id.begin(),id.end(),ptr_fun(print));
+</code></pre><h1 id="u7C7B_u7684_u6210_u5458_u51FD_u6570_u6307_u9488"><a href="#u7C7B_u7684_u6210_u5458_u51FD_u6570_u6307_u9488" class="headerlink" title="类的成员函数指针"></a>类的成员函数指针</h1><p>C++中，成员指针是最为复杂的语法结构。但在事件驱动和多线程应用中被广泛用于调用回叫函数。在多线程应用中，每个线程都通过指向成员函数的指针来调用该函数。在这样的应用中，如果不用成员指针，编程是非常困难的</p>
+<p>一个指向外部函数的指针声明为： </p>
+<pre><code>void (*pf)(char *, const char *); 
+
+void strcpy(char * dest, const char * source); 
+
+pf=strcpy; 
+</code></pre><p>一个指向类A成员函数的指针声明为： </p>
+<pre><code>void (A::*pmf)(char *, const char *); 
+
+pmf = &amp;A::strcpy;      //标准C++强制要求加上&amp;号
+</code></pre><p>或者</p>
+<pre><code>typedef void(A::*PMA)(char *, const char *); 
+
+PMA pmf= &amp;A::strcat; // pmf是PMF类型(类A成员指针)的变量 
+</code></pre><p>通过类成员函数指针调用成员函数</p>
+<pre><code>A a;
+
+A *p= &amp;a; //创建指向A的指针
+
+(a.*pmf)(str, “abc”); //将成员函数绑定到pmf
+
+(p-&gt;*pmf)(str, “abc”);
+</code></pre><p>for_each</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/stl/" rel="tag">#stl</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/29/linphone/" rel="next" title="Linphone架构解析">
+                <i class="fa fa-chevron-left"></i> Linphone架构解析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/29/海量数据处理/" rel="prev" title="海量数据处理">
+                海量数据处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="EATHAN" />
+          <p class="site-author-name" itemprop="name">EATHAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2017971021/profile?topnav=1&wvr=6" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://braverichard.sinaapp.com/" target="_blank">Brave</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#STL_u6E90_u7801"><span class="nav-number">1.</span> <span class="nav-text">STL源码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#alloc_u7A7A_u95F4_u914D_u7F6E_u5668"><span class="nav-number">1.1.</span> <span class="nav-text">alloc空间配置器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u8FED_u4EE3_u5668_u4E0Etraits"><span class="nav-number">1.2.</span> <span class="nav-text">迭代器与traits</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u5E8F_u5217_u5F0F_u5BB9_u5668"><span class="nav-number">2.</span> <span class="nav-text">序列式容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vector"><span class="nav-number">2.1.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#list"><span class="nav-number">2.2.</span> <span class="nav-text">list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deque"><span class="nav-number">2.3.</span> <span class="nav-text">deque</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#u914D_u63A5_u5668"><span class="nav-number">2.3.1.</span> <span class="nav-text">配接器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#heap"><span class="nav-number">2.4.</span> <span class="nav-text">heap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#priority_queue"><span class="nav-number">2.4.1.</span> <span class="nav-text">priority_queue</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u5173_u8054_u5F0F_u5BB9_u5668"><span class="nav-number">3.</span> <span class="nav-text">关联式容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u6811"><span class="nav-number">3.1.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RB-Tree"><span class="nav-number">3.2.</span> <span class="nav-text">RB-Tree</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashtable"><span class="nav-number">3.3.</span> <span class="nav-text">hashtable</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map__u4E0E_hash_map__u4E0E_unordered_map"><span class="nav-number">3.3.1.</span> <span class="nav-text">map 与 hash_map 与 unordered_map</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u4EFF_u51FD_u6570"><span class="nav-number">4.</span> <span class="nav-text">仿函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u914D_u63A5_u5668-1"><span class="nav-number">5.</span> <span class="nav-text">配接器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u8FED_u4EE3_u5668_u914D_u63A5_u5668"><span class="nav-number">5.1.</span> <span class="nav-text">迭代器配接器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u4EFF_u51FD_u6570_u914D_u63A5_u5668"><span class="nav-number">5.2.</span> <span class="nav-text">仿函数配接器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u7C7B_u7684_u6210_u5458_u51FD_u6570_u6307_u9488"><span class="nav-number">6.</span> <span class="nav-text">类的成员函数指针</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">EATHAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

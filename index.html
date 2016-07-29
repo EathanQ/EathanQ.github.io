@@ -214,8 +214,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/07/29/linphone/" itemprop="url">
-                  Linphone架构解析
+                <a class="post-title-link" href="/2016/07/29/TCP/" itemprop="url">
+                  TCP/IP协议族
                 </a>
               
             
@@ -228,7 +228,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-29T22:18:41+08:00" content="2016-07-29">
+            <time itemprop="dateCreated" datetime="2016-07-29T22:49:14+08:00" content="2016-07-29">
               2016-07-29
             </time>
           </span>
@@ -242,8 +242,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/linphone/" itemprop="url" rel="index">
-                    <span itemprop="name">linphone</span>
+                  <a href="/categories/TCP-IP/" itemprop="url" rel="index">
+                    <span itemprop="name">TCP/IP</span>
                   </a>
                 </span>
 
@@ -276,79 +276,93 @@
       
         
           
-            <h1 id="LINPHONE"><a href="#LINPHONE" class="headerlink" title="LINPHONE"></a>LINPHONE</h1><p>linphone是一款开源的sip电话，支持iOS,Android,Windows Phone8,GNU/Linux，Windows Desktop，MAC OSX以及web浏览器。</p>
-<p>linphone内部核心引擎部分和用户接口是分开的。</p>
+            <h1 id="TCP/IP_u534F_u8BAE_28_u65CF_29"><a href="#TCP/IP_u534F_u8BAE_28_u65CF_29" class="headerlink" title="TCP/IP协议(族)"></a>TCP/IP协议(族)</h1><pre><code>应用层
+传输层   TCP UDP 
+网络层   IP ICMP IGMP
+链路层   设备驱动程序  以太网协议
+</code></pre><p>路由器为不同类型的物理网络提供连接：以太网、令牌环网</p>
+<p>五类ip地址</p>
+<pre><code>A    0.0.0.0      ~   127.255.255.255   前1字节网络号
+B    128.0.0.0    ~   191.255.255.255   前2字节网络号
+C    192.0.0.0    ~   223.255.255.255   前3字节网络号
+D    224.0.0.0    ~   239.255.255.255
+E    240.0.0.0    ~   255.255.255.255
+</code></pre><hr>
+<h2 id="u94FE_u8DEF_u5C42"><a href="#u94FE_u8DEF_u5C42" class="headerlink" title="链路层"></a>链路层</h2><ol>
+<li>为ip模块发送和接收数据报</li>
+<li>为ARP模块发送ARP请求和接收ARP应答</li>
+<li>为RARP发送RARP请求和接收RARP应答</li>
+</ol>
+<hr>
+<h2 id="ip_u7F51_u9645_u534F_u8BAE"><a href="#ip_u7F51_u9645_u534F_u8BAE" class="headerlink" title="ip网际协议"></a>ip网际协议</h2><p>不可靠： 不能保证ip数据报能成功地到达目的地<br>无连接： ip数据报可以不按发送顺序接收</p>
+<p><strong>以big endian字节序传输</strong>，即先传高地址再传低地址，也称网络字节序。以其他形式存储二进制整数的机器，必须在传输数据之前把数据转换成网络字节序。</p>
+<p>路由表表项：</p>
+<pre><code>目的IP地址 
+下一站路由器IP地址
+标志
+</code></pre><p>IP路由选择过程：</p>
+<pre><code>搜索路由表,寻找能与*目的地IP完全区配*的表目
+搜索路由表，寻找能与*目的网络号*相区配的表目
+搜索路由表，寻找标为默认的路由
+</code></pre><p>由于B类地址主机数太多，将B类地址中留给主机的16bit中的前8bit作为子网地址，后8bit作为主机号。这样做的好处是减少了路由表的规模。</p>
+<p>子网掩码确定多少比特用于子网号以及多少比特用于主机号。</p>
+<p>子网掩码为32bit，其中值为1的比特留给网络号和子网号，值为0的比特留给主机号。<br>主机号全为1的为广播地址。</p>
+<h2 id="ARP__u4E0E_RARP"><a href="#ARP__u4E0E_RARP" class="headerlink" title="ARP 与 RARP"></a>ARP 与 RARP</h2><p>当一台主机把以太网数据帧发送到另一台主机时，是根据48bit的以太网地址来确定目的接口。</p>
+<p>ARP 为IP地址到对应的硬件地址之间提供动态映射。<br>RARP为硬件地址到IP地址提供映射</p>
+<p><strong>ARP过程：</strong></p>
+<p>  1.每个主机都会在自己的ARP缓冲区建立一个ARP列表，以表示IP地址和MAC地址之间的对应关系。</p>
+<p>  2.当源主机要发送数据时，首先检查ARP列表中是否有对应IP地址的目的主机的MAC地址，如果有，则直接发送数据。 如果没有，就向本网段的所有主机发送ARP数据包，该数据包包括：源主机IP地址，源主机MAC地址，目的主机IP地址</p>
+<p>  3.当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包如果是，则首先从数据包中取出源主机的IP和MAC地址写入ARP列表中，如果已存在则覆盖，然后将自己的MAC地下写入ARP响应包中，告诉源主机自己是它要找的MAC地址。</p>
+<p>  4.源主机收到ARP响应后，将目的地主的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败</p>
+<p>  广播发送ARP请求，单播发送ARP响应</p>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p><strong>面向连接的，可靠的字节流服务</strong></p>
+<p>面向连接意味着两个使用TCP的应用在交换数据前必须先建立一个TCP连接；</p>
+<p>TCP通过以下方式提供可靠性：</p>
+<ol>
+<li>应用数据被分割成TCP认为最适合发送的数据块，与UDP不同(UDP很容易造成IP分片)</li>
+<li>TCP发出一个报文后，将启动一个定时器。</li>
+<li>当TCP收到一个报文后，将发送一个确认。</li>
+<li>TCP保持首部和数据的校验和，目的是检测数据在传输过程中的变化，这是一个端到端的检测，如果收到报文的校验有差错，将丢弃该报文和不确认收到该报文。</li>
+<li>TCP对收到的报文重新排序，且丢弃重复报文。</li>
+<li>TCP提供流量控制。</li>
+</ol>
+<h3 id="TCP_u8FDE_u63A5_u5EFA_u7ACB_u4E0E_u7EC8_u6B62"><a href="#TCP_u8FDE_u63A5_u5EFA_u7ACB_u4E0E_u7EC8_u6B62" class="headerlink" title="TCP连接建立与终止"></a>TCP连接建立与终止</h3><p>三次握手、四次挥手</p>
+<p>一个TCP连接由一个4元组确定：本地IP地址，本地端口号、远端IP地址、远端端口号</p>
+<p>连接时状态变化：</p>
 <ul>
-<li><p>用户接口前端</p>
+<li>主动端：SYN_SENT  -&gt;  ESTABLISHED</li>
+<li>被动端：SYN_RCVD  -&gt;  ESTABLISHED</li>
+</ul>
+<p>终止时状态变化：</p>
 <ul>
-<li>给windows和linux提供的GTK+接口</li>
-<li>控制台接口</li>
-<li>Android的JAVA接口</li>
-<li>IOS的Objective C</li>
-<li>Windows Phone 的C#接口</li>
+<li>主动端：FIN_WAIT1  -&gt;  FIN_WAIT2  -&gt; TIME_WIAT</li>
+<li>被动端：CLOSE_WAIT -&gt;  LAST_ACK   -&gt; CLOSED</li>
 </ul>
-</li>
-<li><p>Liblinphone最重要的核心引擎部分，是实现linphone所有功能的SIP VoIP SDK。</p>
-</li>
-<li><p>Liblinphone依赖于下面的软件组成</p>
+<p>2MSL等待状态：<br>MSL是报文段最大生存时间。<br>当TCP执行主动关闭，并发送最后一个ACK，该连接必须在TIME_WAIT状态停留的时间为2倍的MSL。</p>
+<p>2MSL等待状态存在理由：让4次挥手关闭流程更可靠：4次挥手的最后一个ACK是主动关闭方发送的，若这个ACK丢失，被动关闭方会再次发送FIN过来。若主动关闭方维持一个2MSL和TIME_WAIT状态，有更大机会让ACK再次发送。</p>
+<p>2MSL状态下的表现：<br>在此状态下，不能使用此端口。对服务器端有影响。</p>
+<p>其他问题：</p>
 <ul>
-<li>Mediastreamer2  ： 音视频流创建与处理的多媒体SDK</li>
-<li>oRTP：  RTP库</li>
-<li>belle-sip SIP库</li>
+<li>防止FIN_WAIT_2状态的无限等待</li>
+<li>防止由于客户机非正常关闭造成的服务器端存在许多半打开TCP连接</li>
 </ul>
-</li>
-</ul>
-<p><img src="/img/schema-linphone.png" alt="schema"></p>
-<h1 id="u672F_u8BED_u89E3_u91CA"><a href="#u672F_u8BED_u89E3_u91CA" class="headerlink" title="术语解释"></a>术语解释</h1><h2 id="SIP"><a href="#SIP" class="headerlink" title="SIP"></a>SIP</h2><p>SIP(Session Initiation Protocol)会话初始协议是一个应用层的信令控制协议。用于创建、修改和释放一个或多个参与者的会话。这些会话可以是Internet多媒体会议、IP电话或多媒体分发。会话的参与者可以通过组播（multicast）、网状单播（unicast）或两者的混合体进行通信。</p>
-<p>SIP 使用用户数据报协议(UDP) 以及传输控制协议(TCP)，将独立于底层基础设施的用户灵活地连接起来。</p>
-<h2 id="RTP"><a href="#RTP" class="headerlink" title="RTP"></a>RTP</h2><p>实时传输协议RTP（Real-time Transport Protocol）是一个网络传输协议。RTP协议和RTP控制协议RTCP一起使用，而且它是建立在用户数据报协议上的。RTP用来为IP网上的语音、图像、传真等多种需要实时传输的多媒体数据提供端到端的实时传输服务。RTP为Internet上端到端的实时传输提供时间信息和流同步，但并不保证服务质量，服务质量由RTCP来提供。</p>
-<p><img src="/img/rtp.jpg" alt="rtp"></p>
-<h1 id="u6D89_u53CA_u5DE5_u5177"><a href="#u6D89_u53CA_u5DE5_u5177" class="headerlink" title="涉及工具"></a>涉及工具</h1><h2 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h2><p>CMake是一个跨平台的安装（编译）工具，可以用简单的语句来描述所有平台的安装(编译过程)。他能<strong>够输出各种各样的makefile或者project文件</strong>，能<strong>测试编译器所支持的C++特性</strong>,类似UNIX下的automake。</p>
-<p>通过用户编写的CMakeLists.txt构建项目</p>
-<h2 id="AWK"><a href="#AWK" class="headerlink" title="AWK"></a>AWK</h2><p>awk是Linux下一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
-<h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><pre><code>awk &apos;{pattern + action}&apos; {filenames}
-</code></pre><p>1.命令行方式</p>
-<pre><code>awk [-F  field-separator]  &apos;commands&apos;  input-file(s)
-</code></pre><p>其中，commands 是真正awk命令，[<strong>-F 域分隔符</strong>]是可选的。 input-file(s) 是待处理的文件。<br>在awk中，文件的每一行中，由域分隔符分开的每一项称为一个域。通常，在不指名-F域分隔符的情况下，默认的域分隔符是空格。</p>
-<h3 id="aww_u5185_u7F6E_u53D8_u91CF"><a href="#aww_u5185_u7F6E_u53D8_u91CF" class="headerlink" title="aww内置变量"></a>aww内置变量</h3><pre><code>ARGC               命令行参数个数
-ARGV               命令行参数排列
-ENVIRON            支持队列中系统环境变量的使用
-FILENAME           awk浏览的文件名
-FNR                浏览文件的记录数
-FS                 设置输入域分隔符，等价于命令行 -F选项
-NF                 浏览记录的域的个数
-NR                 已读的记录数
-OFS                输出域分隔符
-ORS                输出记录分隔符
-RS                 控制记录分隔符
-</code></pre><p>awk还可以自定义变量<br>条件语句，循环语句等等</p>
-<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p>Git是一款免费、开源的分布式版本控制系统。</p>
-<h3 id="u521B_u5EFA_u7248_u672C_u5E93"><a href="#u521B_u5EFA_u7248_u672C_u5E93" class="headerlink" title="创建版本库"></a>创建版本库</h3><p>建一个版本库非常简单，首先，选择一个合适的地方，创建一个空目录</p>
-<pre><code>$ mkdir learngit
-$ cd learngit
-$ pwd
-/Users/michael/learngit
-</code></pre><p>第二步，通过git init命令把这个目录变成Git可以管理的仓库：</p>
-<pre><code>$ git init
-Initialized empty Git repository in /Users/michael/learngit/.git/
-</code></pre><h3 id="u5C06_u6587_u4EF6_u6DFB_u52A0_u5230_u7248_u672C_u5E93"><a href="#u5C06_u6587_u4EF6_u6DFB_u52A0_u5230_u7248_u672C_u5E93" class="headerlink" title="将文件添加到版本库"></a>将文件添加到版本库</h3><p>将文件放到<code>learngit</code>目录下（子目录也行），因为这是一个Git仓库，放到其他地方Git再厉害也找不到这个文件</p>
-<pre><code>$ git add readme.txt
-</code></pre><p>第二步，用命令git commit告诉Git，把文件提交到仓库：</p>
-<pre><code>$ git commit -m &quot;wrote a readme file&quot;
-[master (root-commit) cb926e7] wrote a readme file
- 1 file changed, 2 insertions(+)
- create mode 100644 readme.txt
-</code></pre><p><code>-m</code>后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录</p>
-<h3 id="u67E5_u770B_u533A_u522B"><a href="#u67E5_u770B_u533A_u522B" class="headerlink" title="查看区别"></a>查看区别</h3><p><code>git status</code>命令可以让我们时刻掌握仓库当前的状态</p>
-<p><code>git diff</code>顾名思义就是查看difference，显示的格式正是Unix通用的diff格式</p>
-<p>版本控制系统肯定有某个命令可以告诉我们历史记录，在Git中，我们用<code>git log</code>命令查看</p>
-<p>用HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100</p>
-<pre><code>$ git reset --hard HEAD^
-HEAD is now at ea34578 add distributed
-</code></pre><p>现在总结一下：</p>
-<p>HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
-<p>穿梭前，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
-<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本</p>
+<h3 id="TCP_u4EA4_u4E92_u6570_u636E_u6D41_u7684Nagle_u7B97_u6CD5"><a href="#TCP_u4EA4_u4E92_u6570_u636E_u6D41_u7684Nagle_u7B97_u6CD5" class="headerlink" title="TCP交互数据流的Nagle算法"></a>TCP交互数据流的Nagle算法</h3><p>交互数据通常需要服务器端进行回显。因此客户端一般每次发送一个字节到服务器，在广域网上这些微小分组有造成拥塞的可能性。<br>为了减少分组，Nagle算法要求一个TCP连接上最多只能有一个示被确认的未完成的小组，在该分组的确认未到达之前不能发送其他分组，在此期间TCP收集这些分组，在确认来到时以一个分组的方式发出去。</p>
+<h3 id="TCP_u6210_u5757_u6570_u636E_u6D41_u2013_28_u6ED1_u52A8_u7A97_u53E3_u3001_u6162_u542F_u52A8_u7B49_29"><a href="#TCP_u6210_u5757_u6570_u636E_u6D41_u2013_28_u6ED1_u52A8_u7A97_u53E3_u3001_u6162_u542F_u52A8_u7B49_29" class="headerlink" title="TCP成块数据流–(滑动窗口、慢启动等)"></a>TCP成块数据流–(滑动窗口、慢启动等)</h3><p>滑动窗口协议： 允许发送方在停止并等待确认前可以连续发送多个分组，不必每发一个分组就停下来等待确认。</p>
+<p>具体细节： 1. ACK是累积的，即发送方收到的ACK序号代表接收方已经正确收到了此序号减1的所有字节。</p>
+<pre><code>2. 快的发送方与慢的接收方通信时，接收方除了发送ACK，还需要告知其窗口大小，告知发送方当前能发送的数据大小。简而言之，接收方会发送窗口更新。
+3. 缓冲区大小影响性能
+</code></pre><p>PUSH标志： 发送方使用该标志通知接收方将所收到的数据全部提交给接收进程。</p>
+<p>发送方一开始便向网络发送多个报文段，直到达到接收方通告的窗口大小为止，当发送方与接收方存在多个路由器或链路，容易造成中间路由器耗尽空间，因此需要慢启动。</p>
+<p>慢启动：  通过观察到新分组进入网络的速率与另一端返回确认的速率工作。<br>慢启动为发送方的TCP增加了“<strong>拥塞窗口</strong>”cwnd。 当与另一个主机建立TCP连接时，拥塞窗口大小设为1个报文段，每收到一个ACK拥塞窗口大小加1。<strong>发送方取拥塞窗口与通知窗口下限作为发送上限</strong>。通知窗口即接收方使用的流量控制。</p>
+<h3 id="TCP_u8D85_u65F6_u4E0E_u91CD_u4F20"><a href="#TCP_u8D85_u65F6_u4E0E_u91CD_u4F20" class="headerlink" title="TCP超时与重传"></a>TCP超时与重传</h3><p>TCP的可靠： 1.确认从另一端收到的数据  2. 确认也有可能丢失，所以要有超时重传</p>
+<p>TCP的4个定时器：</p>
+<ol>
+<li>重传定时器  使用于希望收到另一端的确认</li>
+<li>坚持定时器  周期地向接收方查询窗口大小，防止窗口更新数据丢失导致死锁等待</li>
+<li>保活定时器  可检测到一个空闲连接的另一端何时崩溃或重启 </li>
+<li>2MSL定时器  测量一个连接处于TIME_WAIT的时间</li>
+</ol>
+<p>拥塞避免算法： 拥塞窗口cwnd和慢启动门限ssthresh<br>ssthresh设置为拥塞发生时(超时或重传)当前窗口的一半，在未到达ssthresh时慢启动，否则线性增加窗口大小。</p>
 
           
         
@@ -394,8 +408,8 @@ HEAD is now at ea34578 add distributed
             
               
                 
-                <a class="post-title-link" href="/2016/07/29/socket/" itemprop="url">
-                  Linux下socket基础
+                <a class="post-title-link" href="/2016/07/29/OS/" itemprop="url">
+                  操作系统
                 </a>
               
             
@@ -408,7 +422,7 @@ HEAD is now at ea34578 add distributed
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-29T21:57:16+08:00" content="2016-07-29">
+            <time itemprop="dateCreated" datetime="2016-07-29T22:47:34+08:00" content="2016-07-29">
               2016-07-29
             </time>
           </span>
@@ -422,8 +436,8 @@ HEAD is now at ea34578 add distributed
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Socket/" itemprop="url" rel="index">
-                    <span itemprop="name">Socket</span>
+                  <a href="/categories/操作系统/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
                   </a>
                 </span>
 
@@ -456,27 +470,77 @@ HEAD is now at ea34578 add distributed
       
         
           
-            <h1 id="IPV4_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><a href="#IPV4_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784" class="headerlink" title="IPV4套接字地址结构"></a>IPV4套接字地址结构</h1><p>  大多数套接字函数需要一个指向套接字地址结构的指针作为参数。<br>struct in_addr{<br>    in_addr_t s_addr;      //32-bit IPV4 地址<br>};                         //网络字节顺序</p>
-<p>struct sockaddr_in{<br>    uint8_t          sin_len;<br>    sa_family_t      sin_family;   /<em>AF_INET</em>/<br>    in_port_t        sin_port;     //16-bit tcp或udp端口号，网络字节顺序<br>    struct in_addr   sin_addr;     //32-bit 的IPV4地址，网络字节顺序<br>    char             sin_zero[8];  //未使用<br>};</p>
-<h1 id="u901A_u7528_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784"><a href="#u901A_u7528_u5957_u63A5_u5B57_u5730_u5740_u7ED3_u6784" class="headerlink" title="通用套接字地址结构"></a>通用套接字地址结构</h1><p>struct sockaddr{<br>    uint8_t          sa_len;<br>    sa_family_t      sa_family;    /<em>address family : AF_xxx value</em>/<br>    char             sa_data[14];  //protocol-specific address<br>};</p>
-<h1 id="socket_u51FD_u6570"><a href="#socket_u51FD_u6570" class="headerlink" title="socket函数"></a>socket函数</h1><p>  为了执行网络I/O，一个进程必须做的第一件事情就是调用socket函数，指定期望的通信协议类型。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> family , <span class="keyword">int</span> type , <span class="keyword">int</span> protocol)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为非负描述符，否则为-1</span></span><br></pre></td></tr></table></figure></p>
-<p>family参数指名协议族或叫做协议域，值可以为：<br>AF_INET             IPV4协议<br>AF_INET6            IPV6协议<br>AF_ROUTE            路由套接字</p>
-<p>type参数指名套接字类型，值可以为：<br>SOCK_STREAM         字节流套接字<br>SOCK_DGRAM          数据报套接字<br>SOCK_SEQPACKET      有序分组套接字<br>SOCK_RAW            原始套接字</p>
-<p>protocol参数设置为0选择给定的family和type组合的系统默认值。</p>
-<p><img src="/img/socket编程流程.png" alt="socket"></p>
-<h1 id="connect_u51FD_u6570"><a href="#connect_u51FD_u6570" class="headerlink" title="connect函数"></a>connect函数</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd , con <span class="keyword">struct</span> sockaddr *servaddr , socklen_t addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure>
-<p>sockfd是由socket函数返回的套接字描述符，第二个与第三个参数分别是一个指向套接字地址接构的指针与该结构的大小。<br>客户在调用connect前不必非得调用bind函数，因为如果需要的话，内核会确定源ip地址，并选定一个临时端口作为源端口。<br>调用connect将激发TCP三次握手过程。</p>
-<h1 id="bind_u51FD_u6570"><a href="#bind_u51FD_u6570" class="headerlink" title="bind函数"></a>bind函数</h1><p>bind函数把一个本地协议地址赋予一个套接字。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *myaddr , socklen_t addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
-<p>第二个参数是一个指向特定于协议的地址结构的指针，第三个参数是该地址结构的长度。对于TCP，调用bind函数可以指定一个端口号，<br>或指定一个IP地址，也可以两者都指定。</p>
-<h1 id="listen_u51FD_u6570"><a href="#listen_u51FD_u6570" class="headerlink" title="listen函数"></a>listen函数</h1><p>listen函数仅由TCP服务器调用，它做两件事情：<br>1)listen函数把一个未连接的套接字转换成一个被动套接字，指示内核应接受指向该套接字的连接请求。调用listen导致套接字从CLOSED状态转换到LISTEN状态。<br>2)规定了内核应该为相应套接字排队的最大连接个数。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">int</span> backlog)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
-<p><img src="/img/listen.png" alt="listen"></p>
-<p>内核为任何一个给定的监听套接字维护两个队列：<br>(1)未完成连接队列：已由某个客户发出并到达服务器，而服务器正在等待完成相应的TCP三次握手过程，套接字处于SYN_RCVD状态。<br>(2)已完成连接队列：每个已完成TCP三次握手的客户对应其中一项，这些套接字处于ESTABLISHED状态<br>两队列之和不超过backlog。</p>
-<h1 id="accept_u51FD_u6570"><a href="#accept_u51FD_u6570" class="headerlink" title="accept函数"></a>accept函数</h1><p>accept函数由TCP服务器调用，用于从已完成连接队列队头返回下一个已完成连接，如果已完成连接队列为空，那么进程被投入睡眠。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr * sliaddr, socklen_t * addrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为非负描述符，出错为-1</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="fork_u4E0Eexec_u51FD_u6570"><a href="#fork_u4E0Eexec_u51FD_u6570" class="headerlink" title="fork与exec函数"></a>fork与exec函数</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="keyword">pid_t</span> fork(<span class="keyword">void</span>);</span><br><span class="line"><span class="comment">//返回：在子进程中为0。在父进程中为子进程ID。出错为-1</span></span><br></pre></td></tr></table></figure>
-<p>fork在子进程返回0而不是父进程的进程ID原因：任何子进程只有一个父进程，而子进程总是可以通过getppid取得父进程的进程ID，<br>相反，父进程可以有许多子进程，而且无法获取各个子进程的进程ID，如果父进程想跟踪子进程的进程ID，就必须记录每次调用fork的返回值。<br>fork的两种典型用法:<br>    (1)一个进程创建自身的一个副本，这样每个副本可以在另一个副本执行其他任务同时处理各自操作，这是网络服务器典型用法<br>    (2) 一个进程想要执行另一个程序，于是首先调用fork创建一个自身副本，然后副本调用exec把副本自身替换为新的程序。这是shell之类程序的典型用法。</p>
-<h1 id="close_u51FD_u6570"><a href="#close_u51FD_u6570" class="headerlink" title="close函数"></a>close函数</h1><p>用来关闭套接字，并终止TCP连接<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> sockfd)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="getcoskname_u548Cgetpeername_u51FD_u6570"><a href="#getcoskname_u548Cgetpeername_u51FD_u6570" class="headerlink" title="getcoskname和getpeername函数"></a>getcoskname和getpeername函数</h1><p>getsockname返回与某个套接字相关联的本地协议地址<br>getpeername返回与某个套接字相关联的外地协议地址<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getsockname</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr *localaddr , socklen_t *adrlen)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getpeername</span><span class="params">(<span class="keyword">int</span> sockfd , <span class="keyword">struct</span> sockaddr *peeraddr  , socklen_t *adrlen)</span></span>;</span><br><span class="line"><span class="comment">//返回：若成功则为0，出错为-1</span></span><br></pre></td></tr></table></figure></p>
-<p>这两个函数装填由localaddr和peeraddr指向的套接字地址结构。</p>
+            <h1 id="u8FDB_u7A0B_u4E0E_u7EBF_u7A0B"><a href="#u8FDB_u7A0B_u4E0E_u7EBF_u7A0B" class="headerlink" title="进程与线程"></a>进程与线程</h1><p>两个或多个进程读写某些共享数据，而最后的结果取决于进程运行的精确时序，称为<strong>竞争条件(race condition)</strong></p>
+<p>要避免共同读写的错误，关键是找出某种途径来阻止多个进程同时读写共享的数据，即<strong>互斥(mutual exclusion)</strong></p>
+<p>对共享内存区域进行访问的程序片段称作<strong>临界区域或临界区(critical section)</strong></p>
+<p>孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作。</p>
+<p>僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵死进程。</p>
+<h3 id="u751F_u4EA7_u8005-_u6D88_u8D39_u8005_u95EE_u9898"><a href="#u751F_u4EA7_u8005-_u6D88_u8D39_u8005_u95EE_u9898" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h3><p>两个进程共享一公共的固定大小的缓冲区，其中一个是生产者，将信息放入缓冲区，另一个是消费者，从缓冲区取出信息</p>
+<p>信号量：　  可计数          semaphore</p>
+<p>信号量的PV操作： 假如有信号量SV<br>P(对应进入临界区)： 如果SV的值大于0，则将SV减1.如果SV的值为0，则进程挂起<br>V(对应退出临界区)： 如果有因SV挂起的进程，则唤醒。如果没有，由将SV加1.</p>
+<p>互斥量：　  两态，解锁、加锁  mutex　</p>
+<p>条件变量： </p>
+<p>进程切换：<br>用户态切换为内核态<br>保存当前进程的状态，包括进程表中存储寄存器的值以便重新装载<br>运行调度算法选定一个新进程<br>新进程内存映像装入MMU（Memory Manage Unit）<br>新进程开始运行</p>
+<h3 id="u8FDB_u7A0B_u8C03_u5EA6"><a href="#u8FDB_u7A0B_u8C03_u5EA6" class="headerlink" title="进程调度"></a>进程调度</h3><p>何时调度：<br>1.创建新进程时，需要决定是运行父进程还是子进程<br>2.在一个进程退出时<br>3.当一个进程阻塞时<br>4.I/O中断发生时</p>
+<p>指标：<br>吞吐量     ： 每小时最大作业数<br>周转时间   ： 从一个作业提交时刻开始直到该作业完成时刻为止的统计平均时间<br>CPU利用率  ：<br>等待时间   ： </p>
+<p>批系统中的调度：<br>先来先服务<br>最短优先作业<br>最短剩余时间优先</p>
+<p>交互系统中的调度：<br>时间片轮转调度<br>优先级调度</p>
+<p>用户级线程的切换需要少量的机器指令。<br>内核级线程切换需要完整的上下文切换，修改内存映像，使高速缓存失效。</p>
+<h3 id="u8FDB_u7A0B_u95F4_u901A_u4FE1"><a href="#u8FDB_u7A0B_u95F4_u901A_u4FE1" class="headerlink" title="进程间通信"></a>进程间通信</h3><p>管道：管道是一种半双工的通信方式，数据只能单向流动</p>
+<p>信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</p>
+<p>信号： 信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生</p>
+<p>消息队列 ：  消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</p>
+<p>共享内存： 共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。</p>
+<p>套接字： 套解口也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同主机间的进程通信。</p>
+<h3 id="u7ECF_u5178IPC_28Inter_Process_Communication_29_u54F2_u5B66_u5BB6_u5C31_u9910_u95EE_u9898"><a href="#u7ECF_u5178IPC_28Inter_Process_Communication_29_u54F2_u5B66_u5BB6_u5C31_u9910_u95EE_u9898" class="headerlink" title="经典IPC(Inter Process Communication)哲学家就餐问题"></a>经典IPC(Inter Process Communication)哲学家就餐问题</h3><p>对 “互斥访问有限资源（如I/O设备）的竞争问题” 建模</p>
+<hr>
+<h1 id="u5B58_u50A8"><a href="#u5B58_u50A8" class="headerlink" title="存储"></a>存储</h1><p>地址空间： 一个进程可用于寻址内存的一套地址集合</p>
+<p>内存超载的解决策略：</p>
+<p>1.交换(Swap)技术 </p>
+<pre><code>把一个进程完整调入内存，运行一段时间后，把它存回磁盘
+</code></pre><p>问题：</p>
+<pre><code>1.在交换时内存产生空闲区
+2.程序需要的内存有可能为动态，因此需要预留出增长空间
+</code></pre><p>空闲内存管理</p>
+<pre><code>1.使用位图的存储管理
+    内存被划分为几个字~几千个字的分配单元，0代表空闲，1代表占用
+2.使用链表的存储管理
+    维护一个记录已分配内存段和空闲内存段的链表。
+    链表每个结点包含空闲或进程的指示标志，起始地址和长度，指向下一个结点的指针。
+</code></pre><p>空闲内存适配问题：首次适配、最佳适配等</p>
+<p>2.虚拟内存</p>
+<p>每一个程序有自己的地址空间，这个空间每分割成多个块，每一个块称作<strong>页面(page)</strong>。</p>
+<p>产生缺页中断后，虚拟地址被送到内存管理单元(MMU)。</p>
+<p>页表项：页号和偏移量<br>       保护位： 只读/写    .rodata(Const)<br>       修改位： 如果一个页面被修改过，在被置换出时需要写回磁盘<br>       访问位： 不再使用的页面要比正在使用的页面更适合淘汰，与页面置换算法相关。</p>
+<h3 id="u9875_u9762_u7F6E_u6362_u7B97_u6CD5"><a href="#u9875_u9762_u7F6E_u6362_u7B97_u6CD5" class="headerlink" title="页面置换算法"></a>页面置换算法</h3><p>最近未使用页面置换算法（NRU，访问位、修改位）</p>
+<p>先进先出页面置换算法（FIFO）</p>
+<p>每二次机会页面置换算法(有可能退化为FIFO)</p>
+<p>时钟页面置换算法（当前滴答，R=0时置换，R=1时将R置0将表针向前移动）</p>
+<p><em>最近最少使用页面置换算法</em>(<strong>LRU</strong>):置换未使用时间最长的页面<br>    在内存中维护一个所有页面的链表，最近最多使用在表头，最近最少使用在表尾。<br>    比较费时。</p>
+<p>假设程序A发生了缺页中断，页面置换算法在寻找最近最少使用的页面时是只考虑分配给A的页面呢？还是全部的？<br>所以有:</p>
+<pre><code>局部页面置换算法
+全局页面置换算法
+</code></pre><p>页面大小：现常见为4KB或8KB<br>    页面较大时会产生更多的<strong>内部碎片</strong><br>    页面较小时会需要更大的页表</p>
+<p>分段、分页结合</p>
+<hr>
+<h1 id="u6587_u4EF6_u7CFB_u7EDF"><a href="#u6587_u4EF6_u7CFB_u7EDF" class="headerlink" title="文件系统"></a>文件系统</h1><p>磁盘分布：</p>
+<pre><code>整个磁盘0扇区： 主引导记录 (MBR)。计算机启动时，BIOS读入并执行MBR
+MBR读取活动分区的引导块（分区的第一个块）
+然后是超级块，包含分区文件系统关键参数：文件使用魔数等
+空闲块管理
+i节点：每个文件一个
+</code></pre><p>删除文件：</p>
+<pre><code>1.在目录中删除文件
+2.释放i节点到空闲节点池
+3.将所有磁盘块归还给空闲磁盘块池
+</code></pre><hr>
+<h1 id="u6B7B_u9501"><a href="#u6B7B_u9501" class="headerlink" title="死锁"></a>死锁</h1><p>可抢占资源    ： 存储器<br>不可抢占资源  ： CD刻录机   –&gt;  与死锁相关</p>
+<p><strong>死锁的四个条件</strong>：</p>
+<pre><code>互斥条件        ：每个资源要么分配给一个进程，要么可用
+占有和等待条件  ： 已经得到某个资源的进程可以请求其他资源
+不可抢占条件    ： 资源不能被抢占，只能由占有它的进程显示释放
+环路等待条件    ： 死锁发生时，一定有两个或以上的进程组成一条环路
+</code></pre><p>死锁预防：破坏四个条件之一</p>
 
           
         
@@ -522,8 +586,8 @@ HEAD is now at ea34578 add distributed
             
               
                 
-                <a class="post-title-link" href="/2016/04/06/string类的编写/" itemprop="url">
-                  从头编写String类
+                <a class="post-title-link" href="/2016/07/29/海量数据处理/" itemprop="url">
+                  海量数据处理
                 </a>
               
             
@@ -536,8 +600,8 @@ HEAD is now at ea34578 add distributed
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-06T23:17:55+08:00" content="2016-04-06">
-              2016-04-06
+            <time itemprop="dateCreated" datetime="2016-07-29T22:45:10+08:00" content="2016-07-29">
+              2016-07-29
             </time>
           </span>
 
@@ -550,8 +614,8 @@ HEAD is now at ea34578 add distributed
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -584,7 +648,36 @@ HEAD is now at ea34578 add distributed
       
         
           
-            <figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">class <span class="keyword">String</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="keyword">public</span>: </span><br><span class="line"> <span class="keyword">String</span>(<span class="keyword">const</span> <span class="built_in">char</span> *<span class="built_in">str</span> = NULL); <span class="comment">// 普通构造函数 </span></span><br><span class="line"> <span class="keyword">String</span>(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other); <span class="comment">// 拷贝构造函数 </span></span><br><span class="line"> ~ <span class="keyword">String</span>(<span class="keyword">void</span>); <span class="comment">// 析构函数 </span></span><br><span class="line"> <span class="keyword">String</span> &amp; operator =(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other); <span class="comment">// 赋值函数 </span></span><br><span class="line"> <span class="keyword">private</span>: </span><br><span class="line"> <span class="built_in">char</span> *m_data; <span class="comment">// 用于保存字符串 </span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//普通构造函数</span></span><br><span class="line"><span class="keyword">String</span>::<span class="keyword">String</span>(<span class="keyword">const</span> <span class="built_in">char</span> *<span class="built_in">str</span>) </span><br><span class="line">&#123;</span><br><span class="line"> <span class="keyword">if</span>(<span class="built_in">str</span>==NULL) </span><br><span class="line"> &#123;</span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[<span class="number">1</span>]; <span class="comment">// 得分点：对空字符串自动申请存放结束标志'\0'的空</span></span><br><span class="line"> <span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> *m_data = <span class="string">'\0'</span>; </span><br><span class="line"> &#125; </span><br><span class="line"> <span class="keyword">else</span></span><br><span class="line"> &#123;</span><br><span class="line"> <span class="built_in">int</span> length = strlen(<span class="built_in">str</span>); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; <span class="comment">// 若能加 NULL 判断则更好 </span></span><br><span class="line"> strcpy(m_data, <span class="built_in">str</span>); </span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// String的析构函数</span></span><br><span class="line"><span class="keyword">String</span>::~<span class="keyword">String</span>(<span class="keyword">void</span>) </span><br><span class="line">&#123;</span><br><span class="line"> delete [] m_data; <span class="comment">// 或delete m_data;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//拷贝构造函数</span></span><br><span class="line"><span class="keyword">String</span>::<span class="keyword">String</span>(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other) 　　　<span class="comment">// 得分点：输入参数为const型</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="built_in">int</span> length = strlen(other.m_data); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; 　　　　<span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> strcpy(m_data, other.m_data); </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//赋值函数</span></span><br><span class="line"><span class="keyword">String</span> &amp; <span class="keyword">String</span>::operate =(<span class="keyword">const</span> <span class="keyword">String</span> &amp;other) <span class="comment">// 得分点：输入参数为const型</span></span><br><span class="line">&#123; </span><br><span class="line"> <span class="keyword">if</span>(<span class="keyword">this</span> == &amp;other) 　　<span class="comment">//得分点：检查自赋值</span></span><br><span class="line"> <span class="keyword">return</span> *<span class="keyword">this</span>; </span><br><span class="line"> delete [] m_data; 　　　　<span class="comment">//得分点：释放原有的内存资源</span></span><br><span class="line"> <span class="built_in">int</span> length = strlen( other.m_data ); </span><br><span class="line"> m_data = <span class="keyword">new</span> <span class="built_in">char</span>[length+<span class="number">1</span>]; 　<span class="comment">//加分点：对m_data加NULL 判断</span></span><br><span class="line"> strcpy( m_data, other.m_data ); </span><br><span class="line"> <span class="keyword">return</span> *<span class="keyword">this</span>; 　　　　　　　　<span class="comment">//得分点：返回本对象的引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h1 id="u6D77_u91CF_u6570_u636E_u5904_u7406_u95EE_u9898"><a href="#u6D77_u91CF_u6570_u636E_u5904_u7406_u95EE_u9898" class="headerlink" title="海量数据处理问题"></a>海量数据处理问题</h1><p>典型算法： 散列分治、多层划分、MapReduce、外排序、位图、Trie树</p>
+<h2 id="u6563_u5217_u5206_u6CBB"><a href="#u6563_u5217_u5206_u6CBB" class="headerlink" title="散列分治"></a>散列分治</h2><p>1.从海量日志数据中提取出某日访问百度次数最多的那个IP</p>
+<p>解法：</p>
+<pre><code>1）将日访问百度的所有IP从日志中读出，并对IP作（IP%1000）处理，把整个数据映射到1000个文件中
+2）大文件转成了小文件后，直接使用hash_map对IP进行频率统计，找到每个文件中出现频率最高的IP
+3）对2)中产生的1000个IP进行排序
+</code></pre><p>2.寻找出现频率最高的100个词<br>描述：有一个1GB大小的文件，里面一行是一个词，每个词的大小不超过16字节，内存大小限制是1MB。找到出现频率最高的100个词。</p>
+<p>解法：</p>
+<pre><code>1）散列分治。对每行的词进行hash(x)%5000，将值存入到5000个文件中，如果有文件大于1MB，再分治。
+2) hash_map对小文件直接统计。
+3) 堆排序或归并排序。每个文件取出频率最高的100个词，存入另一个文件，对这5000个文件归并排序
+</code></pre><h2 id="u591A_u5C42_u5212_u5206"><a href="#u591A_u5C42_u5212_u5206" class="headerlink" title="多层划分"></a>多层划分</h2><p>本质上还是分而治之的思想。因为元素范围很大，不能利用直接寻址，多次划分，逐步确定范围。</p>
+<ol>
+<li>在2.5亿个整数中找出不重复的整数的个数。内存空间不足以容纳这2.5亿整数。</li>
+</ol>
+<p>解法：<br>    整数个数为2^32个，将2^32个数划分为2^8个区域(比如，用一个文件表示一个区域)，然后将数据分到不同的区域。<br>    最后不同的区域利用位图进行统计。</p>
+<p>其他类似还有：找出5亿个int型整数的中位数。首先分区域，统计区域值个数，根据个数算中位数在哪个区域。</p>
+<p>##　外排序</p>
+<p>在内存外面的排序</p>
+<p>##　Trie树 </p>
+<p>即字典树，又称单词查找树。常用于统计和排序大量字符串等场景中。</p>
+<p>三个性质：</p>
+<ul>
+<li>根结点不包含字符</li>
+<li>从根结点到某一结点的路径经过的字符连接起来，组成该结点对应字符串。</li>
+<li>每个结点的所有子结点包含的字符不相同</li>
+</ul>
+<p>1.词频统计<br>    常规方法是hash或者堆，但是如果内存有限，可以使用Trie树，因为公共前缀都是用一个节点保存。</p>
+<p>2.前缀匹配<br>    构建好Trie树后，可以在很小复杂度得到某一前缀的所有词。</p>
+
           
         
       
@@ -612,7 +705,7 @@ HEAD is now at ea34578 add distributed
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -653,7 +746,7 @@ HEAD is now at ea34578 add distributed
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">40</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -661,7 +754,7 @@ HEAD is now at ea34578 add distributed
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -670,7 +763,7 @@ HEAD is now at ea34578 add distributed
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
