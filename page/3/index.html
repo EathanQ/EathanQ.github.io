@@ -214,6 +214,123 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/29/C++内存管理/" itemprop="url">
+                  C++内存管理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-29T23:25:21+08:00" content="2016-03-29">
+              2016-03-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F"><a href="#u4E00-_u5185_u5B58_u7684_u5E38_u89C1_u5206_u914D_u65B9_u5F0F" class="headerlink" title="一.内存的常见分配方式"></a>一.内存的常见分配方式</h1><p>  1.从静态区分配,一般是全局变量和static类型变量<br>  2.从栈区分配内存,一般是局部的变量,会随着所在函数的结束而自动释放<br>  3.从堆中分配,一般是使用手动分配,使用malloc()函数和new来申请任意大小空间,不过要手动释放空间,相应的使用free()函数和delete释放,<br>    如果不释放该空间,而且指向该空间的指针指向了别的空间.则该空间就无法释放,造成内存泄露,造成了内存浪费</p>
+<h1 id="u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219"><a href="#u4E8C-_u5185_u5B58_u7684_u4F7F_u7528_u89C4_u5219" class="headerlink" title="二.内存的使用规则"></a>二.内存的使用规则</h1><p>  1.在使用malloc()或new申请空间时,要检查有没有分配空间成功,判断方法是判断指针是否为NULL,如申请一块很大的内存而没有这么大的内存则分配<br>内存会失败<br>  2.申请成功后最好是将该内存清空,使用memset()后ZeroMemory()清空,不然存在垃圾而造成有时候输出很大乱码<br>  3.不要忘记为数组和动态内存赋初值。防止将未被初始化的内存作为右值使用。(这句话不太理解)<br>  4.要防止数组或指针内存越界,<br>  5.申请内存成功后,使用结束后要释放,系统不会自动释放手动分配的内存<br>  6.内存释放后,指针还是指向那块地址,不过这指针已经是”野指针”了,所以释放内存后指针要指向NULL,<br>    不然很危险,容易出错,if()对野指针的判断不起作用</p>
+<h1 id="u4E09-_u6307_u9488_u548C_u6570_u7EC4"><a href="#u4E09-_u6307_u9488_u548C_u6570_u7EC4" class="headerlink" title="三.指针和数组"></a>三.指针和数组</h1><h2 id="1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C"><a href="#1-__u6570_u7EC4_u91CC_u7684_u6570_u636E_u53EF_u4EE5_u5355_u4E2A_u4FEE_u6539_2C_u4F46_u6307_u9488_u7684_u4E0D_u884C_2C_u5982_u6211_u7684_u4F8B_u5B50_2Cchar_str_5B_5D__3D__u201Chello_u201D_2C_u6570_u7EC4_u7684_u5927_u5C0F_u67096_u4E2A_u5B57_u7B26_28_u6CE8_u610F_5C0_29_2C_u53EF_u4EE5_u901A_u8FC7str_5B0_5D__3D__u2018X_u2019_u4FEE_u6539_u4E86_u7684_u4E2A_u5B57_u7B26_2C" class="headerlink" title="1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,"></a>1. 数组里的数据可以单个修改,但指针的不行,如我的例子,char str[] = “hello”,数组的大小有6个字符(注意\0),可以通过str[0] = ‘X’修改了的个字符,</h2><p>而指针char *p = “Word”,p是指向了一串常量的字符串,常量字符串是不可修改的,如 p[0] = ‘X’,编译器编译时不会报错,但执行时会出错。</p>
+<h2 id="2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83"><a href="#2-_u5185_u5BB9_u7684_u590D_u5236_u4E0E_u6BD4_u8F83" class="headerlink" title="2.内容的复制与比较"></a>2.内容的复制与比较</h2><p>   内容的复制要使用strcpy()函数,不要使用赋值符”=”,内容的比较也是不要使用比较符号”&lt;,&gt;,==”,使用strcmp()函数。</p>
+<p>  ##3.计算空间的大小<br>   对数组的计算是使用sizeof()函数,该函数会按照内存对齐的方式4的倍数计算,而指针的空间大小没法计算,只能记住在申请空间时的空间大小<br>   注意当数组作为函数的参数进行传递时，该数组自动退化为同类型的指针,不论数组a的容量是多少，sizeof(a)始终等于sizeof(char *)</p>
+<pre><code>void Func(char a[100])  
+{  
+  cout&lt;&lt; sizeof(a) &lt;&lt; endl;   // 4字节而不是100字节  
+}
+</code></pre><h1 id="u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B"><a href="#u56DB_malloc_28_29/free_28_29_u4E0Enew/delete_u7684_u533A_u522B" class="headerlink" title="四 malloc()/free()与new/delete的区别"></a>四 malloc()/free()与new/delete的区别</h1><p>malloc与free是C++/C语言的标准库函数，new/delete是C++的运算符。<br>它们都可用于申请动态内存和释放内存。对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求。<br>对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。<br>由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。<br>因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以及一个能完成清理与释放内存工作的运算符delete。<br>所以我们不要企图用malloc/free来完成动态对象的内存管理，应该用new/delete。<br>由于内部数据类型的“对象”没有构造与析构的过程，对它们而言malloc/free和new/delete是等价的。<br>既然new/delete的功能完全覆盖了malloc/free，为什么C++不把malloc/free淘汰出局呢？<br>这是因为C++程序经常要调用C函数，而C程序只能用malloc/free管理动态内存。<br>如果用free释放“new创建的动态对象”，那么该对象因无法执行析构函数而可能导致程序出错。<br>如果用delete释放“malloc申请的动态内存”，理论上讲程序不会出错，但是该程序的可读性很差。<br>所以new/delete必须配对使用，malloc/free也一样。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/29/linux-IO-epoll/" itemprop="url">
                   Linux IO模式以及select/poll/epoll区别
                 </a>
@@ -532,114 +649,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/24/指针的引用/" itemprop="url">
-                  指针的引用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-24T22:13:11+08:00" content="2016-03-24">
-              2016-03-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>指针(<em>)和引用(&amp;),解引用(</em>)和取地址(&amp;), 主要观察是在左面, 还是在右面, 如果在左面是前者, 在右面是后者;<br>如果比较多, 则要认真观察, 譬如int*&amp;, 就是指针的引用, 可以避免指针内部元素的复制;<br>还有其他的一些形式, 见下面的例子;<br>代码:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">(<span class="keyword">void</span>)</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">i</span><span class="params">(<span class="number">10</span>)</span></span>;  </span><br><span class="line">    <span class="keyword">int</span>* j = &amp;i;  </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">i1</span><span class="params">(<span class="number">20</span>)</span></span>;  </span><br><span class="line">    <span class="keyword">int</span>*&amp; k = j; <span class="comment">//指针的引用, *k是*j的引用  </span></span><br><span class="line">    *k = i1; <span class="comment">//修改*k所指的内容, 则修改*j的内容; </span></span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">int</span>* pint;  </span><br><span class="line">    pint&amp; k2 = j;      </span><br><span class="line">    <span class="keyword">int</span>* k3 = &amp;*j, k4 = <span class="number">10</span>;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k = "</span> &lt;&lt; *k &lt;&lt;<span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*j = "</span> &lt;&lt; *j &lt;&lt;<span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k2 = "</span> &lt;&lt; *k2 &lt;&lt; <span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"*k3 = "</span> &lt;&lt; *k3 &lt;&lt; <span class="built_in">std</span>::endl;  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"k4 = "</span> &lt;&lt; k4 &lt;&lt; <span class="built_in">std</span>::endl;   </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -685,7 +694,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -693,7 +702,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -702,7 +711,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

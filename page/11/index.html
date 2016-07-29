@@ -214,6 +214,130 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/18/hexo/" itemprop="url">
+                  使用Hexo搭建个人博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-18T21:56:00+08:00" content="2015-06-18">
+              2015-06-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##快速体验Hexo</p>
+<p>Hexo的安装十分便捷，我们先尝试快速的使用Hexo搭建一个站点。<br>首先安装Node.js，这里使用nvm作为node版本控制的文件。最好不要直接apt-get，版本不对可能会有问题。</p>
+<p>wget -qO- <a href="https://raw.github.com/creationix/nvm/master/install.sh" target="_blank" rel="external">https://raw.github.com/creationix/nvm/master/install.sh</a> | sh<br>nvm install 0.10</p>
+<p>接下来使用npm工具安装hexo</p>
+<p><code>npm install -g hexo</code></p>
+<p>初始化hexo文件夹</p>
+<p><code>$ hexo init &lt;folder&gt; &amp;&amp; cd &lt;folder&gt;</code></p>
+<p>生成静态页面并预览</p>
+<p><code>$ hexo g &amp;&amp; hexo s</code></p>
+<p>OK，在浏览器中输入localhost:4000，一个Hexo站点就已经展示在你面前了！是不是特别容易？相比Octopress，搭建环境不是方便了一点点。</p>
+<p>##了解Hexo<br>当然，以上只是使用Hexo搭建了一个站点，要想使用它，还需要多了解一些东西。<br>目录结构<br>Hexo的目录结构如下，其中_config.yml是整个站点的配置文件，source/_drafts是草稿文件目录，source/_posts是发表的博文目录，themes是下载的主题目录，其它的目录暂时不用管。</p>
+<blockquote>
+<p>.<br>├── _config.yml<br>├── package.json<br>├── scaffolds<br>├── scripts<br>├── source<br>|   ├── _drafts<br>|   └── _posts<br>└── themes</p>
+</blockquote>
+<p>首先是修改配置文件，主要就是配置一下自己的站点信息，配置文件中的注释比较详细，如果不懂的话可以=&gt;点这里&lt;=看一下,在预览状态下改的话网页上能即时看到效果。</p>
+<p>默认的主题生成分类好像有点问题（至少我这里有），更多的主题可以在=&gt;这里&lt;=下载，基本就是git clone到themes目录下然后修改_config.yml中的theme字段就可以了，十分方便。<br>常用指令</p>
+<p>Hexo的常用命令有以下几个</p>
+<blockquote>
+<p>$ hexo new [layout] <title>     #建立新文章，默认在_posts下，layout=”draft”时发布的是草稿<br>$ hexo publish <filename>       #将_drafts下的文件放到_posts下，也就是发布草稿<br>$ hexo generate                 #生成静态网页<br>$ hexo server                   #启动预览服务器，开启-d选项时可以预览草稿<br>$ hexo deploy                   #发布到远程服务器，开启–generate选项可以在deploy前自动generate</filename></title></p>
+</blockquote>
+<p>熟悉Octopress的话应该有时曾相识的感觉，Hexo和Octopress的操作基本是一样的，但是它的generate确实快上很多。。<br>此外，Hexo还提供了以上几个命令的简化版本，可以减少输入。</p>
+<blockquote>
+<p>$ hexo n  # == hexo new<br>$ hexo p  # == hexo publish<br>$ hexo g  # == hexo generate<br>$ hexo s  # == hexo server<br>$ hexo d  # == hexo deploy</p>
+</blockquote>
+<p>##从其它站点迁移</p>
+<p>当然不能迁移个博客，之前的文章就舍弃了，Hexo可以从RSS/Jekyll/Octopress/Wordpress迁移之前的文章=&gt;点这里&lt;=。<br>对于Octopress，十分简单，只要将之前的博文拷贝到_posts目录下，然后修改_config.yml中的new_post_name字段即可。</p>
+<p><code>new_post_name: :year-:month-:day-:title.md</code></p>
+<p>##写文章</p>
+<p>和Octopress完全一样，使用Markdown语法编辑文章。<br>使用hexo new命令生成文章或者直接在_posts目录下直接创建文件，打开后先编辑文章头部信息，如下所示是本文的头部信息，以—结尾。<br>`<br>title: 使用Hexo搭建个人博客<br>layout: post<br>date: 2014-03-03 19:07:43<br>comments: true<br>categories: Blog<br>tags: [Hexo]<br>keywords: Hexo, Blog</p>
+<h2 id="description_3A__u751F_u547D_u5728_u4E8E_u6298_u817E_uFF0C_u53C8_u628A_u535A_u5BA2_u6298_u817E_u5230Hexo_u4E86_u3002_u7ED9Hexo_u70B9_u8D5E_u3002"><a href="#description_3A__u751F_u547D_u5728_u4E8E_u6298_u817E_uFF0C_u53C8_u628A_u535A_u5BA2_u6298_u817E_u5230Hexo_u4E86_u3002_u7ED9Hexo_u70B9_u8D5E_u3002" class="headerlink" title="description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。"></a>description: 生命在于折腾，又把博客折腾到Hexo了。给Hexo点赞。</h2><p>`<br>接下来使用<strong>Markdown</strong>编辑文章就可以了。</p>
+<p>##发布博客</p>
+<p>由于生成的都是静态页面，可以和Octopress一样发布在github上。这里的发布也是十分简单的，首先在github上创建名为yourname.github.io的repo，接着修改_config.yml中的deploy字段，最后执行hexo d(前提是你已经在github上添加了你本机的ssh key)，OK，现在通过yourname.github.io已经可以访问你的博客了，是不是So easy？<br><code>deploy:
+  type: github
+  repo: git@github.com:yourname/yourname.github.io.git</code><br><code>如果你有自己的域名的话，只要在source目录下创建CNAME文件，在其中写入你的域名，然后在DNS服务器上设置CNAME就可以了。</code>sh<br>$ cd source<br>$ echo c4fun.cn &gt; CNAME</p>
+<p>Over</p>
+<p>到这里，一个基于Hexo的博客基本就完成了。<br>总的来说，Hexo比Octopress更加方便、简洁、快速，在轻松使用的基础上又有着很高的可扩展性，值得一赞！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/18/string/" itemprop="url">
                   字符串A与B
                 </a>
@@ -461,153 +585,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/05/28/dev/" itemprop="url">
-                  shell中/dev/null含义及实例
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-28T22:01:29+08:00" content="2015-05-28">
-              2015-05-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Shell/" itemprop="url" rel="index">
-                    <span itemprop="name">Shell</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>shell中可能经常能看到：echo log &gt; /dev/null 2&gt;&amp;1</p>
-<p>/dev/null ：代表空设备文件</p>
-<blockquote>
-<p> ：代表重定向到哪里，例如：echo “123” &gt; /home/123.txt<br>1  ：表示stdout标准输出，系统默认值是1，所以”&gt;/dev/null”等同于”1&gt;/dev/null”<br>2  ：表示stderr标准错误<br>&amp;  ：表示等同于的意思，2&gt;&amp;1，表示2的输出重定向等同于1</p>
-</blockquote>
-<p>1 &gt; /dev/null 2&gt;&amp;1 语句含义：<br>1 &gt; /dev/null ： 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。<br>2&gt;&amp;1 ：接着，标准错误输出重定向（等同于）标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。</p>
-<p>实例解析：</p>
-<p>cmd &gt;a 2&gt;a 和 cmd &gt;a 2&gt;&amp;1 为什么不同？<br>cmd &gt;a 2&gt;a ：stdout和stderr都直接送往文件 a ，a文件会被打开两遍，由此导致stdout和stderr互相覆盖。<br>cmd &gt;a 2&gt;&amp;1 ：stdout直接送往文件a ，stderr是继承了FD1的管道之后，再被送往文件a 。a文件只被打开一遍，就是FD1将其打开。</p>
-<p>两者的不同点在于：</p>
-<p>cmd &gt;a 2&gt;a 相当于使用了FD1、FD2两个互相竞争使用文件 a 的管道；<br>cmd &gt;a 2&gt;&amp;1 只使用了一个管道FD1，但已经包括了stdout和stderr。<br>从IO效率上来讲，cmd &gt;a 2&gt;&amp;1的效率更高。</p>
-<p>经常可以在一些脚本，尤其是在crontab调用时发现如下形式的命令调用</p>
-<p>/tmp/test.sh &gt; /tmp/test.log 2&gt;&amp;1<br>前半部分/tmp/test.sh &gt; /tmp/test.log很容易理解，那么后面的2&gt;&amp;1是怎么回事呢？</p>
-<p>要解释这个问题，还是得提到文件重定向。我们知道&gt;和&lt;是文件重定向符。那么1和2是什么？</p>
-<p>在shell中，每个进程都和三个系统文件 相关联：标准输入stdin，标准输出stdout、标准错误stderr，三个系统文件的文件描述符分别为0，1、2。所以这里2&gt;&amp;1 的意思就是将标准错误也输出到标准输出当中。</p>
-<p>下面通过一个例子来展示2&gt;&amp;1有什么作用：</p>
-<p>$ cat test.sh<br>t<br>date<br>test.sh中包含两个命令，其中t是一个不存在的命令，执行会报错，默认情况下，错误会输出到stderr。date则能正确执行，并且输出时间信息，默认输出到stdout</p>
-<p>./test.sh &gt; test1.log<br>./test.sh: line 1: t: command not found</p>
-<p>$ cat test1.log<br>Wed Jul 10 21:12:02 CST 2013</p>
-<p>可以看到，date的执行结果被重定向到log文件中了，而t无法执行的错误则只打印在屏幕上。</p>
-<p>$ ./test.sh &gt; test2.log 2&gt;&amp;1</p>
-<p>$ cat test2.log<br>./test.sh: line 1: t: command not found<br>Tue Oct 9 20:53:44 CST 2007<br>这次，stderr和stdout的内容都被重定向到log文件中了。</p>
-<p>实际上， &gt; 就相当于 1&gt; 也就是重定向标准输出，不包括标准错误。通过2&gt;&amp;1，就将标准错误重定向到标准输出了，那么再使用&gt;重定向就会将标准输出和标准错误信息一同重定向了。如果只想重定向标准错误到文件中，则可以使用2&gt; file。</p>
-<p>linux shell 中”2&gt;&amp;1”含义脚本是：<br>       nohup /mnt/Nand3/H2000G &gt;/dev/null 2&gt;&amp;1 &amp;</p>
-<p>对于&amp;1 更准确的说应该是文件描述符 1，而1 一般代表的就是STDOUT_FILENO,实际上这个操作就是一个dup2(2)调用.他标准输出到all_result ，然后复制标准输出到文件描述符2(STDERR_FILENO)，其后果就是文件描述符1和2指向同一个文件表项,也可以说错误的输出被合并了，其中0 表示键盘输入 1表示屏幕输出 2表示错误输出，把标准出错重定向到标准输出,然后扔到/DEV/NULL下面去。通俗的说，就是把所有标准输出和标准出错都扔到垃圾桶里面。<br>       command &gt;out.file 2&gt;&amp;1 &amp;<br>       command &gt;out.file是将command的输出重定向到out.file文件，即输出内容不打印到屏幕上，而是输出到out.file文件中。 2&gt;&amp;1 是将标准出错重定向到标准输出，这里的标准输出已经重定向到了out.file文件，即将标准出错也输出到out.file文件中。最后一个&amp; ， 是让该命令在后台执行。</p>
-<pre><code>试想2&gt;1代表什么，2与&gt;结合代表错误重定向，而1则代表错误重定向到一个文件1，而不代表标准输出；
-</code></pre><p>换成2&gt;&amp;1，&amp;与1结合就代表标准输出了，就变成错误重定向到标准输出.</p>
-<pre><code>你可以用
-      ls 2&gt;1测试一下，不会报没有2文件的错误，但会输出一个空的文件1；
-      ls xxx 2&gt;1测试，没有xxx这个文件的错误输出到了1中；
-      ls xxx 2&gt;&amp;1测试，不会生成1这个文件了，不过错误跑到标准输出了；
-      ls xxx &gt;out.txt 2&gt;&amp;1, 实际上可换成 ls xxx 1&gt;out.txt 2&gt;&amp;1；重定向符号&gt;默认是1,错误和输出都传到out.txt了。
-</code></pre><p>为何2&gt;&amp;1要写在后面？<br>       command &gt; file 2&gt;&amp;1<br>        首先是command &gt; file将标准输出重定向到file中， 2&gt;&amp;1 是标准错误拷贝了标准输出的行为，也就是同样被重定向到file中，最终结果就是标准输出和错误都被重定向到file中。<br>       command 2&gt;&amp;1 &gt;file<br>       2&gt;&amp;1 标准错误拷贝了标准输出的行为，但此时标准输出还是在终端。&gt;file 后输出才被重定向到file，但标准错误仍然保持在终端。</p>
-<p>用strace可以看到： </p>
-<ol>
-<li><p>command &gt; file 2&gt;&amp;1<br>这个命令中实现重定向的关键系统调用序列是：<br>open(file) == 3<br>dup2(3,1)<br>dup2(1,2)</p>
-</li>
-<li><p>command 2&gt;&amp;1 &gt;file<br>这个命令中实现重定向的关键系统调用序列是：<br>dup2(1,2)<br>open(file) == 3<br>dup2(3,1)</p>
-</li>
-</ol>
-<p>可以考虑一下不同的dup2()调用序列会产生怎样的文件共享结构。请参考APUE 3.10, 3.12 </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -653,7 +630,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -661,7 +638,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -670,7 +647,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

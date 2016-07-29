@@ -214,7 +214,187 @@
             
               
                 
-                <a class="post-title-link" href="/2016/04/10/socket/" itemprop="url">
+                <a class="post-title-link" href="/2016/07/29/linphone/" itemprop="url">
+                  Linphone架构解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T22:18:41+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linphone/" itemprop="url" rel="index">
+                    <span itemprop="name">linphone</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="LINPHONE"><a href="#LINPHONE" class="headerlink" title="LINPHONE"></a>LINPHONE</h1><p>linphone是一款开源的sip电话，支持iOS,Android,Windows Phone8,GNU/Linux，Windows Desktop，MAC OSX以及web浏览器。</p>
+<p>linphone内部核心引擎部分和用户接口是分开的。</p>
+<ul>
+<li><p>用户接口前端</p>
+<ul>
+<li>给windows和linux提供的GTK+接口</li>
+<li>控制台接口</li>
+<li>Android的JAVA接口</li>
+<li>IOS的Objective C</li>
+<li>Windows Phone 的C#接口</li>
+</ul>
+</li>
+<li><p>Liblinphone最重要的核心引擎部分，是实现linphone所有功能的SIP VoIP SDK。</p>
+</li>
+<li><p>Liblinphone依赖于下面的软件组成</p>
+<ul>
+<li>Mediastreamer2  ： 音视频流创建与处理的多媒体SDK</li>
+<li>oRTP：  RTP库</li>
+<li>belle-sip SIP库</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/schema-linphone.png" alt="schema"></p>
+<h1 id="u672F_u8BED_u89E3_u91CA"><a href="#u672F_u8BED_u89E3_u91CA" class="headerlink" title="术语解释"></a>术语解释</h1><h2 id="SIP"><a href="#SIP" class="headerlink" title="SIP"></a>SIP</h2><p>SIP(Session Initiation Protocol)会话初始协议是一个应用层的信令控制协议。用于创建、修改和释放一个或多个参与者的会话。这些会话可以是Internet多媒体会议、IP电话或多媒体分发。会话的参与者可以通过组播（multicast）、网状单播（unicast）或两者的混合体进行通信。</p>
+<p>SIP 使用用户数据报协议(UDP) 以及传输控制协议(TCP)，将独立于底层基础设施的用户灵活地连接起来。</p>
+<h2 id="RTP"><a href="#RTP" class="headerlink" title="RTP"></a>RTP</h2><p>实时传输协议RTP（Real-time Transport Protocol）是一个网络传输协议。RTP协议和RTP控制协议RTCP一起使用，而且它是建立在用户数据报协议上的。RTP用来为IP网上的语音、图像、传真等多种需要实时传输的多媒体数据提供端到端的实时传输服务。RTP为Internet上端到端的实时传输提供时间信息和流同步，但并不保证服务质量，服务质量由RTCP来提供。</p>
+<p><img src="/img/rtp.jpg" alt="rtp"></p>
+<h1 id="u6D89_u53CA_u5DE5_u5177"><a href="#u6D89_u53CA_u5DE5_u5177" class="headerlink" title="涉及工具"></a>涉及工具</h1><h2 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h2><p>CMake是一个跨平台的安装（编译）工具，可以用简单的语句来描述所有平台的安装(编译过程)。他能<strong>够输出各种各样的makefile或者project文件</strong>，能<strong>测试编译器所支持的C++特性</strong>,类似UNIX下的automake。</p>
+<p>通过用户编写的CMakeLists.txt构建项目</p>
+<h2 id="AWK"><a href="#AWK" class="headerlink" title="AWK"></a>AWK</h2><p>awk是Linux下一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。</p>
+<h3 id="u4F7F_u7528_u65B9_u6CD5"><a href="#u4F7F_u7528_u65B9_u6CD5" class="headerlink" title="使用方法"></a>使用方法</h3><pre><code>awk &apos;{pattern + action}&apos; {filenames}
+</code></pre><p>1.命令行方式</p>
+<pre><code>awk [-F  field-separator]  &apos;commands&apos;  input-file(s)
+</code></pre><p>其中，commands 是真正awk命令，[<strong>-F 域分隔符</strong>]是可选的。 input-file(s) 是待处理的文件。<br>在awk中，文件的每一行中，由域分隔符分开的每一项称为一个域。通常，在不指名-F域分隔符的情况下，默认的域分隔符是空格。</p>
+<h3 id="aww_u5185_u7F6E_u53D8_u91CF"><a href="#aww_u5185_u7F6E_u53D8_u91CF" class="headerlink" title="aww内置变量"></a>aww内置变量</h3><pre><code>ARGC               命令行参数个数
+ARGV               命令行参数排列
+ENVIRON            支持队列中系统环境变量的使用
+FILENAME           awk浏览的文件名
+FNR                浏览文件的记录数
+FS                 设置输入域分隔符，等价于命令行 -F选项
+NF                 浏览记录的域的个数
+NR                 已读的记录数
+OFS                输出域分隔符
+ORS                输出记录分隔符
+RS                 控制记录分隔符
+</code></pre><p>awk还可以自定义变量<br>条件语句，循环语句等等</p>
+<h2 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h2><p>Git是一款免费、开源的分布式版本控制系统。</p>
+<h3 id="u521B_u5EFA_u7248_u672C_u5E93"><a href="#u521B_u5EFA_u7248_u672C_u5E93" class="headerlink" title="创建版本库"></a>创建版本库</h3><p>建一个版本库非常简单，首先，选择一个合适的地方，创建一个空目录</p>
+<pre><code>$ mkdir learngit
+$ cd learngit
+$ pwd
+/Users/michael/learngit
+</code></pre><p>第二步，通过git init命令把这个目录变成Git可以管理的仓库：</p>
+<pre><code>$ git init
+Initialized empty Git repository in /Users/michael/learngit/.git/
+</code></pre><h3 id="u5C06_u6587_u4EF6_u6DFB_u52A0_u5230_u7248_u672C_u5E93"><a href="#u5C06_u6587_u4EF6_u6DFB_u52A0_u5230_u7248_u672C_u5E93" class="headerlink" title="将文件添加到版本库"></a>将文件添加到版本库</h3><p>将文件放到<code>learngit</code>目录下（子目录也行），因为这是一个Git仓库，放到其他地方Git再厉害也找不到这个文件</p>
+<pre><code>$ git add readme.txt
+</code></pre><p>第二步，用命令git commit告诉Git，把文件提交到仓库：</p>
+<pre><code>$ git commit -m &quot;wrote a readme file&quot;
+[master (root-commit) cb926e7] wrote a readme file
+ 1 file changed, 2 insertions(+)
+ create mode 100644 readme.txt
+</code></pre><p><code>-m</code>后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录</p>
+<h3 id="u67E5_u770B_u533A_u522B"><a href="#u67E5_u770B_u533A_u522B" class="headerlink" title="查看区别"></a>查看区别</h3><p><code>git status</code>命令可以让我们时刻掌握仓库当前的状态</p>
+<p><code>git diff</code>顾名思义就是查看difference，显示的格式正是Unix通用的diff格式</p>
+<p>版本控制系统肯定有某个命令可以告诉我们历史记录，在Git中，我们用<code>git log</code>命令查看</p>
+<p>用HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100</p>
+<pre><code>$ git reset --hard HEAD^
+HEAD is now at ea34578 add distributed
+</code></pre><p>现在总结一下：</p>
+<p>HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令<code>git reset --hard commit_id</code>。</p>
+<p>穿梭前，用<code>git log</code>可以查看提交历史，以便确定要回退到哪个版本。</p>
+<p>要重返未来，用<code>git reflog</code>查看命令历史，以便确定要回到未来的哪个版本</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/29/socket/" itemprop="url">
                   Linux下socket基础
                 </a>
               
@@ -228,8 +408,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-10T14:55:54+08:00" content="2016-04-10">
-              2016-04-10
+            <time itemprop="dateCreated" datetime="2016-07-29T21:57:16+08:00" content="2016-07-29">
+              2016-07-29
             </time>
           </span>
 
@@ -428,147 +608,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/06/arp与tcp/" itemprop="url">
-                  ARP与TCP协议基础
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-06T23:16:04+08:00" content="2016-04-06">
-              2016-04-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/面试/" itemprop="url" rel="index">
-                    <span itemprop="name">面试</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ARP_u5730_u5740_u89E3_u6790_u534F_u8BAE"><a href="#ARP_u5730_u5740_u89E3_u6790_u534F_u8BAE" class="headerlink" title="ARP地址解析协议"></a>ARP地址解析协议</h2><p>  1.每个主机都会在自己的ARP缓冲区建立一个ARP列表，以表示IP地址和MAC地址之间的对应关系。<br>  2.当源主机要发送数据时，首先检查ARP列表中是否有对应IP地址的目的主机的MAC地址，如果有，则直接发送数据。<br>  如果没有，就向本网段的所有主机发送ARP数据包，该数据包包括：源主机IP地址，源主机MAC地址，目的主机IP地址<br>  3.当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包<br>    如果是，则首先从数据包中取出源主机的IP和MAC地址写入ARP列表中，如果已存在则覆盖，然后将自己的MAC地下写入ARP响应包中，告诉源<br>    主机自己是它要找的MAC地址。<br>  4.源主机收到ARP响应后，将目的地主的IP和MAC地址写入ARP列表，并利用此信息发送数据。<br>    如果源主机一直没有收到ARP响应数据包，表示ARP查询失败</p>
-<p>  广播发送ARP请求，单播发送ARP响应</p>
-<h2 id="RARP"><a href="#RARP" class="headerlink" title="RARP"></a>RARP</h2><p>  RARP是逆地址解析协议，作用是完成硬件地址到IP地址的映射，主要用于无盘工作站，因为给无盘工作站配置的IP地址不能保存。<br>  工作流程：在网络中配置一台RARP服务器，里面保存着IP地址和MAC地址的映射关系，当无盘工作站启动后，就封装一个RARP数据包，<br>  里面有其MAC地址，然后广播到网络上去，当服务器收到请求包后，就查找对应的MAC地址的IP地址装入响应报文中发回给请求者。<br>  因为需要广播请求报文，因此RARP只能用于具有广播能力的网络。</p>
-<h2 id="TCP_u4E09_u6B21_u63E1_u624B_u548C_u56DB_u6B21_u63E1_u624B_u7684_u5168_u8FC7_u7A0B"><a href="#TCP_u4E09_u6B21_u63E1_u624B_u548C_u56DB_u6B21_u63E1_u624B_u7684_u5168_u8FC7_u7A0B" class="headerlink" title="TCP三次握手和四次握手的全过程"></a>TCP三次握手和四次握手的全过程</h2><p>  答:三次握手：<br>     第一次握手：客户端发送syn包(syn=x)到服务器，并进入SYN_SEND状态，等待服务器确认；<br>     第二次握手：服务器收到syn包，必须确认客户的SYN（ack=x+1），同时自己也发送一个SYN包（syn=y），即SYN+ACK包，此时服务器进入SYN_RECV状态；<br>     第三次握手：客户端收到服务器的SYN＋ACK包，向服务器发送确认包ACK(ack=y+1)，此包发送完毕，客户端和服务器进入ESTABLISHED状态，完成三次握手。<br>     握手过程中传送的包里不包含数据，三次握手完毕后，客户端与服务器才正式开始传送数据。<br>     理想状态下，TCP连接一旦建立，在通信双方中的任何一方主动关闭连接之前，TCP 连接都将被一直保持下去。</p>
-<pre><code>四次握手
-与建立连接的“三次握手”类似，断开一个TCP连接则需要“四次握手”。
-第一次挥手：主动关闭方发送一个FIN，用来关闭主动方到被动关闭方的数据传送，
-  也就是主动关闭方告诉被动关闭方：我已经不会再给你发数据了(当然，在fin包之前发送出去的数据，如果没有收到对应的ack确认报文，主动关闭方依然会重发这些数据)，
-  但是，此时主动关闭方还可以接受数据(半关闭特性)。
-第二次挥手：被动关闭方收到FIN包后，发送一个ACK给对方，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号）。
-第三次挥手：被动关闭方发送一个FIN，用来关闭被动关闭方到主动关闭方的数据传送，也就是告诉主动关闭方，我的数据也发送完了，不会再给你发数据了。
-第四次挥手：主动关闭方收到FIN后，发送一个ACK给被动关闭方，确认序号为收到序号+1，至此，完成四次挥手。
-</code></pre><h2 id="TCP_u7684_u4E09_u6B21_u63E1_u624B_u8FC7_u7A0B_uFF1F_u4E3A_u4EC0_u4E48_u4F1A_u91C7_u7528_u4E09_u6B21_u63E1_u624B_uFF0C_u82E5_u91C7_u7528_u4E8C_u6B21_u63E1_u624B_u53EF_u4EE5_u5417_uFF1F"><a href="#TCP_u7684_u4E09_u6B21_u63E1_u624B_u8FC7_u7A0B_uFF1F_u4E3A_u4EC0_u4E48_u4F1A_u91C7_u7528_u4E09_u6B21_u63E1_u624B_uFF0C_u82E5_u91C7_u7528_u4E8C_u6B21_u63E1_u624B_u53EF_u4EE5_u5417_uFF1F" class="headerlink" title="TCP的三次握手过程？为什么会采用三次握手，若采用二次握手可以吗？"></a>TCP的三次握手过程？为什么会采用三次握手，若采用二次握手可以吗？</h2><pre><code>答:建立连接的过程是利用客户服务器模式，假设主机A为客户端，主机B为服务器端。
- （1）TCP的三次握手过程：主机A向B发送连接请求；主机B对收到的主机A的报文段进行确认；主机A再次对主机B的确认进行确认。
- （2）采用三次握手是为了防止失效的连接请求报文段突然又传送到主机B，因而产生错误。
-      失效的连接请求报文段是指：主机A发出的连接请求没有收到主机B的确认，于是经过一段时间后，主机A又重新向主机B发送连接请求，且建立成功，顺序完成数据传输。
-      考虑这样一种特殊情况，主机A第一次发送的连接请求并没有丢失，而是因为网络节点导致延迟达到主机B，
-      主机B以为是主机A又发起的新连接，于是主机B同意连接，并向主机A发回确认，但是此时主机A根本不会理会，
-      主机B就一直在等待主机A发送数据，导致主机B的资源浪费。
- （3）采用两次握手不行，原因就是上面说的实效的连接请求的特殊情况。
-</code></pre><h2 id="TCP_u548CUDP_u7684_u533A_u522B_uFF1F"><a href="#TCP_u548CUDP_u7684_u533A_u522B_uFF1F" class="headerlink" title="TCP和UDP的区别？"></a>TCP和UDP的区别？</h2><pre><code>答:TCP提供面向连接的、可靠的数据流传输，而UDP提供的是非面向连接的、不可靠的数据流传输。
-   TCP传输单位称为TCP报文段，UDP传输单位称为用户数据报。
-   TCP注重数据安全性，UDP数据传输快，因为不需要连接等待，少了许多操作，但是其安全性却一般。
-   TCP对应的协议和UDP对应的协议
-   TCP对应的协议：
-   （1） FTP：定义了文件传输协议，使用21端口。
-   （2） Telnet：一种用于远程登陆的端口，使用23端口，用户可以以自己的身份远程连接到计算机上，可提供基于DOS模式下的通信服务。
-   （3） SMTP：邮件传送协议，用于发送邮件。服务器开放的是25号端口。
-   （4） POP3：它是和SMTP对应，POP3用于接收邮件。POP3协议所用的是110端口。
-   （5）HTTP：是从Web服务器传输超文本到本地浏览器的传送协议。
-   UDP对应的协议：
-   （1） DNS：用于域名解析服务，将域名地址转换为IP地址。DNS用的是53号端口。
-   （2） SNMP：简单网络管理协议，使用161号端口，是用来管理网络设备的。由于网络设备很多，无连接的服务就体现出其优势。
-   （3） TFTP(Trival File Tran敏感词er Protocal)，简单文件传输协议，该协议在熟知端口69上使用UDP服务。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -614,7 +653,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -622,7 +661,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -631,7 +670,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
