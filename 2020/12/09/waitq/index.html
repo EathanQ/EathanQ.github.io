@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/img/avatar.jpg"/>
+        <link rel="canonical" href="http://guolinn.com/">
+        <link rel="alternate" type="application/rss+xml" title="ZhengJie Qi" href="">
+        <title>linux中的等待队列 | QZJ</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <meta name="generator" content="Hexo 5.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		<body class="post-template">
+	
+
+        <header id="header">
+            <a id="logo" href="/"><img src="/img/avatar.jpg" alt="QZJ" /></a>
+            <h1><a href="/">ZhengJie Qi</a></h1>
+            <p></p>
+            <div id="follow-icons">
+          <a target="_blank" rel="noopener" href="http://github.com/https://github.com/eathanq"><i class="fa fa-github-square fa-2x"></i></a>
+          </div>
+<h6><a href="/about">About</a></h6>
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  十二月 9, 2020
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href='/tags/linux/'>linux</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">linux中的等待队列</h1>
+  <section class="post-content article-entry">
+    <p>linux中的代码每一块深究了看，都有好多东西，在看printk代码时，你会发现syslog进行读操作时，如果ring buffer没有新的内容的话，进程会等待<br>而实现这个操作是通过linux中的等待队列实现的，等待队列据说还和信号量有关系，这个后面再看，今天研究下等待队列wait queue</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">case</span> SYSLOG_ACTION_READ<span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">/* Read from log */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>buf <span class="token operator">||</span> len <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token operator">-</span>EINVAL<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>len<span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">access_ok</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token operator">-</span>EFAULT<span class="token punctuation">;</span>
+        error <span class="token operator">=</span> <span class="token function">wait_event_interruptible</span><span class="token punctuation">(</span>log_wait<span class="token punctuation">,</span> syslog_seq <span class="token operator">!=</span> log_next_seq<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//这里会等待</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span>
+                <span class="token keyword">return</span> error<span class="token punctuation">;</span>
+        error <span class="token operator">=</span> <span class="token function">syslog_print</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>等列队列相关数据结构有两个，一个是等列队列头wait_queue_head，另一个是等列队列元素wait_queue_entry</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*
+ * A single wait-queue entry structure:
+ */</span>
+<span class="token keyword">struct</span> wait_queue_entry <span class="token punctuation">{</span>
+        <span class="token keyword">unsigned</span> <span class="token keyword">int</span>            flags<span class="token punctuation">;</span>
+        <span class="token keyword">void</span>                    <span class="token operator">*</span>private<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//指向等待队列的进程</span>
+        wait_queue_func_t       func<span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">//唤醒函数</span>
+        <span class="token keyword">struct</span> list_head        entry<span class="token punctuation">;</span>     <span class="token comment" spellcheck="true">//要挂到wait_queue_head链表里的节点</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> wait_queue_head <span class="token punctuation">{</span>
+        spinlock_t              lock<span class="token punctuation">;</span>
+        <span class="token keyword">struct</span> list_head        head<span class="token punctuation">;</span>      <span class="token comment" spellcheck="true">//双向链表</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> wait_queue_head wait_queue_head_t<span class="token punctuation">;</span></code></pre>
+<p>在使用时，一般会用DECLARE_WAIT_QUEUE_HEAD宏来初始化一个等待队列头</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> __WAIT_QUEUE_HEAD_INITIALIZER(name) {                                   \
+        .lock           = __SPIN_LOCK_UNLOCKED(name.lock),                      \
+        .head           = { &amp;(name).head, &amp;(name).head } }    </span><span class="token comment" spellcheck="true">// list_head的next 和 prev是同一个结点，即只有一个结点</span>
+
+<span class="token macro property">#<span class="token directive keyword">define</span> DECLARE_WAIT_QUEUE_HEAD(name) \
+        struct wait_queue_head name = __WAIT_QUEUE_HEAD_INITIALIZER(name)    </span><span class="token comment" spellcheck="true">//通过__WAIT_QUEUE_HEAD_INITIALIZER赋初值</span>
+</code></pre>
+<p>用DECLARE_WAITQUEUE来初始化队列元素，不过这个一般用不到显示调用，后面会讲</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> __WAITQUEUE_INITIALIZER(name, tsk) {                                    \
+        .private        = tsk,                                                  \
+        .func           = default_wake_function,   </span><span class="token comment" spellcheck="true">//默认唤醒函数                             \</span>
+        <span class="token punctuation">.</span>entry          <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span>         <span class="token comment" spellcheck="true">//</span>
+
+<span class="token macro property">#<span class="token directive keyword">define</span> DECLARE_WAITQUEUE(name, tsk)                                            \
+        struct wait_queue_entry name = __WAITQUEUE_INITIALIZER(name, tsk)</span>
+</code></pre>
+<h2 id="睡眠与唤醒"><a href="#睡眠与唤醒" class="headerlink" title="睡眠与唤醒"></a>睡眠与唤醒</h2><p>让我们再次看一下printk.c中do_syslog中的SYSLOG_ACTION_READ代码，发现其睡眠等待是调用wait_event_interruptible函数即可<br>其唤醒是在wake_up_klogd_work_func函数里调用的wake_up_interruptible。okay，看一下这两个函数的实现</p>
+<h3 id="睡眠"><a href="#睡眠" class="headerlink" title="睡眠"></a>睡眠</h3><pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> wait_event_interruptible(wq_head, condition)                            \
+({                                                                              \
+        int __ret = 0;                                                          \
+        might_sleep();                                                          \
+        if (!(condition))                                                       \
+                __ret = __wait_event_interruptible(wq_head, condition);         \
+        __ret;                                                                  \
+})</span>
+</code></pre>
+<p>很容易理解，如果condition不成立的话，则调用__wait_event_interruptible，接着进去看的话发现重头戏在__wait_event函数式宏<br>在__wait_event里，会新定义一个等待队列元素wait_queue_entry，通过init_wait_entry初始化，然后在prepare_to_wait_event里将其加入等待队列头wq_head的链表里<br>并且</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> __wait_event_interruptible(wq_head, condition)                          \
+        ___wait_event(wq_head, condition, TASK_INTERRUPTIBLE, 0, 0,             \
+                      schedule())</span>
+
+<span class="token macro property">#<span class="token directive keyword">define</span> ___wait_event(wq_head, condition, state, exclusive, ret, cmd)           \
+({                                                                              \
+        __label__ __out;                                                        \
+        struct wait_queue_entry __wq_entry;                                     \
+        long __ret = ret;       </span><span class="token comment" spellcheck="true">/* explicit shadow */</span>                           \
+                                                                                \
+        <span class="token function">init_wait_entry</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>__wq_entry<span class="token punctuation">,</span> exclusive <span class="token operator">?</span> WQ_FLAG_EXCLUSIVE <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        \
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>                                                              \
+                <span class="token keyword">long</span> __int <span class="token operator">=</span> <span class="token function">prepare_to_wait_event</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>wq_head<span class="token punctuation">,</span> <span class="token operator">&amp;</span>__wq_entry<span class="token punctuation">,</span> state<span class="token punctuation">)</span><span class="token punctuation">;</span>\
+                                                                                \
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>condition<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true">//如果条件成立，break跳出                        \</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>                                                  \
+                <span class="token comment" spellcheck="true">//如果是可以interrupt的状态，且有信号待处理，则out，对于于调用wait_event_interruptible加入等待队列的来说，是可以interrupt的状态                                                              \</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">___wait_is_interruptible</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> __int<span class="token punctuation">)</span> <span class="token punctuation">{</span>                 \
+                        __ret <span class="token operator">=</span> __int<span class="token punctuation">;</span>                                          \
+                        <span class="token keyword">goto</span> __out<span class="token punctuation">;</span>                                             \
+                <span class="token punctuation">}</span>                                                               \
+                                                                                \
+                cmd<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//调用schedule()，调度其他进程防止这里空转浪费资源              \</span>
+        <span class="token punctuation">}</span>                                                                       \
+        <span class="token function">finish_wait</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>wq_head<span class="token punctuation">,</span> <span class="token operator">&amp;</span>__wq_entry<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//将元素从队列删除                     \</span>
+__out<span class="token punctuation">:</span>  __ret<span class="token punctuation">;</span>                                                                  \
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>再看一下init_wait_entry函数对wait_queue_entry初始化</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">init_wait_entry</span><span class="token punctuation">(</span><span class="token keyword">struct</span> wait_queue_entry <span class="token operator">*</span>wq_entry<span class="token punctuation">,</span> <span class="token keyword">int</span> flags<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        wq_entry<span class="token operator">-></span>flags <span class="token operator">=</span> flags<span class="token punctuation">;</span>
+        wq_entry<span class="token operator">-></span>private <span class="token operator">=</span> current<span class="token punctuation">;</span>                 <span class="token comment" spellcheck="true">//当前进程，即拥有此元素的进程</span>
+        wq_entry<span class="token operator">-></span>func <span class="token operator">=</span> autoremove_wake_function<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//默认唤醒函数</span>
+        <span class="token function">INIT_LIST_HEAD</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>wq_entry<span class="token operator">-></span>entry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">EXPORT_SYMBOL</span><span class="token punctuation">(</span>init_wait_entry<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="唤醒"><a href="#唤醒" class="headerlink" title="唤醒"></a>唤醒</h3><p><strong>未完待续</strong></p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>ZhengJie Qi</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2020/12/06/syslog/">
+        <!--linux内核日志的存储与读取--> next →
+    </a>
+    
+</nav>
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2020 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+    </body>
+</html>
+
+

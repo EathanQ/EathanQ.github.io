@@ -88,12 +88,9 @@ log_buf <span class="token operator">=</span> new_log_buf<span class="token punc
 <pre class=" language-c"><code class="language-c"><span class="token function">SYSCALL_DEFINE4</span><span class="token punctuation">(</span>syslog<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">,</span> type<span class="token punctuation">,</span> <span class="token keyword">char</span> __user <span class="token operator">*</span><span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">,</span> len<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token function">do_syslog</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> len<span class="token punctuation">,</span> SYSLOG_FROM_READER<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-``` c
-
-do_syslog会判断type的类型，执行不同的操作，例如SYSLOG_ACTION_READ会调用syslog_print将log buf中的log输出到用户态buf
-``` c
-<span class="token keyword">case</span> SYSLOG_ACTION_READ<span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">/* Read from log */</span>
+<span class="token punctuation">}</span></code></pre>
+<p>do_syslog会判断type的类型，执行不同的操作，例如SYSLOG_ACTION_READ会调用syslog_print将log buf中的log输出到用户态buf</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">case</span> SYSLOG_ACTION_READ<span class="token punctuation">:</span>        <span class="token comment" spellcheck="true">/* Read from log */</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>buf <span class="token operator">||</span> len <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
                 <span class="token keyword">return</span> <span class="token operator">-</span>EINVAL<span class="token punctuation">;</span>
         <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>len<span class="token punctuation">)</span>
@@ -138,6 +135,10 @@ do_syslog会判断type的类型，执行不同的操作，例如SYSLOG_ACTION_RE
 </article>
 
 <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="/2020/12/09/waitq/">
+        ← prev <!--linux中的等待队列-->
+    </a>
     
     <span class="page-number">•</span>
     
