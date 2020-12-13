@@ -112,7 +112,7 @@
         __ret;                                                                  \
 })</span>
 </code></pre>
-<p>很容易理解，如果condition不成立的话，则调用__wait_event_interruptible，接着进去看的话发现重头戏在__wait_event函数式宏<br>在__wait_event里，会新定义一个等待队列元素wait_queue_entry，通过init_wait_entry初始化，然后在prepare_to_wait_event里将其加入等待队列头wq_head的链表里<br>并且</p>
+<p>很容易理解，如果condition不成立的话，则调用__wait_event_interruptible，接着进去看的话发现重头戏在__wait_event函数式宏<br>在__wait_event里，会新定义一个等待队列元素wait_queue_entry，通过init_wait_entry初始化，然后在prepare_to_wait_event里将其加入等待队列头wq_head的链表里<br>并且判断condition是否成立以及进程是否有信号待处理，如果有的话则跳出，否则就调用schedule直至下次被调度到</p>
 <pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> __wait_event_interruptible(wq_head, condition)                          \
         ___wait_event(wq_head, condition, TASK_INTERRUPTIBLE, 0, 0,             \
                       schedule())</span>

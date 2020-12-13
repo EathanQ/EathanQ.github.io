@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/img/avatar.jpg"/>
+        <link rel="canonical" href="http://guolinn.com/">
+        <link rel="alternate" type="application/rss+xml" title="ZhengJie Qi" href="">
+        <title>linux代码中pr_fmt是什么意思 | QZJ</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <meta name="generator" content="Hexo 5.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		<body class="post-template">
+	
+
+        <header id="header">
+            <a id="logo" href="/"><img src="/img/avatar.jpg" alt="QZJ" /></a>
+            <h1><a href="/">ZhengJie Qi</a></h1>
+            <p></p>
+            <div id="follow-icons">
+          <a target="_blank" rel="noopener" href="http://github.com/https://github.com/eathanq"><i class="fa fa-github-square fa-2x"></i></a>
+          </div>
+<h6><a href="/about">About</a></h6>
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  十二月 13, 2020
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href='/tags/linux-log/'>linux log</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">linux代码中pr_fmt是什么意思</h1>
+  <section class="post-content article-entry">
+    <p>接上一篇，在看clang.c时，发现最上面有一句</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> pr_fmt(fmt)     "gcov: " fmt</span></code></pre>
+<p>这个是干嘛的？ 乍一看没看明白，而且在kernel/gcov中也没有找到pr_fmt的使用<br>其实，这个的使用在include/linux/printk.h中<br>首先几个可以看出来带有与日志级别匹配后缀的几个函数，从这里也可以看出来pr应该是print的意思</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> pr_emerg(fmt, ...) \
+        pr_printk_hash(KERN_EMERG, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_alert(fmt, ...) \
+        pr_printk_hash(KERN_ALERT, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_crit(fmt, ...) \
+        pr_printk_hash(KERN_CRIT, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_err(fmt, ...) \
+        pr_printk_hash(KERN_ERR, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_warning(fmt, ...) \
+        pr_printk_hash(KERN_WARNING, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_warn pr_warning</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_notice(fmt, ...) \
+        pr_printk_hash(KERN_NOTICE, fmt, ##__VA_ARGS__)</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> pr_info(fmt, ...) \
+        pr_printk_hash(KERN_INFO, fmt, ##__VA_ARGS__)</span></code></pre>
+<p>上面几个函数都调用了pr_printk_hash，而pr_printk_hash调用了printk，以及将pr_info传入来的fmt使用<strong>pr_fmt</strong>处理后作为参数<br>嘿，这不就是咱们熟悉的领域了吗，弄了半天就是printk呗</p>
+<pre class=" language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">define</span> pr_printk_hash(level, format, ...) \
+        printk(level pr_fmt(format), ##__VA_ARGS__)</span></code></pre>
+<p>所以，回去kernel/gcov中看一下如何使用的，例如kernel/gcov/fs.c中有</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">pr_warn</span><span class="token punctuation">(</span><span class="token string">"out of memory\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>按照上面的宏定义展开，最终能够得到</p>
+<pre class=" language-c"><code class="language-c">
+<span class="token function">pr_printk_hash</span><span class="token punctuation">(</span>KERN_WARNING<span class="token punctuation">,</span> <span class="token string">"out of memory\n"</span><span class="token punctuation">)</span>
+
+<span class="token function">printk</span><span class="token punctuation">(</span>KERN_WARNING<span class="token punctuation">,</span> <span class="token function">pr_fmt</span><span class="token punctuation">(</span><span class="token string">"out of memory\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token function">printk</span><span class="token punctuation">(</span>KERN_WARNING<span class="token punctuation">,</span> <span class="token string">"gcov:  out of memory\n"</span><span class="token punctuation">)</span>
+</code></pre>
+<p><strong>害，就这</strong><br>不过这样一封装确实用起来方便多了，如果自己写一个软件需要组件log的话可以参考这种</p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>ZhengJie Qi</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2020/12/12/gcov/">
+        <!--linux中代码覆盖率实现原理（一）--> next →
+    </a>
+    
+</nav>
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2020 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+    </body>
+</html>
+
+
