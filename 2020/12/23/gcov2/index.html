@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/img/avatar.jpg"/>
+        <link rel="canonical" href="http://guolinn.com/">
+        <link rel="alternate" type="application/rss+xml" title="ZhengJie Qi" href="">
+        <title>linux中代码覆盖率实现原理（二） | QZJ</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <meta name="generator" content="Hexo 5.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		<body class="post-template">
+	
+
+        <header id="header">
+            <a id="logo" href="/"><img src="/img/avatar.jpg" alt="QZJ" /></a>
+            <h1><a href="/">ZhengJie Qi</a></h1>
+            <p></p>
+            <div id="follow-icons">
+          <a target="_blank" rel="noopener" href="http://github.com/eathanq"><i class="fa fa-github-square fa-2x"></i></a>
+          </div>
+<h6><a href="/about">About</a></h6>
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  十二月 23, 2020
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href='/tags/linx-gcov/'>linx, gcov</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">linux中代码覆盖率实现原理（二）</h1>
+  <section class="post-content article-entry">
+    <p>从linux中代码覆盖率实现原理(一)中可以知道，gcda文件生成的原理是__llvm_gcov_flush会依次调用llvm_gcda_start_file、llvm_gcda_emit_function、<br>llvm_gcda_emit_arcs函数将数据导出到gcda文件。但是查看kernel/gcov/clang.c中这几个函数的源码，发现其只是将数据保存在本地，那么怎么才能得到gcda文件呢？</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">llvm_gcda_emit_arcs</span><span class="token punctuation">(</span>u32 num_counters<span class="token punctuation">,</span> u64 <span class="token operator">*</span>counters<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token keyword">struct</span> gcov_fn_info <span class="token operator">*</span>info <span class="token operator">=</span> <span class="token function">list_last_entry</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>current_info<span class="token operator">-></span>functions<span class="token punctuation">,</span>
+                        <span class="token keyword">struct</span> gcov_fn_info<span class="token punctuation">,</span> head<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        info<span class="token operator">-></span>num_counters <span class="token operator">=</span> num_counters<span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//只是将数据保存在本地链表</span>
+        info<span class="token operator">-></span>counters <span class="token operator">=</span> counters<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="debugfs-gcov"><a href="#debugfs-gcov" class="headerlink" title="debugfs-gcov"></a>debugfs-gcov</h2><p>查看kernel/gcov/fs.c中发现gcov_fs_init会向debugfs中注册gcov文件夹</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/* Create debugfs entries. */</span>
+<span class="token keyword">static</span> __init <span class="token keyword">int</span> <span class="token function">gcov_fs_init</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token function">init_node</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>root_node<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/*
+         * /sys/kernel/debug/gcov will be parent for the reset control file
+         * and all profiling files.
+         */</span>
+        root_node<span class="token punctuation">.</span>dentry <span class="token operator">=</span> <span class="token function">debugfs_create_dir</span><span class="token punctuation">(</span><span class="token string">"gcov"</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/*
+         * Create reset file which resets all profiling counts when written
+         * to.
+         */</span>
+        <span class="token function">debugfs_create_file</span><span class="token punctuation">(</span><span class="token string">"reset"</span><span class="token punctuation">,</span> <span class="token number">0600</span><span class="token punctuation">,</span> root_node<span class="token punctuation">.</span>dentry<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span>
+                            <span class="token operator">&amp;</span>gcov_reset_fops<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">/* Replay previous events to get our fs hierarchy up-to-date. */</span>
+        <span class="token function">gcov_enable_events</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">device_initcall</span><span class="token punctuation">(</span>gcov_fs_init<span class="token punctuation">)</span></code></pre>
+<p>那么这个文件夹中存放哪些东西？如何存放的？与上面说的得到gcda文件有什么关系呢？ </p>
+<p>可知如果编译时添加了–coverage编译选项，那么clang会为每个模块插桩入__llvm_gcov_init函数，其主要功能就是调用llvm_gcov_init，<br>并将__llvm_gcov_writeout、__llvm_gcov_flush函数地址传入llvm_gcov_init。 __llvm_gcov_init函数被放在init_array这个section中，<br>其会在加载时在main函数之前调用，也就是说每个模块在加载时会调用到llvm_gcov_init函数。</p>
+<p>llvm_gcov_init函数中新建了一个gcov_init的结构体，并且调用gcov_event(GCOV_ADD, info);<br>gcov_event中会判断是否存在对应的gcov_node，如果不存在则新建gcov_node</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">gcov_event</span><span class="token punctuation">(</span><span class="token keyword">enum</span> gcov_action action<span class="token punctuation">,</span> <span class="token keyword">struct</span> gcov_info <span class="token operator">*</span>info<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token keyword">struct</span> gcov_node <span class="token operator">*</span>node<span class="token punctuation">;</span>
+
+        <span class="token function">mutex_lock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>node_lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        node <span class="token operator">=</span> <span class="token function">get_node_by_name</span><span class="token punctuation">(</span><span class="token function">gcov_info_filename</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//查看是否已建立过此gcov_node</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> GCOV_ADD<span class="token punctuation">:</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+                        <span class="token function">add_info</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">else</span>
+                        <span class="token function">add_node</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//新建gcov_node</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+        <span class="token function">mutex_unlock</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>node_lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>新建node的代码最终会走到new_node函数中，其除了初始化gcov_node将gcov_info与gcov_node关联外，还调用debugfs_create_file<br>在gcov下创建了文件node-&gt;name，文件的private_data就是gcov_node，文件的file_operations是gcov_data_fops</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">struct</span> gcov_node <span class="token operator">*</span><span class="token function">new_node</span><span class="token punctuation">(</span><span class="token keyword">struct</span> gcov_node <span class="token operator">*</span>parent<span class="token punctuation">,</span>
+                                  <span class="token keyword">struct</span> gcov_info <span class="token operator">*</span>info<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>name<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        <span class="token keyword">struct</span> gcov_node <span class="token operator">*</span>node<span class="token punctuation">;</span>
+
+        node <span class="token operator">=</span> <span class="token function">kzalloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> gcov_node<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">strlen</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> GFP_KERNEL<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//申请与name关联的gcov_node的内存</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>node<span class="token punctuation">)</span>
+                <span class="token keyword">goto</span> err_nomem<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>info<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                node<span class="token operator">-></span>loaded_info <span class="token operator">=</span> <span class="token function">kcalloc</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> gcov_info <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                           GFP_KERNEL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>node<span class="token operator">-></span>loaded_info<span class="token punctuation">)</span>
+                        <span class="token keyword">goto</span> err_nomem<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">init_node</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> info<span class="token punctuation">,</span> name<span class="token punctuation">,</span> parent<span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">//将info挂载到gcov_node上</span>
+        <span class="token comment" spellcheck="true">/* Differentiate between gcov data file nodes and directory nodes. */</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>info<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                node<span class="token operator">-></span>dentry <span class="token operator">=</span> <span class="token function">debugfs_create_file</span><span class="token punctuation">(</span><span class="token function">deskew</span><span class="token punctuation">(</span>node<span class="token operator">-></span>name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0600</span><span class="token punctuation">,</span>
+                                        parent<span class="token operator">-></span>dentry<span class="token punctuation">,</span> node<span class="token punctuation">,</span> <span class="token operator">&amp;</span>gcov_data_fops<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//在debugfs中新建文件</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span>
+                node<span class="token operator">-></span>dentry <span class="token operator">=</span> <span class="token function">debugfs_create_dir</span><span class="token punctuation">(</span>node<span class="token operator">-></span>name<span class="token punctuation">,</span> parent<span class="token operator">-></span>dentry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>info<span class="token punctuation">)</span>
+                <span class="token function">add_links</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> parent<span class="token operator">-></span>dentry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">list_add</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>node<span class="token operator">-></span>list<span class="token punctuation">,</span> <span class="token operator">&amp;</span>parent<span class="token operator">-></span>children<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">list_add</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>node<span class="token operator">-></span>all<span class="token punctuation">,</span> <span class="token operator">&amp;</span>all_head<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment" spellcheck="true">//将gcov_node插入到全局gcov_node链表中</span>
+
+        <span class="token keyword">return</span> node<span class="token punctuation">;</span>
+
+err_nomem<span class="token punctuation">:</span>
+        <span class="token function">kfree</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pr_warn</span><span class="token punctuation">(</span><span class="token string">"out of memory\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>至此，我们可以知道每个模块在加载时会调用到llvm_gcov_init函数，llvm_gcov_init函数会能过gcov_event(GCOV_ADD, info)在debugfs中的gcov目录下<br>创建文件内容与gcov_info相关的文件，其file_operations为gcov_data_fops。</p>
+<p>但目前仍未揭晓debugfs中的文件为什么是gcda文件的操作，下一篇将继续研究 :)</p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>ZhengJie Qi</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2020/12/13/prfmt/">
+        <!--linux代码中pr_fmt是什么意思--> next →
+    </a>
+    
+</nav>
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2020 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+    </body>
+</html>
+
+
