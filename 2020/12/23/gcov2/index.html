@@ -139,7 +139,7 @@ err_nomem<span class="token punctuation">:</span>
         <span class="token function">pr_warn</span><span class="token punctuation">(</span><span class="token string">"out of memory\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p>至此，我们可以知道每个模块在加载时会调用到llvm_gcov_init函数，llvm_gcov_init函数会能过gcov_event(GCOV_ADD, info)在debugfs中的gcov目录下<br>创建文件内容与gcov_info相关的文件，其file_operations为gcov_data_fops。</p>
+<p>至此，我们可以知道每个模块在加载时会调用到llvm_gcov_init函数，llvm_gcov_init函数会通过gcov_event(GCOV_ADD, info)在debugfs中的gcov目录下<br>创建文件内容与gcov_info相关的文件，其file_operations为gcov_data_fops。</p>
 <p>但目前仍未揭晓debugfs中的文件为什么是gcda文件的操作，下一篇将继续研究 :)</p>
 
   </section>
@@ -155,6 +155,10 @@ err_nomem<span class="token punctuation">:</span>
 
 <nav class="pagination" role="pagination">
     
+    <a class="newer-posts" href="/2021/01/09/gcov3/">
+        ← prev <!--linux中代码覆盖率实现原理（三）-->
+    </a>
+    
     <span class="page-number">•</span>
     
     <a class="older-posts" href="/2020/12/13/prfmt/">
@@ -166,7 +170,7 @@ err_nomem<span class="token punctuation">:</span>
 
         </main>
         <footer id="footer">
-            <section id="footer-message">&copy; 2020 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
+            <section id="footer-message">&copy; 2021 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
         </footer>
     </body>
 </html>

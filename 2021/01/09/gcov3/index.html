@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+		
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="/img/avatar.jpg"/>
+        <link rel="canonical" href="http://guolinn.com/">
+        <link rel="alternate" type="application/rss+xml" title="ZhengJie Qi" href="">
+        <title>linux中代码覆盖率实现原理（三） | QZJ</title>
+        <meta name="description" content="{{meta_description}}">
+
+        <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/styles/crisp.css">
+        <meta name="HandheldFriendly" content="True" />
+        <meta name="MobileOptimized" content="320" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <meta name="generator" content="Hexo 5.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+    
+		<body class="post-template">
+	
+
+        <header id="header">
+            <a id="logo" href="/"><img src="/img/avatar.jpg" alt="QZJ" /></a>
+            <h1><a href="/">ZhengJie Qi</a></h1>
+            <p></p>
+            <div id="follow-icons">
+          <a target="_blank" rel="noopener" href="http://github.com/eathanq"><i class="fa fa-github-square fa-2x"></i></a>
+          </div>
+<h6><a href="/about">About</a></h6>
+        </header>
+
+        <main id="content">
+        
+
+<article class="post">
+  一月 9, 2021
+  
+    <span class="taglist">  &middot; 
+    
+    
+      <a href='/tags/linux-gcov/'>linux gcov</a> 
+    
+    </span>
+  
+
+  <h1 class="post-title">linux中代码覆盖率实现原理（三）</h1>
+  <section class="post-content article-entry">
+    <p>上文最后说到gcov_event(GCOV_ADD, info)在debugfs中的gcov目录下创建文件内容与gcov_info相关的文件，其file_operations为gcov_data_fops<br>这个文件也就是gcda文件，而其生成逻辑就在gcov_data_fops中operation函数中</p>
+<h2 id="gcda生成"><a href="#gcda生成" class="headerlink" title="gcda生成"></a>gcda生成</h2><p>gcov_data_fops的定义如下：</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">static</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> file_operations gcov_data_fops <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">.</span>open           <span class="token operator">=</span> gcov_seq_open<span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>release        <span class="token operator">=</span> gcov_seq_release<span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>read           <span class="token operator">=</span> seq_read<span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>llseek         <span class="token operator">=</span> seq_lseek<span class="token punctuation">,</span>
+        <span class="token punctuation">.</span>write          <span class="token operator">=</span> gcov_seq_write<span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>我们可以看gcov_seq_open的主要逻辑，首先是从inode的gcov_node中通过get_accumulated_info得到其gcov_info的数据，这里之所以可以从inode中获取gcov_info的数据，是因为在new_node时会调用init_node时将gcov_info存放在gcov_node-&gt;loaded_info中</p>
+<p>然后在函数gcov_inter_new中会调用covert_to_gcda将gcov_info转换成gcda格式的数据，存放在gcov_iterator的buffer里</p>
+<p>最后将此seq文件的private置为gcov_iterator，即获取了gcda的数据</p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*
+ * Read from a profiling data copy to minimize reference tracking
+ * complexity and concurrent access and to keep accumulating multiple
+ * profiling data sets associated with one node simple.
+ */</span>
+info <span class="token operator">=</span> <span class="token function">get_accumulated_info</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>info<span class="token punctuation">)</span>
+        <span class="token keyword">goto</span> out_unlock<span class="token punctuation">;</span>
+iter <span class="token operator">=</span> <span class="token function">gcov_iter_new</span><span class="token punctuation">(</span>info<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>iter<span class="token punctuation">)</span>
+        <span class="token keyword">goto</span> err_free_info<span class="token punctuation">;</span>
+rc <span class="token operator">=</span> <span class="token function">seq_open</span><span class="token punctuation">(</span>file<span class="token punctuation">,</span> <span class="token operator">&amp;</span>gcov_seq_ops<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>rc<span class="token punctuation">)</span>
+        <span class="token keyword">goto</span> err_free_iter_info<span class="token punctuation">;</span>
+seq <span class="token operator">=</span> file<span class="token operator">-></span>private_data<span class="token punctuation">;</span>
+seq<span class="token operator">-></span>private <span class="token operator">=</span> iter<span class="token punctuation">;</span></code></pre>
+<p>至此，gcov data的数据获取在linux中的完整流程分析完毕</p>
+<h2 id="gcov数据副本保存"><a href="#gcov数据副本保存" class="headerlink" title="gcov数据副本保存"></a>gcov数据副本保存</h2><p>不知道大家在看的时候有没有个疑惑，就是在llvm_gcda_start_file、llvm_gcda_emit_function等数据输出函数中，linux中的实现是将数据拷贝一份而不是直接输出到文件中</p>
+<pre class=" language-c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">llvm_gcda_start_file</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>orig_filename<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> version<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                u32 checksum<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+        current_info<span class="token operator">-></span>filename <span class="token operator">=</span> orig_filename<span class="token punctuation">;</span>
+        <span class="token function">memcpy</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>current_info<span class="token operator">-></span>version<span class="token punctuation">,</span> version<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>current_info<span class="token operator">-></span>version<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//复制数据</span>
+        current_info<span class="token operator">-></span>checksum <span class="token operator">=</span> checksum<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>为什么是这样呢？ 可能有人会觉得是因为要能过上面说的执行gcov_seq_open的逻辑时才导出文件，所以需要先复制保存一下<br>其实还有就是，llvm_gcda_start_file、llvm_gcda_emit_function等函数的执行是由编译器插桩的__llvm_gcov_flush函数调用而来<br>而在__llvm_gcov_flush函数中，将有效数据输出后会将计数器清零，因此每次会将数据复制下来</p>
+<img src="/2021/01/09/gcov3/flush.png" class="" title="清零">
+<p>在get_accumulated_info中会将所有与此gcov_node相关的gcov_info中的计数器值相加，也印证了这个逻辑</p>
+<img src="/2021/01/09/gcov3/add.png" class="" title="相加">
+
+
+<p><strong>如有不对请大家指证</strong></p>
+
+  </section>
+  <footer class="post-footer">
+    <!--
+    <section class="author">
+      <h4>ZhengJie Qi</h4>
+      <p></p>
+    </section>
+    -->
+  </footer>
+</article>
+
+<nav class="pagination" role="pagination">
+    
+    <span class="page-number">•</span>
+    
+    <a class="older-posts" href="/2020/12/23/gcov2/">
+        <!--linux中代码覆盖率实现原理（二）--> next →
+    </a>
+    
+</nav>
+
+
+        </main>
+        <footer id="footer">
+            <section id="footer-message">&copy; 2021 ZhengJie Qi. All rights reserved. Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. <a href="https://github.com/guolin/crisp-hexo-theme" target="_blank">crisp</a> theme by <a href="guolin.github.io" target="_blank">Guo Lin</a>.</section>
+        </footer>
+    </body>
+</html>
+
+
